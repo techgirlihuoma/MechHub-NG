@@ -1,4 +1,4 @@
- // ─── RENDER CAREER CARDS ──────────────────────────────────
+// ─── RENDER CAREER CARDS ──────────────────────────────────
 function renderCareers(careers) {
   const grid = document.getElementById('career-grid')
   if (!grid) return
@@ -24,8 +24,8 @@ async function openCareerModal(slug) {
   const modal = document.getElementById('career-modal')
   if (!modal) return
 
-  // show modal with loading state
   modal.classList.add('open')
+
   document.getElementById('modal-title').textContent = 'Loading...'
   document.getElementById('modal-eye').textContent = ''
   document.getElementById('modal-sector').textContent = ''
@@ -33,8 +33,8 @@ async function openCareerModal(slug) {
   document.getElementById('m-day').innerHTML = ''
   document.getElementById('m-where').innerHTML = ''
   document.getElementById('m-path').innerHTML = ''
+  document.getElementById('m-salary').innerHTML = ''
 
-  // fetch full career data
   const career = await getCareer(slug)
 
   if (!career) {
@@ -42,10 +42,9 @@ async function openCareerModal(slug) {
     return
   }
 
-  // populate modal
-  document.getElementById('modal-eye').textContent = career.eye || career.sector
+  document.getElementById('modal-eye').textContent = career.sector || ''
   document.getElementById('modal-title').textContent = career.title
-  document.getElementById('modal-sector').textContent = career.sector
+  document.getElementById('modal-sector').textContent = career.sector || ''
 
   // what you do
   const whatList = document.getElementById('m-what')
@@ -59,7 +58,7 @@ async function openCareerModal(slug) {
   const dayList = document.getElementById('m-day')
   if (career.dayToDay && career.dayToDay.length > 0) {
     dayList.innerHTML = career.dayToDay
-      .map(entry => `<li><strong>${entry.time}:</strong> ${entry.task}</li>`)
+      .map(item => `<li>${item}</li>`)
       .join('')
   }
 
@@ -67,7 +66,7 @@ async function openCareerModal(slug) {
   const whereList = document.getElementById('m-where')
   if (career.whereYouWork && career.whereYouWork.length > 0) {
     whereList.innerHTML = career.whereYouWork
-      .map(w => `<li><strong>${w.company}</strong> — ${w.context}</li>`)
+      .map(item => `<li>${item}</li>`)
       .join('')
   }
 
@@ -81,21 +80,28 @@ async function openCareerModal(slug) {
 
   // salary range
   const salarySection = document.getElementById('m-salary')
-  if (salarySection && career.salaryRange) {
+  if (career.salaryRange) {
+    const { entry, mid, senior } = career.salaryRange
     salarySection.innerHTML = `
-      <div class="salary-grid">
-        <div class="salary-item">
-          <div class="salary-label">Entry</div>
-          <div class="salary-value">${career.salaryRange.entry || 'N/A'}</div>
-        </div>
-        <div class="salary-item">
-          <div class="salary-label">Mid</div>
-          <div class="salary-value">${career.salaryRange.mid || 'N/A'}</div>
-        </div>
-        <div class="salary-item">
-          <div class="salary-label">Senior</div>
-          <div class="salary-value">${career.salaryRange.senior || 'N/A'}</div>
-        </div>
+      <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+        ${entry ? `
+          <div style="flex:1;padding:12px 16px;border-right:1px solid var(--border);background:var(--bg3);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;">Entry</div>
+            <div style="font-size:12px;color:var(--text);">${entry}</div>
+          </div>
+        ` : ''}
+        ${mid ? `
+          <div style="flex:1;padding:12px 16px;border-right:1px solid var(--border);background:var(--bg3);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;">Mid</div>
+            <div style="font-size:12px;color:var(--text);">${mid}</div>
+          </div>
+        ` : ''}
+        ${senior ? `
+          <div style="flex:1;padding:12px 16px;background:var(--bg3);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;">Senior</div>
+            <div style="font-size:12px;color:var(--text);">${senior}</div>
+          </div>
+        ` : ''}
       </div>
     `
   }
@@ -128,8 +134,6 @@ function closeModal() {
   if (modal) modal.classList.remove('open')
 }
 
-// close on escape key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal()
 })
-

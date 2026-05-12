@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Careers — MechHub NG</title>
+  <title>Career — MechHub NG</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
@@ -19,7 +19,7 @@
       MechHub<span class="nav-brand-accent">.NG</span>
     </div>
     <div class="nav-links">
-      <a href="index.html" class="nav-link">Home</a>
+      <a href="index.html" class="nav-link active">Home</a>
       <a href="courses.html" class="nav-link">Courses</a>
       <a href="projects.html" class="nav-link">Projects</a>
       <a href="community.html" class="nav-link">Community</a>
@@ -42,17 +42,10 @@
     <a href="why.html" class="mobile-link">Why This?</a>
   </div>
 
-  <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="section-eyebrow">Career Choices</div>
-    <h1 class="section-title">Where Does This<br>Take You?</h1>
-    <p class="section-sub">Click any role to see the full picture — what you do, where you work in Nigeria, what it pays, and how to get there from where you are now.</p>
-  </div>
-
-  <!-- CAREERS GRID -->
-  <div class="section">
-    <div class="career-grid" id="career-grid">
-      <div class="loading-state">Loading careers...</div>
+  <!-- PAGE CONTENT -->
+  <div id="career-content">
+    <div class="loading-state" style="padding:120px 2.5rem;">
+      Loading career...
     </div>
   </div>
 
@@ -63,28 +56,248 @@
   <script src="js/sanity.js"></script>
   <script src="js/nav.js"></script>
   <script>
-    async function loadCareersPage() {
-      const careers = await getAllCareers()
-      const grid = document.getElementById('career-grid')
 
-      if (!careers || careers.length === 0) {
-        grid.innerHTML = '<div class="error-state">No careers found.</div>'
+    function getYouTubeId(url) {
+      if (!url) return null
+      const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)
+      return match ? match[1] : null
+    }
+
+    function renderList(items) {
+      if (!items || items.length === 0) return ''
+      return `
+        <ul class="modal-list">
+          ${items.map(item => `<li>${item}</li>`).join('')}
+        </ul>
+      `
+    }
+
+    async function loadCareerPage() {
+      const slug = getParam('slug')
+
+      if (!slug) {
+        window.location.href = 'index.html'
         return
       }
 
-      grid.innerHTML = careers.map(career => `
-        <a class="career-card" href="career.html?slug=${career.slug.current}"
-          style="text-decoration:none;">
-          <span class="cc-icon">${career.emoji || '⚙️'}</span>
-          <div class="cc-title">${career.title}</div>
-          <div class="cc-sub">${career.shortDescription}</div>
-          <span class="cc-tag">${career.tag || ''}</span>
-          <div class="cc-arrow">↗</div>
-        </a>
-      `).join('')
+      const career = await getCareer(slug)
+
+      if (!career) {
+        document.getElementById('career-content').innerHTML = `
+          <div class="section">
+            <div class="error-state">
+              Career not found.
+              <a href="index.html" style="color:var(--green);">Go home</a>
+            </div>
+          </div>
+        `
+        return
+      }
+
+      document.title = `${career.title} — MechHub NG`
+
+      const ytId = getYouTubeId(career.videoUrl)
+
+      document.getElementById('career-content').innerHTML = `
+
+        <!-- HEADER -->
+        <div class="page-header">
+          <a href="index.html" class="back-link">← Back to Careers</a>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+            <span style="font-size:40px;">${career.emoji || '⚙️'}</span>
+            ${career.tag ? `
+              <span style="
+                font-family:var(--mono);font-size:9px;
+                letter-spacing:0.12em;text-transform:uppercase;
+                padding:4px 12px;border-radius:20px;
+                background:rgba(0,180,216,0.1);
+                color:var(--blue);
+                border:1px solid rgba(0,180,216,0.2);
+              ">${career.tag}</span>
+            ` : ''}
+          </div>
+          <h1 class="section-title">${career.title}</h1>
+          <p class="section-sub">${career.sector || ''}</p>
+        </div>
+
+        <!-- BODY -->
+        <div class="section">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;">
+
+            <!-- LEFT -->
+            <div>
+
+              <!-- WHAT YOU DO -->
+              ${career.whatYouDo && career.whatYouDo.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // What You Do
+                  </div>
+                  ${renderList(career.whatYouDo)}
+                </div>
+              ` : ''}
+
+              <!-- DAY TO DAY -->
+              ${career.dayToDay && career.dayToDay.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // A Typical Day
+                  </div>
+                  ${renderList(career.dayToDay)}
+                </div>
+              ` : ''}
+
+              <!-- WHERE YOU WORK -->
+              ${career.whereYouWork && career.whereYouWork.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Where You'd Work in Nigeria
+                  </div>
+                  ${renderList(career.whereYouWork)}
+                </div>
+              ` : ''}
+
+              <!-- LEARNING PATH -->
+              ${career.learningPath && career.learningPath.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Learning Path
+                  </div>
+                  <div class="step-list">
+                    ${career.learningPath.map(step => `
+                      <div class="step-item">
+                        <div class="step-num" style="min-width:90px;">${step.stage}</div>
+                        <div class="step-content">${step.description}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- VIDEO -->
+              ${ytId ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Day in the Life
+                  </div>
+                  <div class="video-wrap">
+                    <iframe
+                      src="https://www.youtube.com/embed/${ytId}"
+                      allowfullscreen
+                      title="Day in the life of a ${career.title}"
+                    ></iframe>
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- RELATED PROJECTS -->
+              ${career.relatedProjects && career.relatedProjects.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Projects That Build These Skills
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    ${career.relatedProjects.map(project => `
+                      <a href="project.html?slug=${project.slug.current}" style="
+                        display:flex;align-items:center;justify-content:space-between;
+                        background:var(--bg2);border:1px solid var(--border);
+                        border-radius:var(--radius);padding:14px 18px;
+                        text-decoration:none;transition:border-color 0.2s;
+                      ">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                          <span style="font-size:20px;">${project.emoji || '🔧'}</span>
+                          <div>
+                            <div style="font-family:var(--cond);font-size:15px;font-weight:700;text-transform:uppercase;color:#fff;">
+                              ${project.title}
+                            </div>
+                            <span class="badge badge-${project.tier}" style="margin-top:4px;display:inline-block;">
+                              ${project.tier}
+                            </span>
+                          </div>
+                        </div>
+                        <span style="color:var(--green);font-size:16px;">→</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+            </div>
+
+            <!-- RIGHT SIDEBAR -->
+            <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;">
+
+              <!-- SALARY -->
+              ${career.salaryRange ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:24px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Salary Range (Nigeria)
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:14px;">
+                    ${career.salaryRange.entry ? `
+                      <div>
+                        <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Entry</div>
+                        <div style="font-size:13px;color:var(--text);">${career.salaryRange.entry}</div>
+                      </div>
+                    ` : ''}
+                    ${career.salaryRange.mid ? `
+                      <div>
+                        <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Mid Level</div>
+                        <div style="font-size:13px;color:var(--text);">${career.salaryRange.mid}</div>
+                      </div>
+                    ` : ''}
+                    ${career.salaryRange.senior ? `
+                      <div>
+                        <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Senior</div>
+                        <div style="font-size:13px;color:var(--text);">${career.salaryRange.senior}</div>
+                      </div>
+                    ` : ''}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- RELATED COURSES -->
+              ${career.relatedCourses && career.relatedCourses.length > 0 ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:24px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Start With These Courses
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    ${career.relatedCourses.map(course => `
+                      <a href="course.html?slug=${course.slug.current}" style="
+                        display:flex;align-items:center;justify-content:space-between;
+                        padding:10px 0;border-bottom:1px solid var(--border);
+                        text-decoration:none;
+                      ">
+                        <div>
+                          <div style="font-size:13px;color:#fff;margin-bottom:4px;">${course.title}</div>
+                          <span class="badge badge-${course.level}">${course.level}</span>
+                        </div>
+                        <span style="color:var(--green);">→</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <a href="courses.html" class="btn-primary" style="text-align:center;">
+                Start Learning →
+              </a>
+
+            </div>
+          </div>
+        </div>
+      `
     }
 
-    loadCareersPage()
+    loadCareerPage()
+
   </script>
 
 </body>
