@@ -1,0 +1,274 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MechHub NG — Mechatronics for Nigerian Engineers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announcement-bar" id="announcement-bar" style="display:none;">
+    <span id="announcement-text"></span>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        For Nigerian Mechatronics Undergrads
+      </div>
+      <h1 id="hero-headline">
+        Build<br>
+        <em class="accent">Machines</em><br>
+        <span class="dim">That Work.</span>
+      </h1>
+      <p class="hero-sub" id="hero-subtext">
+        Mechanical design, electronics, and code — stitched together so you can go from confused fresher to engineer who builds real things.
+      </p>
+      <div class="hero-btns">
+        <a href="courses.html" class="btn-primary">
+          Start Learning →
+        </a>
+        <a href="projects.html" class="btn-ghost">Browse Projects</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="n">3</span>
+          <span class="l">Pillars</span>
+        </div>
+        <div class="hero-stat">
+          <span class="n">40+</span>
+          <span class="l">Resources</span>
+        </div>
+        <div class="hero-stat">
+          <span class="n">16</span>
+          <span class="l">Projects</span>
+        </div>
+        <div class="hero-stat">
+          <span class="n">₦0</span>
+          <span class="l">To Start</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-illustration">
+        <div class="hero-orbit">
+          <div class="orbit-node n1">💾</div>
+          <div class="orbit-node n2">⚡</div>
+          <div class="orbit-node n3">🔩</div>
+          <div class="orbit-node n4">📐</div>
+        </div>
+        <div class="hero-circle">
+          <div class="hero-gear">⚙️</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOAL STATEMENT -->
+  <div class="goal-block">
+    <div class="goal-label">// Mission Statement</div>
+    <p id="goal-statement">
+      "Give every Nigerian mechatronics student a clear path — from confused first-year to engineer who can design, wire, and code things that actually work in the real world."
+    </p>
+  </div>
+
+  <!-- CAREER CHOICES -->
+  <section class="section">
+    <div class="section-eyebrow">Career Choices</div>
+    <h2 class="section-title">Where Does This Take You?</h2>
+    <p class="section-sub">Click any role to see the learning path, day-to-day tasks, where you'd work in Nigeria, and a YouTube deep-dive.</p>
+    <div class="career-grid" id="career-grid">
+      <div class="loading-state">Loading careers...</div>
+    </div>
+  </section>
+
+  <!-- GROWTH LOOP -->
+  <section class="section">
+    <div class="section-eyebrow">How You'll Learn</div>
+    <h2 class="section-title">The Growth Loop</h2>
+    <div class="loop-container">
+      <div class="loop-step">
+        <div class="loop-num">01 /</div>
+        <div class="loop-icon">📖</div>
+        <div class="loop-title">Learn Theory</div>
+        <div class="loop-desc">Understand the why — physics, maths, and concepts that make the world predictable</div>
+      </div>
+      <div class="loop-step">
+        <div class="loop-num">02 /</div>
+        <div class="loop-icon">🔌</div>
+        <div class="loop-title">Try Hands-On</div>
+        <div class="loop-desc">Wire it. Print it. Flash the firmware. Touch the hardware, run the code</div>
+      </div>
+      <div class="loop-step">
+        <div class="loop-num">03 /</div>
+        <div class="loop-icon">⚡</div>
+        <div class="loop-title">Get Excited</div>
+        <div class="loop-desc">The motor spins. The sensor reads. That dopamine hit is real — use it as fuel</div>
+      </div>
+      <div class="loop-step">
+        <div class="loop-num">04 /</div>
+        <div class="loop-icon">🔍</div>
+        <div class="loop-title">Discover Why</div>
+        <div class="loop-desc">Now the textbook makes sense. Go back and understand what just happened</div>
+      </div>
+      <div class="loop-step">
+        <div class="loop-num">05 /</div>
+        <div class="loop-icon">🏗️</div>
+        <div class="loop-title">Build It Big</div>
+        <div class="loop-desc">Take on a real project — something you'd actually want to show or use</div>
+      </div>
+      <div class="loop-step">
+        <div class="loop-num">06 /</div>
+        <div class="loop-icon">💥</div>
+        <div class="loop-title">Hit Problems</div>
+        <div class="loop-desc">It breaks. You debug. You ask. This is where engineers are actually made</div>
+      </div>
+      <div class="loop-step loop-repeat">
+        <div class="loop-num">↻ /</div>
+        <div class="loop-icon">🚀</div>
+        <div class="loop-title">Repeat</div>
+        <div class="loop-desc">Same loop, harder problems, sharper instincts. You are now one level up.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ CTA -->
+  <section class="section">
+    <div class="quiz-banner">
+      <div>
+        <h3 id="quiz-cta-title">Discover What You Like</h3>
+        <p id="quiz-cta-sub">5-minute quiz — we map your brain to the right track in mechatronics</p>
+      </div>
+      <a href="quiz.html" class="btn-primary">Take the Quiz →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- CAREER MODAL -->
+  <div class="modal-wrap" id="career-modal" onclick="closeCareerModal(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-eye" id="modal-eye"></div>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-sector" id="modal-sector"></div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <div class="modal-section-label">What You Do</div>
+          <ul class="modal-list" id="m-what"></ul>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-label">Day to Day</div>
+          <ul class="modal-list" id="m-day"></ul>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-label">Where You'd Work in Nigeria</div>
+          <ul class="modal-list" id="m-where"></ul>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-label">Salary Range</div>
+          <div id="m-salary"></div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-label">Learning Path</div>
+          <ul class="modal-list" id="m-path"></ul>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+          <a class="btn-primary" id="m-yt" href="#" target="_blank">
+            ▶ Watch: Day in the Life
+          </a>
+          <a class="btn-ghost" id="m-full-link" href="#">
+            Full Career Page →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/careers.js"></script>
+  <script>
+    // Load dynamic content from Sanity
+    async function loadHomePage() {
+      // Load site settings
+      const settings = await getSiteSettings()
+      if (settings) {
+        if (settings.heroHeadline) {
+          document.getElementById('hero-headline').innerHTML =
+            settings.heroHeadline.replace(/\n/g, '<br>')
+        }
+        if (settings.heroSubtext) {
+          document.getElementById('hero-subtext').textContent = settings.heroSubtext
+        }
+        if (settings.goalStatement) {
+          document.getElementById('goal-statement').textContent =
+            `"${settings.goalStatement}"`
+        }
+        if (settings.quizCtaTitle) {
+          document.getElementById('quiz-cta-title').textContent = settings.quizCtaTitle
+        }
+        if (settings.quizCtaSubtext) {
+          document.getElementById('quiz-cta-sub').textContent = settings.quizCtaSubtext
+        }
+        if (settings.announcementBar) {
+          document.getElementById('announcement-text').textContent =
+            settings.announcementBar
+          document.getElementById('announcement-bar').style.display = 'block'
+        }
+      }
+
+      // Load careers
+      const careers = await getAllCareers()
+      if (careers) {
+        renderCareers(careers)
+      }
+    }
+
+    loadHomePage()
+  </script>
+
+</body>
+</html>
