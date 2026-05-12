@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- QUIZ WRAPPER -->
+  <div id="quiz-wrapper">
+
+    <!-- INTRO SCREEN -->
+    <div id="screen-intro">
+      <div class="page-header" style="text-align:center;">
+        <div class="section-eyebrow" style="justify-content:center;">Discover Your Track</div>
+        <h1 class="section-title">What Kind of<br>Engineer Are You?</h1>
+        <p class="section-sub" style="margin:0 auto 32px;">
+          8 questions. 5 minutes. We'll map your instincts to the right mechatronics track — and tell you exactly where to start.
+        </p>
+        <button class="btn-primary" onclick="startQuiz()">
+          Start the Quiz →
+        </button>
+      </div>
+    </div>
+
+    <!-- QUESTION SCREEN -->
+    <div id="screen-question" style="display:none;">
+      <div class="page-header">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);">
+            Question <span id="q-current">1</span> of <span id="q-total">8</span>
+          </div>
+          <div style="
+            height:4px;flex:1;margin:0 24px;
+            background:var(--border);border-radius:2px;overflow:hidden;
+          ">
+            <div id="progress-bar" style="
+              height:100%;background:var(--green);
+              border-radius:2px;transition:width 0.4s ease;width:0%;
+            "></div>
+          </div>
+          <button onclick="restartQuiz()" style="
+            background:none;border:none;
+            font-family:var(--mono);font-size:10px;
+            letter-spacing:0.1em;text-transform:uppercase;
+            color:var(--text3);cursor:pointer;
+            transition:color 0.2s;
+          ">Restart</button>
+        </div>
+        <h2 class="section-title" id="q-text" style="font-size:28px;margin-bottom:0;"></h2>
+      </div>
+
+      <div class="section" style="padding-top:32px;">
+        <div id="q-options" style="display:flex;flex-direction:column;gap:10px;max-width:640px;"></div>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="screen-result" style="display:none;">
+      <div class="page-header">
+        <div class="section-eyebrow">Your Result</div>
+        <h1 class="section-title" id="result-title"></h1>
+        <p class="section-sub" id="result-tagline"></p>
+      </div>
+
+      <div class="section">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;max-width:900px;">
+
+          <!-- LEFT -->
+          <div>
+
+            <!-- PROFILE ANALYSIS -->
+            <div style="margin-bottom:36px;">
+              <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                // What Your Answers Reveal
+              </div>
+              <div id="result-analysis" style="font-size:15px;color:var(--text2);line-height:1.8;"></div>
+            </div>
+
+            <!-- SCORES -->
+            <div style="margin-bottom:36px;">
+              <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                // Your Track Scores
+              </div>
+              <div id="result-scores" style="display:flex;flex-direction:column;gap:10px;"></div>
+            </div>
+
+            <!-- WHERE TO START -->
+            <div style="margin-bottom:36px;">
+              <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                // Where to Start on MechHub NG
+              </div>
+              <div id="result-courses" style="display:flex;flex-direction:column;gap:8px;"></div>
+            </div>
+
+            <!-- FIRST PROJECT -->
+            <div style="margin-bottom:36px;">
+              <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                // First Project to Build
+              </div>
+              <div id="result-project" style="
+                background:var(--bg2);border:1px solid var(--border);
+                border-radius:var(--radius);padding:20px 24px;
+              "></div>
+            </div>
+
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <a href="courses.html" class="btn-primary">Start Learning →</a>
+              <button onclick="restartQuiz()" class="btn-ghost">Retake Quiz</button>
+            </div>
+
+          </div>
+
+          <!-- RIGHT -->
+          <div style="position:sticky;top:80px;">
+            <div style="
+              background:var(--bg2);border:1px solid var(--green-dim);
+              border-radius:var(--radius);padding:28px;
+              text-align:center;
+            ">
+              <div style="font-size:52px;margin-bottom:16px;" id="result-emoji"></div>
+              <div style="font-family:var(--cond);font-size:20px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:8px;" id="result-track"></div>
+              <div style="font-size:12px;color:var(--text3);margin-bottom:20px;" id="result-sector"></div>
+              <a id="result-career-link" href="careers.html" class="btn-primary" style="display:block;text-align:center;">
+                Explore This Career →
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+
+  // ── QUIZ DATA ─────────────────────────────────────────────
+  const questions = [
+    {
+      text: "You have a free Saturday and access to a basic workshop. What do you actually want to do?",
+      options: [
+        { text: "Sketch and prototype a product idea I've had in my head", tracks: { product: 3, mechanical: 2 } },
+        { text: "Wire up a circuit and see if I can make something move", tracks: { electronics: 3, embedded: 1 } },
+        { text: "Write a program that automates something annoying in my life", tracks: { embedded: 3, programming: 2 } },
+        { text: "Tear apart a broken device to understand how it works", tracks: { electronics: 2, embedded: 2, mechanical: 1 } }
+      ]
+    },
+    {
+      text: "A robot isn't working. Which part of debugging frustrates you most?",
+      options: [
+        { text: "The mechanical joints are binding — tolerances are off", tracks: { mechanical: 3, product: 1 } },
+        { text: "The sensor is giving noisy, unreliable readings", tracks: { electronics: 3, embedded: 1 } },
+        { text: "The code logic is wrong and the behaviour is unpredictable", tracks: { embedded: 3, programming: 2 } },
+        { text: "I enjoy all of it honestly — the hunt is the fun part", tracks: { robotics: 3, automation: 2 } }
+      ]
+    },
+    {
+      text: "Which YouTube rabbit hole have you actually fallen into before?",
+      options: [
+        { text: "How things are manufactured — CNC, injection moulding, factory lines", tracks: { mechanical: 3, automation: 2, product: 1 } },
+        { text: "How electronics work — circuits, oscilloscopes, PCB builds", tracks: { electronics: 3, embedded: 1 } },
+        { text: "How software controls hardware — firmware, Arduino, coding projects", tracks: { embedded: 3, programming: 2 } },
+        { text: "How autonomous systems work — drones, self-driving, robots", tracks: { robotics: 3, drone: 2 } }
+      ]
+    },
+    {
+      text: "Pick the project that genuinely excites you most right now:",
+      options: [
+        { text: "Designing a product that solves a real Nigerian problem and getting it manufactured", tracks: { product: 3, mechanical: 2 } },
+        { text: "Building a circuit board from scratch and having it work first time", tracks: { electronics: 3, embedded: 1 } },
+        { text: "Writing code that makes a physical machine do something impressive", tracks: { embedded: 3, robotics: 1 } },
+        { text: "Building a drone or robot that moves and makes decisions on its own", tracks: { robotics: 3, drone: 3 } }
+      ]
+    },
+    {
+      text: "Which subject did you find most interesting, even if you didn't admit it?",
+      options: [
+        { text: "Technical Drawing / Engineering Drawing", tracks: { mechanical: 3, product: 2 } },
+        { text: "Physics — especially electricity and magnetism", tracks: { electronics: 3, embedded: 1 } },
+        { text: "Computer Science / any programming you touched", tracks: { embedded: 3, programming: 3 } },
+        { text: "Further Maths — control systems, vectors, differential equations", tracks: { robotics: 2, automation: 2, drone: 2 } }
+      ]
+    },
+    {
+      text: "You're at a tech expo. Which booth do you spend the most time at?",
+      options: [
+        { text: "A startup showing a beautifully designed physical product", tracks: { product: 3, mechanical: 2 } },
+        { text: "An electronics company demonstrating custom PCB hardware", tracks: { electronics: 3, embedded: 1 } },
+        { text: "A dev shop showing embedded software running on real devices", tracks: { embedded: 3, programming: 1 } },
+        { text: "A robotics team demoing an autonomous machine", tracks: { robotics: 3, automation: 2 } }
+      ]
+    },
+    {
+      text: "Which problem in Nigeria do you most want to work on?",
+      options: [
+        { text: "Manufacturing — Nigeria imports too much, we should build our own products", tracks: { product: 3, mechanical: 2, automation: 1 } },
+        { text: "Energy and infrastructure — power, sensors, smart monitoring", tracks: { electronics: 3, automation: 2 } },
+        { text: "Tech hardware — Nigerian devices, IoT, embedded fintech", tracks: { embedded: 3, electronics: 1 } },
+        { text: "Agriculture and logistics — drones, automation, smart farming", tracks: { drone: 3, automation: 2, robotics: 1 } }
+      ]
+    },
+    {
+      text: "Be honest — when you imagine yourself at work in 10 years, what does it look like?",
+      options: [
+        { text: "A design studio — physical prototypes around me, CAD on screen", tracks: { product: 3, mechanical: 2 } },
+        { text: "A lab bench — oscilloscope, soldering iron, PCB layouts", tracks: { electronics: 3, embedded: 1 } },
+        { text: "Multiple screens — code, hardware debugger, logic analyser", tracks: { embedded: 3, programming: 2 } },
+        { text: "A field or large facility — machines operating, systems running", tracks: { automation: 3, robotics: 2, drone: 1 } }
+      ]
+    }
+  ]
+
+  // ── TRACK PROFILES ────────────────────────────────────────
+  const tracks = {
+    product: {
+      title: "Product Design Engineer",
+      emoji: "🔧",
+      sector: "Consumer Products · Hardware Startups · Medical",
+      tagline: "A builder who thinks in products and won't be satisfied until it's manufactured and in someone's hands.",
+      analysis: "You are fundamentally drawn to making things that exist in the physical world and solve real problems. Your answers point consistently toward design, prototyping, and manufacturability. You think about the end user before you think about the circuit or the code — that's a product designer's instinct.",
+      courses: [
+        { title: "Product Design", slug: "product-design", level: "beginner" },
+        { title: "3D Modeling (CAD)", slug: "3d-modeling-cad", level: "beginner" },
+        { title: "Electronics for Beginners", slug: "electronics-for-beginners", level: "beginner" },
+        { title: "Arduino Programming", slug: "arduino-programming-for-beginners", level: "beginner" }
+      ],
+      firstProject: { emoji: "🔐", title: "RFID Access Control", tier: "intermediate", reason: "Has a physical enclosure, electronics, and firmware — all three pillars. Looks like a product, not a school experiment." },
+      careerSlug: "product-design-engineer"
+    },
+    electronics: {
+      title: "Electronics Engineer",
+      emoji: "⚡",
+      sector: "Hardware · IoT · Energy · Telecoms",
+      tagline: "You want to understand every electron. Circuits make sense to you in a way other people find mysterious.",
+      analysis: "Your instincts are firmly in the electronics domain. You're drawn to the physical layer — components, signals, power, PCBs. You probably already own a multimeter or have wanted one. The code and mechanical side will come, but electrons are where you feel at home.",
+      courses: [
+        { title: "Electronics for Beginners", slug: "electronics-for-beginners", level: "beginner" },
+        { title: "Sensors", slug: "sensors", level: "beginner" },
+        { title: "Actuators", slug: "actuators", level: "intermediate" },
+        { title: "PCB Design Fundamentals", slug: "pcb-design-fundamentals", level: "intermediate" }
+      ],
+      firstProject: { emoji: "🌡️", title: "Temperature Display", tier: "beginner", reason: "Clean sensor-to-display pipeline. Teaches you signal reading, display driving, and basic circuit assembly in one build." },
+      careerSlug: "embedded-systems-dev"
+    },
+    embedded: {
+      title: "Embedded Systems Developer",
+      emoji: "💾",
+      sector: "Tech · Automotive · Medical · Fintech",
+      tagline: "You want to write code that controls real things. Software that runs on silicon, not servers.",
+      analysis: "You're drawn to the intersection of software and hardware — firmware, microcontrollers, real-time systems. You probably find pure software boring because nothing physically happens. You want the LED to blink, the motor to spin, the sensor to respond. That's embedded engineering.",
+      courses: [
+        { title: "Arduino Programming", slug: "arduino-programming-for-beginners", level: "beginner" },
+        { title: "Electronics for Beginners", slug: "electronics-for-beginners", level: "beginner" },
+        { title: "Sensors", slug: "sensors", level: "beginner" },
+        { title: "Vibe Coding", slug: "vibe-coding-yes-its-real", level: "intermediate" }
+      ],
+      firstProject: { emoji: "🔔", title: "PIR Motion Alarm", tier: "beginner", reason: "Sensor input, digital output, real-world response. Simple but teaches the full embedded loop — read, decide, act." },
+      careerSlug: "embedded-systems-dev"
+    },
+    robotics: {
+      title: "Robotics Engineer",
+      emoji: "🤖",
+      sector: "Manufacturing · Defense · Research · Agriculture",
+      tagline: "You want to build machines that move intelligently. Autonomous systems that do things humans can't or won't.",
+      analysis: "You're drawn to the full stack — mechanical structure, electronics, and software working together to create something that moves and makes decisions. Robotics requires all three pillars at once. Your instincts suggest you're ready for that complexity.",
+      courses: [
+        { title: "Arduino Programming", slug: "arduino-programming-for-beginners", level: "beginner" },
+        { title: "Sensors", slug: "sensors", level: "beginner" },
+        { title: "Actuators", slug: "actuators", level: "intermediate" },
+        { title: "ROS for Beginners", slug: "ros-for-beginners", level: "advanced" }
+      ],
+      firstProject: { emoji: "🚗", title: "Line-Following Robot", tier: "intermediate", reason: "Three sensors, two motors, PID tuning. Teaches control theory better than any lecture and gives you a working autonomous machine." },
+      careerSlug: "robotics-engineer"
+    },
+    automation: {
+      title: "Automation Engineer",
+      emoji: "⚙️",
+      sector: "FMCG · Oil & Gas · Power · Pharma",
+      tagline: "You want to make systems work without human intervention. Factories, processes, infrastructure — all running themselves.",
+      analysis: "You think in systems, not components. You're less interested in building a single device and more interested in making an entire process smarter and more reliable. That's the automation engineer's mindset — and Nigerian industry desperately needs it.",
+      courses: [
+        { title: "Electronics for Beginners", slug: "electronics-for-beginners", level: "beginner" },
+        { title: "Sensors", slug: "sensors", level: "beginner" },
+        { title: "Actuators", slug: "actuators", level: "intermediate" },
+        { title: "Arduino Programming", slug: "arduino-programming-for-beginners", level: "beginner" }
+      ],
+      firstProject: { emoji: "📦", title: "Colour Sorting Machine", tier: "advanced", reason: "Sensor input, decision logic, mechanical actuation — a mini production line. Exactly what automation engineers design at scale." },
+      careerSlug: "automation-engineer"
+    },
+    drone: {
+      title: "UAV / Drone Engineer",
+      emoji: "🚁",
+      sector: "Agriculture · Logistics · Survey · Defense",
+      tagline: "You want to build machines that fly and think. Aerial systems that solve real problems from above.",
+      analysis: "Your answers point toward autonomous aerial systems — drones, UAVs, and the intersection of aerodynamics, electronics, and flight software. This is one of the fastest growing engineering fields in Nigeria right now, especially in agriculture and logistics.",
+      courses: [
+        { title: "Electronics for Beginners", slug: "electronics-for-beginners", level: "beginner" },
+        { title: "Arduino Programming", slug: "arduino-programming-for-beginners", level: "beginner" },
+        { title: "Sensors", slug: "sensors", level: "beginner" },
+        { title: "Dynamics", slug: "dynamics", level: "intermediate" }
+      ],
+      firstProject: { emoji: "🚗", title: "Line-Following Robot", tier: "intermediate", reason: "Before you fly, learn to control motion on the ground. PID tuning on a line follower is the same skill used in flight controllers." },
+      careerSlug: "uav-drone-engineer"
+    },
+    mechanical: {
+      title: "Mechanical Design Engineer",
+      emoji: "🔩",
+      sector: "Manufacturing · Construction · Automotive · Energy",
+      tagline: "You understand forces, shapes, and structures. You see the physical world as something to be designed and optimised.",
+      analysis: "Your instincts are rooted in the physical and structural side of engineering. You think about how things are built, why they hold together, and how to make them better. Mechanical engineering is the foundation that everything else sits on.",
+      courses: [
+        { title: "Product Design", slug: "product-design", level: "beginner" },
+        { title: "3D Modeling (CAD)", slug: "3d-modeling-cad", level: "beginner" },
+        { title: "Statics", slug: "statics", level: "intermediate" },
+        { title: "Mechanisms", slug: "mechanisms", level: "intermediate" }
+      ],
+      firstProject: { emoji: "🦾", title: "2-DOF Servo Arm", tier: "intermediate", reason: "Mechanical linkages, joint design, and motion control in one build. CAD it first, then print or cut it." },
+      careerSlug: "product-design-engineer"
+    }
+  }
+
+  // ── QUIZ STATE ────────────────────────────────────────────
+  let currentQuestion = 0
+  let scores = {
+    product: 0, electronics: 0, embedded: 0,
+    robotics: 0, automation: 0, drone: 0, mechanical: 0, programming: 0
+  }
+
+  // ── START QUIZ ────────────────────────────────────────────
+  function startQuiz() {
+    currentQuestion = 0
+    scores = { product: 0, electronics: 0, embedded: 0, robotics: 0, automation: 0, drone: 0, mechanical: 0, programming: 0 }
+    document.getElementById('screen-intro').style.display = 'none'
+    document.getElementById('screen-result').style.display = 'none'
+    document.getElementById('screen-question').style.display = 'block'
+    document.getElementById('q-total').textContent = questions.length
+    showQuestion()
+  }
+
+  // ── SHOW QUESTION ─────────────────────────────────────────
+  function showQuestion() {
+    const q = questions[currentQuestion]
+    document.getElementById('q-current').textContent = currentQuestion + 1
+    document.getElementById('q-text').textContent = q.text
+    document.getElementById('progress-bar').style.width =
+      `${((currentQuestion) / questions.length) * 100}%`
+
+    const optionsEl = document.getElementById('q-options')
+    optionsEl.innerHTML = q.options.map((opt, i) => `
+      <button
+        onclick="selectOption(${i})"
+        style="
+          background:var(--bg2);border:1px solid var(--border);
+          color:var(--text2);text-align:left;
+          font-family:var(--sans);font-size:14px;font-weight:500;
+          padding:16px 20px;border-radius:var(--radius);
+          cursor:pointer;transition:all 0.2s;width:100%;
+          display:flex;align-items:center;gap:14px;
+        "
+        onmouseover="this.style.borderColor='var(--green)';this.style.color='#fff'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'"
+      >
+        <span style="
+          font-family:var(--mono);font-size:11px;
+          color:var(--text3);flex-shrink:0;
+          width:20px;
+        ">${String.fromCharCode(65 + i)}</span>
+        ${opt.text}
+      </button>
+    `).join('')
+  }
+
+  // ── SELECT OPTION ─────────────────────────────────────────
+  function selectOption(optionIndex) {
+    const q = questions[currentQuestion]
+    const selected = q.options[optionIndex]
+
+    // add scores
+    Object.entries(selected.tracks).forEach(([track, points]) => {
+      if (scores[track] !== undefined) scores[track] += points
+    })
+
+    // highlight selected
+    const buttons = document.querySelectorAll('#q-options button')
+    buttons.forEach((btn, i) => {
+      btn.disabled = true
+      btn.style.cursor = 'default'
+      if (i === optionIndex) {
+        btn.style.background = 'rgba(0,230,118,0.1)'
+        btn.style.borderColor = 'var(--green)'
+        btn.style.color = '#fff'
+      }
+    })
+
+    // next question after short delay
+    setTimeout(() => {
+      currentQuestion++
+      if (currentQuestion < questions.length) {
+        showQuestion()
+      } else {
+        showResult()
+      }
+    }, 400)
+  }
+
+  // ── SHOW RESULT ───────────────────────────────────────────
+  function showResult() {
+    document.getElementById('screen-question').style.display = 'none'
+    document.getElementById('screen-result').style.display = 'block'
+    document.getElementById('progress-bar').style.width = '100%'
+
+    // find top track
+    const sorted = Object.entries(scores)
+      .filter(([track]) => tracks[track])
+      .sort((a, b) => b[1] - a[1])
+
+    const topTrack = sorted[0][0]
+    const profile = tracks[topTrack]
+
+    // populate result
+    document.getElementById('result-title').textContent = profile.title
+    document.getElementById('result-tagline').textContent = profile.tagline
+    document.getElementById('result-analysis').textContent = profile.analysis
+    document.getElementById('result-emoji').textContent = profile.emoji
+    document.getElementById('result-track').textContent = profile.title
+    document.getElementById('result-sector').textContent = profile.sector
+    document.getElementById('result-career-link').href =
+      `career.html?slug=${profile.careerSlug}`
+
+    // score bars
+    const maxScore = sorted[0][1]
+    document.getElementById('result-scores').innerHTML = sorted
+      .filter(([track]) => tracks[track])
+      .slice(0, 5)
+      .map(([track, score]) => `
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:13px;color:var(--text2);">
+              ${tracks[track].emoji} ${tracks[track].title}
+            </span>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--text3);">
+              ${score}pts
+            </span>
+          </div>
+          <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
+            <div style="
+              height:100%;
+              width:${maxScore > 0 ? Math.round((score / maxScore) * 100) : 0}%;
+              background:${track === topTrack ? 'var(--green)' : 'var(--border2)'};
+              border-radius:2px;transition:width 0.6s ease;
+            "></div>
+          </div>
+        </div>
+      `).join('')
+
+    // recommended courses
+    document.getElementById('result-courses').innerHTML =
+      profile.courses.map((course, i) => `
+        <a href="course.html?slug=${course.slug}"
+          style="
+            display:flex;align-items:center;justify-content:space-between;
+            background:var(--bg2);border:1px solid var(--border);
+            border-radius:var(--radius);padding:14px 18px;
+            text-decoration:none;transition:border-color 0.2s;
+          "
+        >
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="
+              font-family:var(--mono);font-size:11px;
+              color:var(--green);min-width:24px;
+            ">${i + 1}.</span>
+            <div>
+              <div style="font-family:var(--cond);font-size:15px;font-weight:700;text-transform:uppercase;color:#fff;">
+                ${course.title}
+              </div>
+              <span class="badge badge-${course.level}" style="margin-top:4px;display:inline-block;">
+                ${course.level}
+              </span>
+            </div>
+          </div>
+          <span style="color:var(--green);font-size:16px;">→</span>
+        </a>
+      `).join('')
+
+    // first project
+    const proj = profile.firstProject
+    document.getElementById('result-project').innerHTML = `
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+        <span style="font-size:28px;">${proj.emoji}</span>
+        <div>
+          <div style="font-family:var(--cond);font-size:18px;font-weight:700;text-transform:uppercase;color:#fff;">
+            ${proj.title}
+          </div>
+          <span class="badge badge-${proj.tier}">${proj.tier}</span>
+        </div>
+      </div>
+      <p style="font-size:13.5px;color:var(--text2);line-height:1.7;">
+        ${proj.reason}
+      </p>
+      <a href="projects.html" style="
+        display:inline-flex;align-items:center;gap:6px;
+        font-family:var(--mono);font-size:10px;
+        letter-spacing:0.08em;text-transform:uppercase;
+        color:var(--green);margin-top:14px;
+        text-decoration:none;
+      ">View Project →</a>
+    `
+
+    window.scrollTo(0, 0)
+  }
+
+  // ── RESTART ───────────────────────────────────────────────
+  function restartQuiz() {
+    document.getElementById('screen-result').style.display = 'none'
+    document.getElementById('screen-question').style.display = 'none'
+    document.getElementById('screen-intro').style.display = 'block'
+    window.scrollTo(0, 0)
+  }
+
+  </script>
+
+</body>
+</html>
