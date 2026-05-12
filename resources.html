@@ -1,1 +1,98 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link active">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="section-eyebrow">The Aisle</div>
+    <h1 class="section-title">Handpicked.<br>No Searching Required.</h1>
+    <p class="section-sub">Everything here has been vetted and found genuinely useful. If it is in this aisle, it is actually good.</p>
+  </div>
+
+  <!-- RESOURCE TABS -->
+  <div style="padding: 0 2.5rem; background: var(--bg2); border-bottom: 1px solid var(--border); position:relative; z-index:1;">
+    <div class="tab-bar" style="margin-bottom:0;">
+      <button class="tab-btn res-tab active" onclick="switchResourceTab('books', this)">📚 Books</button>
+      <button class="tab-btn res-tab" onclick="switchResourceTab('software', this)">🛠 Software</button>
+      <button class="tab-btn res-tab" onclick="switchResourceTab('websites', this)">🌐 Websites</button>
+      <button class="tab-btn res-tab" onclick="switchResourceTab('videos', this)">▶ Videos</button>
+    </div>
+  </div>
+
+  <!-- RESOURCE PANELS -->
+  <div class="section">
+    <div id="panel-books" class="tab-panel active">
+      <div class="resource-grid" id="grid-books">
+        <div class="loading-state">Loading books...</div>
+      </div>
+    </div>
+    <div id="panel-software" class="tab-panel">
+      <div class="resource-grid" id="grid-software">
+        <div class="loading-state">Loading software...</div>
+      </div>
+    </div>
+    <div id="panel-websites" class="tab-panel">
+      <div class="resource-grid" id="grid-websites">
+        <div class="loading-state">Loading websites...</div>
+      </div>
+    </div>
+    <div id="panel-videos" class="tab-panel">
+      <div class="resource-grid" id="grid-videos">
+        <div class="loading-state">Loading videos...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/resources.js"></script>
+  <script>
+    loadResourcesPage()
+  </script>
+
+</body>
+</html>

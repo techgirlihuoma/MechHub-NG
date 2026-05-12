@@ -1,1 +1,296 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link active">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div id="project-content">
+    <div class="loading-state" style="padding:120px 2.5rem;">
+      Loading project...
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    // ── RENDER RICH TEXT ──────────────────────────────────
+    function renderBlock(blocks) {
+      if (!blocks) return ''
+      return blocks.map(block => {
+        if (block._type !== 'block') return ''
+        const text = block.children.map(child => child.text).join('')
+        switch (block.style) {
+          case 'h2': return `<h2 style="font-family:var(--cond);font-size:24px;font-weight:700;text-transform:uppercase;color:#fff;margin:28px 0 12px;">${text}</h2>`
+          case 'h3': return `<h3 style="font-family:var(--cond);font-size:18px;font-weight:700;text-transform:uppercase;color:#fff;margin:24px 0 10px;">${text}</h3>`
+          default: return `<p style="font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:16px;">${text}</p>`
+        }
+      }).join('')
+    }
+
+    // ── GET YOUTUBE EMBED ID ──────────────────────────────
+    function getYouTubeId(url) {
+      if (!url) return null
+      const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)
+      return match ? match[1] : null
+    }
+
+    // ── LOAD PROJECT ──────────────────────────────────────
+    async function loadProjectPage() {
+      const slug = getParam('slug')
+
+      if (!slug) {
+        window.location.href = 'projects.html'
+        return
+      }
+
+      const project = await getProject(slug)
+
+      if (!project) {
+        document.getElementById('project-content').innerHTML = `
+          <div class="section">
+            <div class="error-state">
+              Project not found.
+              <a href="projects.html" style="color:var(--green);">Back to projects</a>
+            </div>
+          </div>
+        `
+        return
+      }
+
+      document.title = `${project.title} — MechHub NG`
+
+      const ytId = getYouTubeId(project.videoUrl)
+
+      document.getElementById('project-content').innerHTML = `
+
+        <!-- PROJECT HEADER -->
+        <div class="page-header">
+          <a href="projects.html" class="back-link">← Back to Projects</a>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+            <span style="font-size:32px;">${project.emoji || '🔧'}</span>
+            <span class="badge badge-${project.tier}">${project.tier}</span>
+            ${project.estimatedCost ? `
+              <span style="font-family:var(--mono);font-size:11px;color:var(--green-dim);">
+                Est. Cost: ${project.estimatedCost}
+              </span>
+            ` : ''}
+          </div>
+          <h1 class="section-title">${project.title}</h1>
+          <p class="section-sub">${project.description}</p>
+          ${project.skills && project.skills.length > 0 ? `
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+              ${project.skills.map(skill => `
+                <span style="
+                  font-family:var(--mono);font-size:9px;
+                  letter-spacing:0.1em;text-transform:uppercase;
+                  padding:3px 10px;border-radius:20px;
+                  background:rgba(0,180,216,0.1);
+                  color:var(--blue);
+                  border:1px solid rgba(0,180,216,0.2);
+                ">${skill}</span>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="section">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;">
+
+            <!-- LEFT COLUMN -->
+            <div>
+
+              <!-- VIDEO -->
+              ${ytId ? `
+                <div style="margin-bottom:40px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Video
+                  </div>
+                  <div class="video-wrap">
+                    <iframe
+                      src="https://www.youtube.com/embed/${ytId}"
+                      allowfullscreen
+                      title="${project.title}"
+                    ></iframe>
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- OVERVIEW -->
+              ${project.overview ? `
+                <div style="margin-bottom:40px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Overview
+                  </div>
+                  ${renderBlock(project.overview)}
+                </div>
+              ` : ''}
+
+              <!-- STEPS -->
+              ${project.steps && project.steps.length > 0 ? `
+                <div style="margin-bottom:40px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Step by Step
+                  </div>
+                  <div class="step-list">
+                    ${project.steps.map(step => `
+                      <div class="step-item">
+                        <div class="step-num">${String(step.stepNumber).padStart(2,'0')} /</div>
+                        <div>
+                          <div class="step-title">${step.title}</div>
+                          ${step.content ? `
+                            <div class="step-content" style="margin-top:8px;">
+                              ${renderBlock(step.content)}
+                            </div>
+                          ` : ''}
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- RELATED COURSES -->
+              ${project.relatedCourses && project.relatedCourses.length > 0 ? `
+                <div>
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Related Courses
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    ${project.relatedCourses.map(course => `
+                      <a href="course.html?slug=${course.slug.current}"
+                        style="
+                          display:flex;align-items:center;justify-content:space-between;
+                          background:var(--bg2);border:1px solid var(--border);
+                          border-radius:var(--radius);padding:14px 18px;
+                          text-decoration:none;transition:all 0.2s;
+                        "
+                      >
+                        <div>
+                          <div style="font-family:var(--cond);font-size:15px;font-weight:700;text-transform:uppercase;color:#fff;">
+                            ${course.title}
+                          </div>
+                          <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:0.1em;">
+                            ${course.pillar} · ${course.level}
+                          </div>
+                        </div>
+                        <span style="color:var(--green);font-size:16px;">→</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+            </div>
+
+            <!-- RIGHT COLUMN: COMPONENTS -->
+            <div style="position:sticky;top:80px;">
+              ${project.components && project.components.length > 0 ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:24px;margin-bottom:16px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Components Needed
+                  </div>
+                  <table class="components-table">
+                    <thead>
+                      <tr>
+                        <th>Component</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${project.components.map(c => `
+                        <tr>
+                          <td>${c.name}</td>
+                          <td>${c.quantity || 1}</td>
+                          <td>${c.estimatedPrice || '—'}</td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                  ${project.estimatedCost ? `
+                    <div style="
+                      margin-top:12px;padding-top:12px;
+                      border-top:1px solid var(--border);
+                      font-family:var(--mono);font-size:11px;
+                      color:var(--green);letter-spacing:0.05em;
+                    ">
+                      Total Est: ${project.estimatedCost}
+                    </div>
+                  ` : ''}
+                </div>
+              ` : ''}
+
+              <div style="
+                background:var(--bg2);border:1px solid var(--border);
+                border-radius:var(--radius);padding:24px;
+              ">
+                <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;">
+                  Share Your Build
+                </div>
+                <p style="font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:16px;">
+                  Built this project? Submit it to the community and inspire other students.
+                </p>
+                <a href="mailto:hello@mechhub.ng?subject=My Build: ${project.title}"
+                  class="btn-primary"
+                  style="display:block;text-align:center;">
+                  Submit Your Build →
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `
+    }
+
+    loadProjectPage()
+  </script>
+
+</body>
+</html>

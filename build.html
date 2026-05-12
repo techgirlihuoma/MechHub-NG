@@ -1,1 +1,336 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Build — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link active">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div id="build-content">
+    <div class="loading-state" style="padding:120px 2.5rem;">
+      Loading build...
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    function renderBlock(blocks) {
+      if (!blocks) return ''
+      return blocks.map(block => {
+        if (block._type !== 'block') return ''
+        const text = block.children.map(child => child.text).join('')
+        switch (block.style) {
+          case 'h2': return `<h2 style="font-family:var(--cond);font-size:24px;font-weight:700;text-transform:uppercase;color:#fff;margin:28px 0 12px;">${text}</h2>`
+          case 'h3': return `<h3 style="font-family:var(--cond);font-size:18px;font-weight:700;text-transform:uppercase;color:#fff;margin:24px 0 10px;">${text}</h3>`
+          default: return `<p style="font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:16px;">${text}</p>`
+        }
+      }).join('')
+    }
+
+    function getYouTubeId(url) {
+      if (!url) return null
+      const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)
+      return match ? match[1] : null
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return ''
+      const date = new Date(dateStr)
+      return date.toLocaleDateString('en-NG', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      })
+    }
+
+    async function loadBuildPage() {
+      const slug = getParam('slug')
+
+      if (!slug) {
+        window.location.href = 'community.html'
+        return
+      }
+
+      const build = await getBuild(slug)
+
+      if (!build) {
+        document.getElementById('build-content').innerHTML = `
+          <div class="section">
+            <div class="error-state">
+              Build not found.
+              <a href="community.html" style="color:var(--green);">Back to community</a>
+            </div>
+          </div>
+        `
+        return
+      }
+
+      document.title = `${build.title} — MechHub NG`
+
+      const ytId = getYouTubeId(build.videoUrl)
+
+      document.getElementById('build-content').innerHTML = `
+
+        <!-- BUILD HEADER -->
+        <div class="page-header">
+          <a href="community.html" class="back-link">← Back to Community</a>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap;">
+            <div style="
+              width:44px;height:44px;border-radius:var(--radius);
+              background:var(--bg4);border:1px solid var(--border2);
+              display:flex;align-items:center;justify-content:center;
+              font-family:var(--mono);font-size:15px;font-weight:700;
+              color:var(--green);flex-shrink:0;
+            ">${build.authorInitials || '??'}</div>
+            <div>
+              <div style="font-size:15px;font-weight:600;color:#fff;">${build.authorName}</div>
+              <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:2px;">
+                ${build.authorLevel || ''} ${build.authorSchool ? `· ${build.authorSchool}` : ''}
+                ${build.publishedAt ? `· ${formatDate(build.publishedAt)}` : ''}
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom:14px;">
+            <span class="badge badge-${build.tier}">${build.tier}</span>
+          </div>
+          <h1 class="section-title">${build.title}</h1>
+          <p class="section-sub">${build.description}</p>
+        </div>
+
+        <div class="section">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;">
+
+            <!-- LEFT COLUMN -->
+            <div>
+
+              <!-- PHOTOS -->
+              ${build.photos && build.photos.length > 0 ? `
+                <div style="margin-bottom:40px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Photos
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">
+                    ${build.photos.map(photo => `
+                      <div style="
+                        aspect-ratio:4/3;background:var(--bg3);
+                        border:1px solid var(--border);border-radius:var(--radius);
+                        overflow:hidden;display:flex;align-items:center;
+                        justify-content:center;color:var(--text3);
+                        font-family:var(--mono);font-size:10px;
+                      ">
+                        ${photo.caption || 'Photo'}
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- VIDEO -->
+              ${ytId ? `
+                <div style="margin-bottom:40px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Build Video
+                  </div>
+                  <div class="video-wrap">
+                    <iframe
+                      src="https://www.youtube.com/embed/${ytId}"
+                      allowfullscreen
+                      title="${build.title}"
+                    ></iframe>
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- FULL POST -->
+              ${build.fullPost ? `
+                <div style="margin-bottom:40px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // The Build
+                  </div>
+                  <div style="max-width:640px;">
+                    ${renderBlock(build.fullPost)}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- LESSONS LEARNED -->
+              ${build.lessonsLearned ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-left:3px solid var(--green);
+                  border-radius:var(--radius);padding:24px;margin-bottom:20px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:12px;">
+                    // What They Learned
+                  </div>
+                  <p style="font-size:14px;color:var(--text2);line-height:1.75;">
+                    ${build.lessonsLearned}
+                  </p>
+                </div>
+              ` : ''}
+
+              <!-- CHALLENGES -->
+              ${build.challenges ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-left:3px solid var(--orange);
+                  border-radius:var(--radius);padding:24px;margin-bottom:40px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;">
+                    // Challenges Hit
+                  </div>
+                  <p style="font-size:14px;color:var(--text2);line-height:1.75;">
+                    ${build.challenges}
+                  </p>
+                </div>
+              ` : ''}
+
+              <!-- RELATED PROJECT -->
+              ${build.relatedProject ? `
+                <div style="margin-bottom:40px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Based On
+                  </div>
+                  <a href="project.html?slug=${build.relatedProject.slug.current}"
+                    style="
+                      display:flex;align-items:center;justify-content:space-between;
+                      background:var(--bg2);border:1px solid var(--border);
+                      border-radius:var(--radius);padding:16px 20px;
+                      text-decoration:none;
+                    "
+                  >
+                    <div>
+                      <div style="font-family:var(--cond);font-size:15px;font-weight:700;text-transform:uppercase;color:#fff;">
+                        ${build.relatedProject.title}
+                      </div>
+                      <span class="badge badge-${build.relatedProject.tier}" style="margin-top:4px;display:inline-block;">
+                        ${build.relatedProject.tier}
+                      </span>
+                    </div>
+                    <span style="color:var(--green);font-size:16px;">→</span>
+                  </a>
+                </div>
+              ` : ''}
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;">
+
+              <!-- COST BREAKDOWN -->
+              ${build.costBreakdown && build.costBreakdown.length > 0 ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:24px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Cost Breakdown
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    ${build.costBreakdown.map(item => `
+                      <div style="
+                        display:flex;justify-content:space-between;
+                        padding:8px 0;border-bottom:1px solid var(--border);
+                        font-size:13px;
+                      ">
+                        <span style="color:var(--text2);">${item.item}</span>
+                        <span style="font-family:var(--mono);color:var(--green-dim);">${item.cost}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- SKILLS USED -->
+              ${build.skills && build.skills.length > 0 ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:24px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;">
+                    // Skills Used
+                  </div>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    ${build.skills.map(skill => `
+                      <span style="
+                        font-family:var(--mono);font-size:9px;
+                        letter-spacing:0.1em;text-transform:uppercase;
+                        padding:4px 10px;border-radius:20px;
+                        background:rgba(0,180,216,0.1);
+                        color:var(--blue);
+                        border:1px solid rgba(0,180,216,0.2);
+                      ">${skill}</span>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- SUBMIT YOUR BUILD CTA -->
+              <div style="
+                background:var(--bg2);border:1px solid var(--border2);
+                border-radius:var(--radius);padding:24px;
+              ">
+                <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;">
+                  Inspired?
+                </div>
+                <p style="font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:16px;">
+                  Build something similar and submit your own version to the community.
+                </p>
+                <a href="mailto:hello@mechhub.ng?subject=My Build Submission"
+                  class="btn-primary"
+                  style="display:block;text-align:center;">
+                  Submit Your Build →
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      `
+    }
+
+    loadBuildPage()
+  </script>
+
+</body>
+</html>

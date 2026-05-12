@@ -1,1 +1,159 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link active">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header" style="text-align:center;">
+    <div class="section-eyebrow" style="justify-content:center;">Community</div>
+    <h1 class="section-title">Share What You're Building</h1>
+    <p class="section-sub" style="margin:0 auto 28px;">
+      No gatekeeping. No judgment. Just engineers helping engineers build better things.
+    </p>
+    <a href="mailto:hello@mechhub.ng?subject=My Build Submission" class="btn-primary" style="margin:0 auto;">
+      📸 Submit Your Build
+    </a>
+  </div>
+
+  <!-- BUILDS GRID -->
+  <div class="section">
+    <div class="section-eyebrow">Recent Builds</div>
+    <h2 class="section-title" style="margin-bottom:32px;">From the Community</h2>
+    <div class="builds-grid" id="builds-grid">
+      <div class="loading-state">Loading builds...</div>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE — shown when no approved builds yet -->
+  <div id="empty-builds" style="display:none;">
+    <div class="section" style="text-align:center;padding-top:0;">
+      <div style="
+        background:var(--bg2);border:1px solid var(--border);
+        border-radius:var(--radius);padding:64px 40px;
+        max-width:480px;margin:0 auto;
+      ">
+        <div style="font-size:48px;margin-bottom:16px;">🔧</div>
+        <h3 style="font-family:var(--cond);font-size:22px;text-transform:uppercase;color:#fff;margin-bottom:10px;">
+          Be the First
+        </h3>
+        <p style="font-size:14px;color:var(--text3);line-height:1.7;margin-bottom:24px;">
+          No builds posted yet. Submit yours and be the first Nigerian mechatronics student featured on MechHub NG.
+        </p>
+        <a href="mailto:hello@mechhub.ng?subject=My Build Submission" class="btn-primary">
+          Submit Your Build →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW TO SUBMIT -->
+  <div class="section" style="padding-top:0;">
+    <div style="
+      background:var(--bg2);border:1px solid var(--border2);
+      border-radius:var(--radius);padding:36px 40px;
+      max-width:600px;
+    ">
+      <div class="section-eyebrow" style="margin-bottom:16px;">How to Submit</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">01 /</div>
+          <div>
+            <div class="step-title">Build Something</div>
+            <div class="step-content">Any project — beginner to pro. It does not have to be perfect.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02 /</div>
+          <div>
+            <div class="step-title">Document It</div>
+            <div class="step-content">Take photos or a short video. Write a few sentences about what you built, what you learned, and what broke.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03 /</div>
+          <div>
+            <div class="step-title">Email Us</div>
+            <div class="step-content">Send everything to hello@mechhub.ng with the subject line "My Build Submission". We review and publish within 48 hours.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    async function loadCommunityPage() {
+      const builds = await getAllBuilds()
+      const grid = document.getElementById('builds-grid')
+      const empty = document.getElementById('empty-builds')
+
+      if (!builds || builds.length === 0) {
+        grid.style.display = 'none'
+        empty.style.display = 'block'
+        return
+      }
+
+      grid.innerHTML = builds.map(build => `
+        <a class="build-card" href="build.html?slug=${build.slug.current}">
+          <div class="build-avatar">${build.authorInitials || '??'}</div>
+          <div class="build-title">${build.title}</div>
+          <div class="build-desc">${build.description}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="badge badge-${build.tier}">${build.tier}</span>
+            <span style="font-family:var(--mono);font-size:9px;color:var(--text3);">
+              ${build.authorName} · ${build.authorSchool || ''}
+            </span>
+          </div>
+        </a>
+      `).join('')
+    }
+
+    loadCommunityPage()
+  </script>
+
+</body>
+</html>

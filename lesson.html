@@ -1,1 +1,297 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link active">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div id="lesson-content">
+    <div class="loading-state" style="padding:120px 2.5rem;">
+      Loading lesson...
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    // ── RENDER RICH TEXT ──────────────────────────────────
+    function renderBlock(blocks) {
+      if (!blocks) return ''
+      return blocks.map(block => {
+        if (block._type !== 'block') return ''
+        const text = block.children
+          .map(child => child.text)
+          .join('')
+        switch (block.style) {
+          case 'h2': return `<h2 style="font-family:var(--cond);font-size:24px;font-weight:700;text-transform:uppercase;color:#fff;margin:28px 0 12px;">${text}</h2>`
+          case 'h3': return `<h3 style="font-family:var(--cond);font-size:18px;font-weight:700;text-transform:uppercase;color:#fff;margin:24px 0 10px;">${text}</h3>`
+          case 'blockquote': return `<blockquote style="border-left:3px solid var(--green);padding-left:16px;margin:20px 0;font-style:italic;color:var(--text2);">${text}</blockquote>`
+          default: return `<p style="font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:16px;">${text}</p>`
+        }
+      }).join('')
+    }
+
+    // ── GET YOUTUBE EMBED ID ──────────────────────────────
+    function getYouTubeId(url) {
+      if (!url) return null
+      const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)
+      return match ? match[1] : null
+    }
+
+    // ── RENDER QUIZ ───────────────────────────────────────
+    function renderQuiz(quiz) {
+      if (!quiz || quiz.length === 0) return ''
+
+      return `
+        <div style="
+          background:var(--bg2);border:1px solid var(--border2);
+          border-radius:var(--radius);padding:32px;margin-top:48px;
+        ">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:24px;">
+            // Mini Quiz — ${quiz.length} Question${quiz.length > 1 ? 's' : ''}
+          </div>
+
+          <div id="quiz-questions">
+            ${quiz.map((q, qi) => `
+              <div class="quiz-q" id="qq-${qi}" style="margin-bottom:28px;">
+                <div style="font-size:15px;font-weight:500;color:#fff;margin-bottom:14px;">
+                  Q${qi + 1}. ${q.question}
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  ${q.options.map((opt, oi) => `
+                    <button
+                      onclick="selectAnswer(${qi}, '${opt.replace(/'/g, "\\'")}', '${q.correctAnswer.replace(/'/g, "\\'")}')"
+                      id="opt-${qi}-${oi}"
+                      style="
+                        background:var(--bg3);border:1px solid var(--border);
+                        color:var(--text2);text-align:left;
+                        font-family:var(--sans);font-size:14px;
+                        padding:12px 16px;border-radius:var(--radius);
+                        cursor:pointer;transition:all 0.2s;width:100%;
+                      "
+                    >
+                      ${opt}
+                    </button>
+                  `).join('')}
+                </div>
+                <div id="explanation-${qi}" style="display:none;margin-top:12px;padding:12px 16px;background:var(--bg3);border-radius:var(--radius);font-size:13px;color:var(--text2);line-height:1.6;border-left:3px solid var(--green);">
+                  ${q.explanation || ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div id="quiz-result" style="display:none;margin-top:16px;padding:16px 20px;border-radius:var(--radius);font-family:var(--mono);font-size:12px;letter-spacing:0.05em;"></div>
+
+          <button
+            onclick="submitQuiz(${quiz.length})"
+            id="quiz-submit"
+            class="btn-primary"
+            style="margin-top:24px;"
+          >
+            Submit Quiz →
+          </button>
+        </div>
+      `
+    }
+
+    // ── QUIZ LOGIC ────────────────────────────────────────
+    const userAnswers = {}
+
+    function selectAnswer(qi, selected, correct) {
+      userAnswers[qi] = { selected, correct }
+
+      // reset all buttons for this question
+      const buttons = document.querySelectorAll(`[id^="opt-${qi}-"]`)
+      buttons.forEach(btn => {
+        btn.style.background = 'var(--bg3)'
+        btn.style.borderColor = 'var(--border)'
+        btn.style.color = 'var(--text2)'
+      })
+
+      // highlight selected
+      event.target.style.background = 'rgba(0,230,118,0.1)'
+      event.target.style.borderColor = 'var(--green)'
+      event.target.style.color = '#fff'
+    }
+
+    function submitQuiz(total) {
+      let score = 0
+
+      Object.entries(userAnswers).forEach(([qi, answer]) => {
+        const isCorrect = answer.selected === answer.correct
+        if (isCorrect) score++
+
+        // show correct / incorrect on buttons
+        const buttons = document.querySelectorAll(`[id^="opt-${qi}-"]`)
+        buttons.forEach(btn => {
+          if (btn.textContent.trim() === answer.correct) {
+            btn.style.background = 'rgba(0,230,118,0.15)'
+            btn.style.borderColor = 'var(--green)'
+            btn.style.color = 'var(--green)'
+          } else if (btn.textContent.trim() === answer.selected && !isCorrect) {
+            btn.style.background = 'rgba(255,109,0,0.15)'
+            btn.style.borderColor = 'var(--orange)'
+            btn.style.color = 'var(--orange)'
+          }
+          btn.style.cursor = 'default'
+          btn.disabled = true
+        })
+
+        // show explanation
+        const exp = document.getElementById(`explanation-${qi}`)
+        if (exp && exp.textContent.trim()) {
+          exp.style.display = 'block'
+          exp.style.borderColor = isCorrect ? 'var(--green)' : 'var(--orange)'
+        }
+      })
+
+      // show result
+      const result = document.getElementById('quiz-result')
+      const pct = Math.round((score / total) * 100)
+      const passed = pct >= 70
+
+      result.style.display = 'block'
+      result.style.background = passed ? 'rgba(0,230,118,0.1)' : 'rgba(255,109,0,0.1)'
+      result.style.border = `1px solid ${passed ? 'var(--green)' : 'var(--orange)'}`
+      result.style.color = passed ? 'var(--green)' : 'var(--orange)'
+      result.textContent = `${score}/${total} correct (${pct}%) — ${passed ? 'Nice work. Move on.' : 'Review the lesson and try again.'}`
+
+      // hide submit button
+      document.getElementById('quiz-submit').style.display = 'none'
+    }
+
+    // ── LOAD LESSON ───────────────────────────────────────
+    async function loadLessonPage() {
+      const slug = getParam('slug')
+      const courseSlug = getParam('course')
+
+      if (!slug) {
+        window.location.href = 'courses.html'
+        return
+      }
+
+      const lesson = await getLesson(slug)
+
+      if (!lesson) {
+        document.getElementById('lesson-content').innerHTML = `
+          <div class="section">
+            <div class="error-state">
+              Lesson not found.
+              <a href="courses.html" style="color:var(--green);">Back to courses</a>
+            </div>
+          </div>
+        `
+        return
+      }
+
+      document.title = `${lesson.title} — MechHub NG`
+
+      const ytId = getYouTubeId(lesson.videoUrl)
+
+      document.getElementById('lesson-content').innerHTML = `
+
+        <!-- LESSON HEADER -->
+        <div class="page-header">
+          <a href="${courseSlug ? `course.html?slug=${courseSlug}` : 'courses.html'}" class="back-link">
+            ← Back to Course
+          </a>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;margin-bottom:12px;">
+            Lesson ${lesson.lessonNumber || ''}
+            ${lesson.duration ? `· ${lesson.duration}` : ''}
+            ${lesson.freePreview ? `· <span style="color:var(--green);">Free Preview</span>` : ''}
+          </div>
+          <h1 class="section-title">${lesson.title}</h1>
+        </div>
+
+        <div class="section">
+
+          <!-- VIDEO -->
+          ${ytId ? `
+            <div class="video-wrap" style="margin-bottom:40px;">
+              <iframe
+                src="https://www.youtube.com/embed/${ytId}"
+                allowfullscreen
+                title="${lesson.title}"
+              ></iframe>
+            </div>
+          ` : ''}
+
+          <!-- CONTENT -->
+          ${lesson.content ? `
+            <div style="max-width:680px;margin-bottom:40px;">
+              ${renderBlock(lesson.content)}
+            </div>
+          ` : ''}
+
+          <!-- QUIZ -->
+          ${renderQuiz(lesson.quiz)}
+
+          <!-- NAVIGATION -->
+          <div style="
+            display:flex;justify-content:space-between;
+            margin-top:48px;padding-top:24px;
+            border-top:1px solid var(--border);
+            flex-wrap:wrap;gap:12px;
+          ">
+            <a href="${courseSlug ? `course.html?slug=${courseSlug}` : 'courses.html'}"
+              class="btn-ghost">
+              ← Back to Course
+            </a>
+            <a href="${courseSlug ? `course.html?slug=${courseSlug}` : 'courses.html'}"
+              class="btn-primary">
+              Next Lesson →
+            </a>
+          </div>
+
+        </div>
+      `
+    }
+
+    loadLessonPage()
+  </script>
+
+</body>
+</html>

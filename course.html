@@ -1,1 +1,212 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link active">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div id="course-content">
+    <div class="loading-state" style="padding:120px 2.5rem;">
+      Loading course...
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    async function loadCoursePage() {
+      const slug = getParam('slug')
+
+      if (!slug) {
+        window.location.href = 'courses.html'
+        return
+      }
+
+      const course = await getCourse(slug)
+
+      if (!course) {
+        document.getElementById('course-content').innerHTML = `
+          <div class="section">
+            <div class="error-state">Course not found. <a href="courses.html" style="color:var(--green);">Back to courses</a></div>
+          </div>
+        `
+        return
+      }
+
+      // update page title
+      document.title = `${course.title} — MechHub NG`
+
+      // render course
+      document.getElementById('course-content').innerHTML = `
+
+        <!-- COURSE HEADER -->
+        <div class="page-header">
+          <a href="courses.html" class="back-link">← Back to Courses</a>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+            <span class="badge badge-${course.level}">${course.level}</span>
+            <span class="badge" style="background:rgba(0,180,216,0.1);color:var(--blue);border:1px solid rgba(0,180,216,0.2);">
+              ${course.pillar}
+            </span>
+            ${course.duration ? `<span style="font-family:var(--mono);font-size:10px;color:var(--text3);padding:4px 0;">⏱ ${course.duration}</span>` : ''}
+          </div>
+          <h1 class="section-title">${course.title}</h1>
+          <p class="section-sub">${course.description}</p>
+          ${course.comingSoon ? `
+            <div style="
+              display:inline-block;
+              background:rgba(255,214,10,0.1);
+              border:1px solid rgba(255,214,10,0.3);
+              color:var(--yellow);
+              font-family:var(--mono);font-size:11px;
+              letter-spacing:0.1em;text-transform:uppercase;
+              padding:10px 20px;border-radius:var(--radius);
+            ">
+              ⏳ This course is coming soon
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="section">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;">
+
+            <!-- LEFT: LESSONS -->
+            <div>
+              ${course.prerequisites && course.prerequisites.length > 0 ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:20px 24px;
+                  margin-bottom:32px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">
+                    Prerequisites
+                  </div>
+                  <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+                    ${course.prerequisites.map(p => `
+                      <li style="font-size:13.5px;color:var(--text2);display:flex;align-items:center;gap:8px;">
+                        <span style="color:var(--green);font-family:var(--mono);">→</span> ${p}
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+
+              <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                // Lessons ${course.lessons ? `(${course.lessons.length})` : ''}
+              </div>
+
+              ${course.lessons && course.lessons.length > 0 ? `
+                <div class="step-list">
+                  ${course.lessons.map((lesson, i) => `
+                    <a href="lesson.html?slug=${lesson.slug.current}&course=${slug}"
+                      style="text-decoration:none;"
+                      class="step-item">
+                      <div class="step-num">${String(i + 1).padStart(2, '0')} /</div>
+                      <div style="flex:1;">
+                        <div class="step-title">${lesson.title}</div>
+                        <div style="display:flex;gap:12px;margin-top:4px;">
+                          ${lesson.duration ? `<span style="font-family:var(--mono);font-size:10px;color:var(--text3);">⏱ ${lesson.duration}</span>` : ''}
+                          ${lesson.freePreview ? `<span style="font-family:var(--mono);font-size:10px;color:var(--green);">Free Preview</span>` : ''}
+                        </div>
+                      </div>
+                      <div style="color:var(--text3);font-size:16px;">→</div>
+                    </a>
+                  `).join('')}
+                </div>
+              ` : `
+                <div class="error-state">No lessons added yet — check back soon.</div>
+              `}
+            </div>
+
+            <!-- RIGHT: SIDEBAR -->
+            <div style="position:sticky;top:80px;">
+              <div style="
+                background:var(--bg2);border:1px solid var(--border);
+                border-radius:var(--radius);padding:24px;
+              ">
+                <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;">
+                  Course Info
+                </div>
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                  <div>
+                    <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Pillar</div>
+                    <div style="font-size:13px;color:var(--text);text-transform:capitalize;">${course.pillar}</div>
+                  </div>
+                  <div>
+                    <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Level</div>
+                    <span class="badge badge-${course.level}">${course.level}</span>
+                  </div>
+                  ${course.duration ? `
+                    <div>
+                      <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Duration</div>
+                      <div style="font-size:13px;color:var(--text);">${course.duration}</div>
+                    </div>
+                  ` : ''}
+                  ${course.lessons ? `
+                    <div>
+                      <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Lessons</div>
+                      <div style="font-size:13px;color:var(--text);">${course.lessons.length}</div>
+                    </div>
+                  ` : ''}
+                </div>
+                ${!course.comingSoon && course.lessons && course.lessons.length > 0 ? `
+                  <a href="lesson.html?slug=${course.lessons[0].slug.current}&course=${slug}"
+                    class="btn-primary"
+                    style="display:block;text-align:center;margin-top:24px;">
+                    Start Course →
+                  </a>
+                ` : ''}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `
+    }
+
+    loadCoursePage()
+  </script>
+
+</body>
+</html>

@@ -1,1 +1,110 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link active">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="section-eyebrow">Prove It to Yourself</div>
+    <h1 class="section-title">"You Don't Fully Know It<br>Till You Can Use It."</h1>
+    <p class="section-sub">Pick your tier. Build it. Break it. Learn something a lecture cannot teach you.</p>
+  </div>
+
+  <!-- TIER TABS -->
+  <div style="padding: 0 2.5rem; background: var(--bg2); border-bottom: 1px solid var(--border); position:relative; z-index:1;">
+    <div class="tab-bar" style="margin-bottom:0;">
+      <button class="tab-btn active" onclick="switchTier('beginner', this)">🌱 Beginner</button>
+      <button class="tab-btn" onclick="switchTier('intermediate', this)">🔥 Intermediate</button>
+      <button class="tab-btn" onclick="switchTier('advanced', this)">⚡ Advanced</button>
+      <button class="tab-btn" onclick="switchTier('pro', this)">🧠 Pro / God Level</button>
+    </div>
+  </div>
+
+  <!-- PROJECT PANELS -->
+  <div class="section">
+    <div id="panel-beginner" class="tab-panel active">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;">
+        Low-cost projects — Most under ₦5,000. Start here.
+      </div>
+      <div class="project-grid" id="grid-beginner">
+        <div class="loading-state">Loading projects...</div>
+      </div>
+    </div>
+    <div id="panel-intermediate" class="tab-panel">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;">
+        Stretch yourself — These take real effort. That is the point.
+      </div>
+      <div class="project-grid" id="grid-intermediate">
+        <div class="loading-state">Loading projects...</div>
+      </div>
+    </div>
+    <div id="panel-advanced" class="tab-panel">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;">
+        Multiple skills working together — Plan before you buy parts.
+      </div>
+      <div class="project-grid" id="grid-advanced">
+        <div class="loading-state">Loading projects...</div>
+      </div>
+    </div>
+    <div id="panel-pro" class="tab-panel">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;">
+        Warning — These will consume your semester. Do it anyway.
+      </div>
+      <div class="project-grid" id="grid-pro">
+        <div class="loading-state">Loading projects...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/projects.js"></script>
+  <script>
+    loadProjectsPage()
+  </script>
+
+</body>
+</html>

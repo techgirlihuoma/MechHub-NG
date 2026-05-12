@@ -1,1 +1,103 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why This? — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link active">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="section-eyebrow">The Honest Answer</div>
+    <h1 class="section-title">Why Does This<br>Site Exist?</h1>
+    <p class="section-sub">Because mechatronics is one of the hardest disciplines to learn — and Nigerian students are doing it with fragmented YouTube playlists, 1998 textbooks, and nobody to ask when things break at 2am.</p>
+  </div>
+
+  <!-- WHY CARDS -->
+  <div class="section">
+    <div class="why-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;">
+
+      <div class="why-card" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.2s;">
+        <div style="font-size:28px;margin-bottom:14px;">🗺️</div>
+        <div style="font-family:var(--cond);font-size:17px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">No Clear Map</div>
+        <p style="font-size:13px;line-height:1.65;">Mechatronics spans three disciplines. Most resources teach one in isolation. Nobody explains how they connect. This site does.</p>
+      </div>
+
+      <div class="why-card" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.2s;">
+        <div style="font-size:28px;margin-bottom:14px;">💰</div>
+        <div style="font-family:var(--cond);font-size:17px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">The Cost Barrier</div>
+        <p style="font-size:13px;line-height:1.65;">Good online courses cost $200+. Everything here links to free or naira-priced alternatives with local hardware suggestions.</p>
+      </div>
+
+      <div class="why-card" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.2s;">
+        <div style="font-size:28px;margin-bottom:14px;">🌍</div>
+        <div style="font-family:var(--cond);font-size:17px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">Context Problem</div>
+        <p style="font-size:13px;line-height:1.65;">Most tutorials assume next-day Amazon delivery. We recommend what is actually available in Nigerian markets.</p>
+      </div>
+
+      <div class="why-card" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.2s;">
+        <div style="font-size:28px;margin-bottom:14px;">💀</div>
+        <div style="font-family:var(--cond);font-size:17px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">Theory Kills Curiosity</div>
+        <p style="font-size:13px;line-height:1.65;">Four years of lectures before touching hardware destroys motivation. This site leads with projects, theory follows when you need it.</p>
+      </div>
+
+      <div class="why-card" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.2s;">
+        <div style="font-size:28px;margin-bottom:14px;">📡</div>
+        <div style="font-family:var(--cond);font-size:17px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">No Local Community</div>
+        <p style="font-size:13px;line-height:1.65;">Building alone is hard. Seeing what other Nigerian students build with the same constraints is powerful fuel to keep going.</p>
+      </div>
+
+      <div class="why-card" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.2s;">
+        <div style="font-size:28px;margin-bottom:14px;">🔮</div>
+        <div style="font-family:var(--cond);font-size:17px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">The Opportunity</div>
+        <p style="font-size:13px;line-height:1.65;">Dangote, NNPC, and every manufacturer in Nigeria needs mechatronics talent. The gap between demand and supply is your advantage.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+
+</body>
+</html>

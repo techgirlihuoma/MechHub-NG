@@ -1,1 +1,329 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="courses.html" class="nav-link">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div id="career-content">
+    <div class="loading-state" style="padding:120px 2.5rem;">
+      Loading career...
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    function getYouTubeId(url) {
+      if (!url) return null
+      const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)
+      return match ? match[1] : null
+    }
+
+    async function loadCareerPage() {
+      const slug = getParam('slug')
+
+      if (!slug) {
+        window.location.href = 'index.html'
+        return
+      }
+
+      const career = await getCareer(slug)
+
+      if (!career) {
+        document.getElementById('career-content').innerHTML = `
+          <div class="section">
+            <div class="error-state">
+              Career not found.
+              <a href="index.html" style="color:var(--green);">Go home</a>
+            </div>
+          </div>
+        `
+        return
+      }
+
+      document.title = `${career.title} — MechHub NG`
+
+      const ytId = getYouTubeId(career.videoUrl)
+
+      document.getElementById('career-content').innerHTML = `
+
+        <!-- CAREER HEADER -->
+        <div class="page-header">
+          <a href="index.html#careers" class="back-link">← Back to Careers</a>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+            <span style="font-size:36px;">${career.emoji || '⚙️'}</span>
+            ${career.tag ? `
+              <span style="
+                font-family:var(--mono);font-size:9px;
+                letter-spacing:0.12em;text-transform:uppercase;
+                padding:4px 12px;border-radius:20px;
+                background:rgba(0,180,216,0.1);
+                color:var(--blue);
+                border:1px solid rgba(0,180,216,0.2);
+              ">${career.tag}</span>
+            ` : ''}
+          </div>
+          <h1 class="section-title">${career.title}</h1>
+          <p class="section-sub">${career.sector}</p>
+        </div>
+
+        <div class="section">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;">
+
+            <!-- LEFT COLUMN -->
+            <div>
+
+              <!-- WHAT YOU DO -->
+              ${career.whatYouDo && career.whatYouDo.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // What You Do
+                  </div>
+                  <ul class="modal-list">
+                    ${career.whatYouDo.map(item => `<li>${item}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+
+              <!-- DAY TO DAY -->
+              ${career.dayToDay && career.dayToDay.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // A Typical Day
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+                    ${career.dayToDay.map(entry => `
+                      <div style="
+                        display:flex;gap:20px;padding:18px 24px;
+                        background:var(--bg2);border-bottom:1px solid var(--border);
+                      ">
+                        <div style="
+                          font-family:var(--mono);font-size:10px;
+                          color:var(--green);letter-spacing:0.1em;
+                          text-transform:uppercase;flex-shrink:0;
+                          min-width:80px;margin-top:2px;
+                        ">${entry.time}</div>
+                        <div style="font-size:14px;color:var(--text2);line-height:1.6;">
+                          ${entry.task}
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- WHERE YOU WORK -->
+              ${career.whereYouWork && career.whereYouWork.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Where You'd Work in Nigeria
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    ${career.whereYouWork.map(w => `
+                      <div style="
+                        background:var(--bg2);border:1px solid var(--border);
+                        border-radius:var(--radius);padding:16px 20px;
+                      ">
+                        <div style="font-family:var(--cond);font-size:15px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:4px;">
+                          ${w.company}
+                        </div>
+                        <div style="font-size:13px;color:var(--text3);">
+                          ${w.context}
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- LEARNING PATH -->
+              ${career.learningPath && career.learningPath.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Learning Path
+                  </div>
+                  <div class="step-list">
+                    ${career.learningPath.map(step => `
+                      <div class="step-item">
+                        <div class="step-num" style="min-width:80px;">${step.stage}</div>
+                        <div class="step-content">${step.description}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- VIDEO -->
+              ${ytId ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Day in the Life
+                  </div>
+                  <div class="video-wrap">
+                    <iframe
+                      src="https://www.youtube.com/embed/${ytId}"
+                      allowfullscreen
+                      title="Day in the life of a ${career.title}"
+                    ></iframe>
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- RELATED PROJECTS -->
+              ${career.relatedProjects && career.relatedProjects.length > 0 ? `
+                <div style="margin-bottom:36px;">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Projects That Build These Skills
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    ${career.relatedProjects.map(project => `
+                      <a href="project.html?slug=${project.slug.current}"
+                        style="
+                          display:flex;align-items:center;justify-content:space-between;
+                          background:var(--bg2);border:1px solid var(--border);
+                          border-radius:var(--radius);padding:14px 18px;
+                          text-decoration:none;transition:border-color 0.2s;
+                        "
+                      >
+                        <div style="display:flex;align-items:center;gap:12px;">
+                          <span style="font-size:20px;">${project.emoji || '🔧'}</span>
+                          <div>
+                            <div style="font-family:var(--cond);font-size:15px;font-weight:700;text-transform:uppercase;color:#fff;">
+                              ${project.title}
+                            </div>
+                            <span class="badge badge-${project.tier}" style="margin-top:4px;display:inline-block;">
+                              ${project.tier}
+                            </span>
+                          </div>
+                        </div>
+                        <span style="color:var(--green);font-size:16px;">→</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+            </div>
+
+            <!-- RIGHT COLUMN: SALARY + COURSES -->
+            <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;">
+
+              <!-- SALARY -->
+              ${career.salaryRange ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:24px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Salary Range (Nigeria)
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    ${career.salaryRange.entry ? `
+                      <div>
+                        <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Entry</div>
+                        <div style="font-size:14px;color:var(--text);">${career.salaryRange.entry}</div>
+                      </div>
+                    ` : ''}
+                    ${career.salaryRange.mid ? `
+                      <div>
+                        <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Mid Level</div>
+                        <div style="font-size:14px;color:var(--text);">${career.salaryRange.mid}</div>
+                      </div>
+                    ` : ''}
+                    ${career.salaryRange.senior ? `
+                      <div>
+                        <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Senior</div>
+                        <div style="font-size:14px;color:var(--text);">${career.salaryRange.senior}</div>
+                      </div>
+                    ` : ''}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- RELATED COURSES -->
+              ${career.relatedCourses && career.relatedCourses.length > 0 ? `
+                <div style="
+                  background:var(--bg2);border:1px solid var(--border);
+                  border-radius:var(--radius);padding:24px;
+                ">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
+                    // Start With These Courses
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    ${career.relatedCourses.map(course => `
+                      <a href="course.html?slug=${course.slug.current}"
+                        style="
+                          display:flex;align-items:center;justify-content:space-between;
+                          padding:10px 0;border-bottom:1px solid var(--border);
+                          text-decoration:none;transition:color 0.2s;
+                        "
+                      >
+                        <div>
+                          <div style="font-size:13px;color:#fff;margin-bottom:2px;">${course.title}</div>
+                          <span class="badge badge-${course.level}">${course.level}</span>
+                        </div>
+                        <span style="color:var(--green);">→</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <a href="courses.html" class="btn-primary" style="text-align:center;">
+                Start Learning →
+              </a>
+
+            </div>
+          </div>
+        </div>
+      `
+    }
+
+    loadCareerPage()
+  </script>
+
+</body>
+</html>
