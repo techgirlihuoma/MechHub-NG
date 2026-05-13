@@ -52,51 +52,13 @@ export default {
       name: 'dayToDay',
       title: 'Day to Day Tasks',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          name: 'dayEntry',
-          title: 'Day Entry',
-          fields: [
-            {
-              name: 'time',
-              title: 'Time of Day',
-              type: 'string',
-              description: 'e.g. Morning, Afternoon, Evening'
-            },
-            {
-              name: 'task',
-              title: 'Task Description',
-              type: 'string'
-            }
-          ]
-        }
-      ]
+      of: [{ type: 'string' }]
     },
     {
       name: 'whereYouWork',
       title: 'Where You Would Work in Nigeria',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          name: 'workplace',
-          title: 'Workplace',
-          fields: [
-            {
-              name: 'company',
-              title: 'Company or Sector',
-              type: 'string'
-            },
-            {
-              name: 'context',
-              title: 'Context',
-              type: 'string',
-              description: 'What they do / why they need this role'
-            }
-          ]
-        }
-      ]
+      of: [{ type: 'string' }]
     },
     {
       name: 'salaryRange',
