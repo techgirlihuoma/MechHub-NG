@@ -86,45 +86,22 @@ export default {
     {
       name: 'learningPath',
       title: 'Learning Path',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          name: 'pathStep',
-          title: 'Path Step',
-          fields: [
-            {
-              name: 'stage',
-              title: 'Stage',
-              type: 'string',
-              description: 'e.g. Beginner, Intermediate, Advanced, Expert'
-            },
-            {
-              name: 'description',
-              title: 'What to Learn',
-              type: 'string'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: 'videoUrl',
-      title: 'YouTube Video URL',
-      type: 'url',
-      description: 'Day in the life video'
-    },
-    {
-      name: 'relatedCourses',
-      title: 'Related Courses',
+      description: 'Pick courses from the site in the order the student should take them',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'course' }] }]
     },
     {
       name: 'relatedProjects',
       title: 'Related Projects',
+      description: 'Pick projects that build skills for this career',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'project' }] }]
+    },
+    {
+      name: 'videoUrl',
+      title: 'YouTube Video URL',
+      type: 'url',
+      description: 'Day in the life video'
     }
   ],
   preview: {

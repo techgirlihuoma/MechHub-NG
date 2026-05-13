@@ -26,8 +26,9 @@ async function openCareerModal(slug) {
 
   modal.classList.add('open')
 
-  document.getElementById('modal-title').textContent = 'Loading...'
+  // reset modal content
   document.getElementById('modal-eye').textContent = ''
+  document.getElementById('modal-title').textContent = 'Loading...'
   document.getElementById('modal-sector').textContent = ''
   document.getElementById('m-what').innerHTML = ''
   document.getElementById('m-day').innerHTML = ''
@@ -42,6 +43,7 @@ async function openCareerModal(slug) {
     return
   }
 
+  // header
   document.getElementById('modal-eye').textContent = career.sector || ''
   document.getElementById('modal-title').textContent = career.title
   document.getElementById('modal-sector').textContent = career.sector || ''
@@ -70,34 +72,49 @@ async function openCareerModal(slug) {
       .join('')
   }
 
-  // learning path
+  // learning path — linked courses
   const pathList = document.getElementById('m-path')
   if (career.learningPath && career.learningPath.length > 0) {
     pathList.innerHTML = career.learningPath
-      .map(step => `<li><strong>${step.stage}:</strong> ${step.description}</li>`)
-      .join('')
+      .map((course, i) => `
+        <li>
+          <strong style="color:var(--green);font-family:var(--mono);">${i + 1}.</strong>
+          <a href="course.html?slug=${course.slug.current}"
+            style="color:var(--text);text-decoration:none;transition:color 0.2s;"
+            onmouseover="this.style.color='var(--green)'"
+            onmouseout="this.style.color='var(--text)'">
+            ${course.title}
+          </a>
+          <span style="color:var(--text3);font-size:11px;font-family:var(--mono);"> — ${course.level}</span>
+        </li>
+      `).join('')
   }
 
   // salary range
-  const salarySection = document.getElementById('m-salary')
+  const salaryEl = document.getElementById('m-salary')
   if (career.salaryRange) {
     const { entry, mid, senior } = career.salaryRange
-    salarySection.innerHTML = `
-      <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+    salaryEl.innerHTML = `
+      <div style="
+        display:flex;gap:0;
+        border:1px solid var(--border);
+        border-radius:var(--radius);
+        overflow:hidden;
+      ">
         ${entry ? `
-          <div style="flex:1;padding:12px 16px;border-right:1px solid var(--border);background:var(--bg3);">
+          <div style="flex:1;padding:12px 14px;border-right:1px solid var(--border);background:var(--bg3);">
             <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;">Entry</div>
             <div style="font-size:12px;color:var(--text);">${entry}</div>
           </div>
         ` : ''}
         ${mid ? `
-          <div style="flex:1;padding:12px 16px;border-right:1px solid var(--border);background:var(--bg3);">
+          <div style="flex:1;padding:12px 14px;border-right:1px solid var(--border);background:var(--bg3);">
             <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;">Mid</div>
             <div style="font-size:12px;color:var(--text);">${mid}</div>
           </div>
         ` : ''}
         ${senior ? `
-          <div style="flex:1;padding:12px 16px;background:var(--bg3);">
+          <div style="flex:1;padding:12px 14px;background:var(--bg3);">
             <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;">Senior</div>
             <div style="font-size:12px;color:var(--text);">${senior}</div>
           </div>
@@ -106,7 +123,7 @@ async function openCareerModal(slug) {
     `
   }
 
-  // youtube link
+  // youtube button
   const ytBtn = document.getElementById('m-yt')
   if (ytBtn && career.videoUrl) {
     ytBtn.href = career.videoUrl
@@ -134,6 +151,7 @@ function closeModal() {
   if (modal) modal.classList.remove('open')
 }
 
+// close on escape key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal()
 })

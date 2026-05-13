@@ -1,15 +1,14 @@
- // ─── SANITY CONFIG ───────────────────────────────────────────
+// ─── SANITY CONFIG ───────────────────────────────────────────
 const PROJECT_ID = 'w3fjwa6d'
 const DATASET = 'production'
 const API_VERSION = '2024-01-01'
 
 const BASE_URL = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}`
 
-// ─── CORE FETCH FUNCTION ─────────────────────────────────────
+// ─── CORE FETCH ──────────────────────────────────────────────
 async function sanityFetch(query) {
   const encodedQuery = encodeURIComponent(query)
   const url = `${BASE_URL}?query=${encodedQuery}`
-
   try {
     const response = await fetch(url)
     const data = await response.json()
@@ -28,15 +27,79 @@ function imageUrl(source) {
   return `https://cdn.sanity.io/images/${PROJECT_ID}/${DATASET}/${id}-${dimensions}.${format}`
 }
 
-// ─── SLUG FROM URL ───────────────────────────────────────────
+// ─── GET URL PARAM ───────────────────────────────────────────
 function getParam(key) {
   const params = new URLSearchParams(window.location.search)
   return params.get(key)
 }
 
+// ─── SITE SETTINGS ───────────────────────────────────────────
+async function getSiteSettings() {
+  const query = `*[_type == "siteSettings"][0] {
+    heroHeadline,
+    heroSubtext,
+    goalStatement,
+    quizCtaTitle,
+    quizCtaSubtext,
+    announcementBar,
+    whyThisContent
+  }`
+  return await sanityFetch(query)
+}
+
+// ─── CAREERS ─────────────────────────────────────────────────
+async function getAllCareers() {
+  const query = `*[_type == "career"] | order(title asc) {
+    _id,
+    title,
+    slug,
+    emoji,
+    sector,
+    tag,
+    shortDescription
+  }`
+  return await sanityFetch(query)
+}
+
+async function getCareer(slug) {
+  const query = `*[_type == "career" && slug.current == "${slug}"][0] {
+    _id,
+    title,
+    slug,
+    emoji,
+    sector,
+    tag,
+    shortDescription,
+    whatYouDo,
+    dayToDay,
+    whereYouWork,
+    salaryRange,
+    videoUrl,
+    "learningPath": learningPath[]-> {
+      _id,
+      title,
+      slug,
+      pillar,
+      level,
+      description,
+      comingSoon
+    },
+    "relatedProjects": relatedProjects[]-> {
+      _id,
+      title,
+      slug,
+      tier,
+      emoji,
+      estimatedCost,
+      description
+    }
+  }`
+  return await sanityFetch(query)
+}
+
 // ─── COURSES ─────────────────────────────────────────────────
 async function getAllCourses() {
-  const query = `*[_type == "course"] | order(pillar asc) {
+  const query = `*[_type == "course"] | order(pillar asc, level asc) {
     _id,
     title,
     slug,
@@ -123,55 +186,11 @@ async function getProject(slug) {
     steps,
     thumbnail,
     "relatedCourses": relatedCourses[]-> {
+      _id,
       title,
       slug,
       pillar,
       level
-    }
-  }`
-  return await sanityFetch(query)
-}
-
-// ─── CAREERS ─────────────────────────────────────────────────
-async function getAllCareers() {
-  const query = `*[_type == "career"] {
-    _id,
-    title,
-    slug,
-    emoji,
-    sector,
-    tag,
-    shortDescription
-  }`
-  return await sanityFetch(query)
-}
-
-async function getCareer(slug) {
-  const query = `*[_type == "career" && slug.current == "${slug}"][0] {
-    _id,
-    title,
-    slug,
-    emoji,
-    sector,
-    tag,
-    shortDescription,
-    whatYouDo,
-    dayToDay,
-    whereYouWork,
-    salaryRange,
-    learningPath,
-    videoUrl,
-    "relatedCourses": relatedCourses[]-> {
-      title,
-      slug,
-      pillar,
-      level
-    },
-    "relatedProjects": relatedProjects[]-> {
-      title,
-      slug,
-      tier,
-      emoji
     }
   }`
   return await sanityFetch(query)
@@ -179,7 +198,7 @@ async function getCareer(slug) {
 
 // ─── RESOURCES ───────────────────────────────────────────────
 async function getAllResources() {
-  const query = `*[_type == "resource"] | order(type asc) {
+  const query = `*[_type == "resource"] | order(type asc, title asc) {
     _id,
     title,
     slug,
@@ -246,22 +265,9 @@ async function getBuild(slug) {
     "relatedProject": relatedProject-> {
       title,
       slug,
-      tier
+      tier,
+      emoji
     }
-  }`
-  return await sanityFetch(query)
-}
-
-// ─── SITE SETTINGS ───────────────────────────────────────────
-async function getSiteSettings() {
-  const query = `*[_type == "siteSettings"][0] {
-    heroHeadline,
-    heroSubtext,
-    goalStatement,
-    quizCtaTitle,
-    quizCtaSubtext,
-    announcementBar,
-    whyThisContent
   }`
   return await sanityFetch(query)
 }
