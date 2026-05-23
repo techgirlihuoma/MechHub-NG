@@ -729,3 +729,19 @@
   .modal-body { padding: 20px 24px 28px; }
   .modal-header { padding: 24px 24px 18px; }
 }
+/* ─── MOBILE RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* ── RESOURCE TABS ── */
+  .resources-tabs,
+  .res-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+  .resources-tabs::-webkit-scrollbar,
+  .res-tabs::-webkit-scrollbar { display: none; }
+
+}
