@@ -84,6 +84,10 @@ export default {
           type: 'object',
           name: 'module',
           title: 'Module',
+          options: {
+            collapsible: true,
+            collapsed: false
+          },
           fields: [
             {
               name: 'title',
