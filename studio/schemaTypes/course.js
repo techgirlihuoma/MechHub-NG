@@ -44,7 +44,6 @@ export default {
       },
       validation: Rule => Rule.required()
     },
-    
     {
       name: 'description',
       title: 'Short Description',
@@ -76,10 +75,51 @@ export default {
       of: [{ type: 'string' }]
     },
     {
-      name: 'lessons',
-      title: 'Lessons',
+      name: 'modules',
+      title: 'Modules',
+      description: 'Group lessons into modules. Drag to reorder.',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'lesson' }] }]
+      of: [
+        {
+          type: 'object',
+          name: 'module',
+          title: 'Module',
+          fields: [
+            {
+              name: 'title',
+              title: 'Module Title',
+              type: 'string',
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'description',
+              title: 'Module Description',
+              type: 'text',
+              rows: 2
+            },
+            {
+              name: 'lessons',
+              title: 'Lessons',
+              description: 'Pick lessons for this module. Drag to reorder.',
+              type: 'array',
+              of: [{ type: 'reference', to: [{ type: 'lesson' }] }]
+            }
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              lessons: 'lessons'
+            },
+            prepare({ title, lessons }) {
+              const count = lessons ? lessons.length : 0
+              return {
+                title,
+                subtitle: `${count} lesson${count !== 1 ? 's' : ''}`
+              }
+            }
+          }
+        }
+      ]
     },
     {
       name: 'comingSoon',
