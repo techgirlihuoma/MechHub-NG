@@ -1,1 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Quiz — MechHub NG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
 
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      MechHub<span class="nav-brand-accent">.NG</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="courses.html" class="nav-link active">Courses</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="community.html" class="nav-link">Community</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="faq.html" class="nav-link">FAQ</a>
+      <a href="why.html" class="nav-link">Why This?</a>
+    </div>
+    <a href="courses.html" class="nav-cta">Start →</a>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="courses.html" class="mobile-link">Courses</a>
+    <a href="projects.html" class="mobile-link">Projects</a>
+    <a href="community.html" class="mobile-link">Community</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="why.html" class="mobile-link">Why This?</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div id="quiz-content">
+    <div class="loading-state" style="padding:120px 2.5rem;">
+      Loading quiz...
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer"></footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/sanity.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+
+    let userAnswers = {}
+    let quizData = []
+    let lessonTitle = ''
+    let lessonSlug = ''
+    let courseSlug = ''
+    let nextLessonSlug = null
+
+    // ── FIND NEXT LESSON ─────────────────────────────────
+    async function findNextLesson(currentSlug, courseSlug) {
+      if (!courseSlug) return null
+      const course = await getCourse(courseSlug)
+      if (!course || !course.modules) return null
+
+      const allLessons = []
+      course.modules.forEach(mod => {
+        if (mod.lessons) mod.lessons.forEach(l => allLessons.push(l))
+      })
+
+      const currentIndex = allLessons.findIndex(l => l.slug.current === currentSlug)
+      return currentIndex >= 0 && currentIndex < allLessons.length - 1
+        ? allLessons[currentIndex + 1]
+        : null
+    }
+
+    // ── SELECT ANSWER ────────────────────────────────────
+    function selectAnswer(qi, selected, correct) {
+      userAnswers[qi] = { selected, correct }
+
+      const buttons = document.querySelectorAll(`[id^="opt-${qi}-"]`)
+      buttons.forEach(btn => {
+        btn.style.background = 'var(--bg3)'
+        btn.style.borderColor = 'var(--border)'
+        btn.style.color = 'var(--text2)'
+      })
+
+      event.target.style.background = 'rgba(0,230,118,0.1)'
+      event.target.style.borderColor = 'var(--green)'
+      event.target.style.color = '#fff'
+    }
+
+    // ── SUBMIT QUIZ ──────────────────────────────────────
+    function submitQuiz() {
+      const total = quizData.length
+      let score = 0
+
+      Object.entries(userAnswers).forEach(([qi, answer]) => {
+        const isCorrect = answer.selected === answer.correct
+        if (isCorrect) score++
+
+        const buttons = document.querySelectorAll(`[id^="opt-${qi}-"]`)
+        buttons.forEach(btn => {
+          const btnText = btn.textContent.trim()
+          if (btnText === answer.correct) {
+            btn.style.background = 'rgba(0,230,118,0.15)'
+            btn.style.borderColor = 'var(--green)'
+            btn.style.color = 'var(--green)'
+          } else if (btnText === answer.selected && !isCorrect) {
+            btn.style.background = 'rgba(255,109,0,0.15)'
+            btn.style.borderColor = 'var(--orange)'
+            btn.style.color = 'var(--orange)'
+          }
+          btn.style.cursor = 'default'
+          btn.disabled = true
+        })
+
+        const exp = document.getElementById(`explanation-${qi}`)
+        if (exp && exp.textContent.trim()) {
+          exp.style.display = 'block'
+          exp.style.borderColor = isCorrect ? 'var(--green)' : 'var(--orange)'
+        }
+      })
+
+      const pct = Math.round((score / total) * 100)
+      const passed = pct >= 70
+
+      document.getElementById('quiz-submit').style.display = 'none'
+
+      const resultEl = document.getElementById('quiz-result')
+      resultEl.style.display = 'block'
+      resultEl.style.background = passed
+        ? 'rgba(0,230,118,0.08)'
+        : 'rgba(255,109,0,0.08)'
+      resultEl.style.border = `1px solid ${passed ? 'var(--green)' : 'var(--orange)'}`
+
+      resultEl.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div>
+            <div style="font-family:var(--cond);font-size:28px;font-weight:900;color:${passed ? 'var(--green)' : 'var(--orange)'};margin-bottom:4px;">
+              ${score}/${total} — ${pct}%
+            </div>
+            <div style="font-size:14px;color:var(--text2);">
+              ${passed
+                ? 'Well done. You can move to the next lesson.'
+                : 'Review the lesson and try again — you need 70% to pass.'}
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            ${passed && nextLessonSlug ? `
+              <a href="lesson.html?slug=${nextLessonSlug}&course=${courseSlug}"
+                class="btn-primary">
+                Next Lesson →
+              </a>
+            ` : passed ? `
+              <a href="course.html?slug=${courseSlug}"
+                class="btn-primary">
+                Complete Course ✓
+              </a>
+            ` : `
+              <a href="lesson.html?slug=${lessonSlug}&course=${courseSlug}"
+                class="btn-ghost">
+                ← Back to Lesson
+              </a>
+              <button onclick="retakeQuiz()" class="btn-primary">
+                Retake Quiz
+              </button>
+            `}
+          </div>
+        </div>
+      `
+    }
+
+    // ── RETAKE QUIZ ──────────────────────────────────────
+    function retakeQuiz() {
+      userAnswers = {}
+      renderQuiz()
+    }
+
+    // ── RENDER QUIZ ──────────────────────────────────────
+    function renderQuiz() {
+      const container = document.getElementById('quiz-questions')
+      container.innerHTML = quizData.map((q, qi) => `
+        <div style="margin-bottom:32px;">
+          <div style="
+            font-size:15px;font-weight:500;color:#fff;
+            margin-bottom:14px;line-height:1.6;
+          ">
+            <span style="font-family:var(--mono);color:var(--green);margin-right:8px;">Q${qi + 1}.</span>
+            ${q.question}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            ${q.options.map((opt, oi) => `
+              <button
+                id="opt-${qi}-${oi}"
+                onclick="selectAnswer(${qi}, '${opt.replace(/'/g, "\\'")}', '${q.correctAnswer.replace(/'/g, "\\'")}')"
+                style="
+                  background:var(--bg3);border:1px solid var(--border);
+                  color:var(--text2);text-align:left;
+                  font-family:var(--sans);font-size:14px;
+                  padding:14px 18px;border-radius:var(--radius);
+                  cursor:pointer;transition:all 0.2s;width:100%;
+                  display:flex;align-items:center;gap:12px;
+                "
+                onmouseover="if(!this.disabled){this.style.borderColor='var(--green)';this.style.color='#fff'}"
+                onmouseout="if(!this.disabled){this.style.borderColor='var(--border)';this.style.color='var(--text2)'}"
+              >
+                <span style="
+                  font-family:var(--mono);font-size:11px;
+                  color:var(--text3);flex-shrink:0;width:20px;
+                ">${String.fromCharCode(65 + oi)}</span>
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="explanation-${qi}" style="
+            display:none;margin-top:12px;padding:12px 16px;
+            background:var(--bg3);border-radius:var(--radius);
+            font-size:13px;color:var(--text2);line-height:1.6;
+            border-left:3px solid var(--green);
+          ">
+            ${q.explanation || ''}
+          </div>
+        </div>
+      `).join('')
+
+      document.getElementById('quiz-result').style.display = 'none'
+      document.getElementById('quiz-submit').style.display = 'block'
+    }
+
+    // ── LOAD QUIZ PAGE ───────────────────────────────────
+    async function loadQuizPage() {
+      lessonSlug = getParam('lesson')
+      courseSlug = getParam('course') || ''
+
+      if (!lessonSlug) {
+        window.location.href = 'courses.html'
+        return
+      }
+
+      const lesson = await getLesson(lessonSlug)
+
+      if (!lesson || !lesson.quiz || lesson.quiz.length === 0) {
+        document.getElementById('quiz-content').innerHTML = `
+          <div class="section">
+            <div class="error-state">
+              No quiz found for this lesson.
+              <a href="lesson.html?slug=${lessonSlug}&course=${courseSlug}"
+                style="color:var(--green);">← Back to Lesson</a>
+            </div>
+          </div>
+        `
+        return
+      }
+
+      lessonTitle = lesson.title
+      quizData = lesson.quiz
+
+      // find next lesson in background
+      const nextLesson = await findNextLesson(lessonSlug, courseSlug)
+      nextLessonSlug = nextLesson ? nextLesson.slug.current : null
+
+      document.title = `Quiz: ${lesson.title} — MechHub NG`
+
+      document.getElementById('quiz-content').innerHTML = `
+
+        <!-- HEADER -->
+        <div class="page-header">
+          <a href="lesson.html?slug=${lessonSlug}&course=${courseSlug}"
+            class="back-link">← Back to Lesson</a>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.1em;margin-bottom:12px;">
+            Lesson Quiz · ${quizData.length} Question${quizData.length !== 1 ? 's' : ''}
+          </div>
+          <h1 class="section-title">${lesson.title}</h1>
+          <p class="section-sub">Answer all questions then submit. You need 70% to pass.</p>
+        </div>
+
+        <!-- QUIZ BODY -->
+        <div class="section">
+          <div style="max-width:680px;">
+
+            <div id="quiz-questions"></div>
+
+            <div id="quiz-result" style="
+              display:none;padding:24px 28px;
+              border-radius:var(--radius);margin-top:24px;
+            "></div>
+
+            <button
+              id="quiz-submit"
+              onclick="submitQuiz()"
+              class="btn-primary"
+              style="margin-top:24px;">
+              Submit Answers →
+            </button>
+
+          </div>
+        </div>
+      `
+
+      renderQuiz()
+    }
+
+    loadQuizPage()
+  </script>
+
+</body>
+</html>
