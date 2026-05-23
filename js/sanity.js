@@ -126,13 +126,17 @@ async function getCourse(slug) {
     prerequisites,
     thumbnail,
     comingSoon,
-    "lessons": lessons[]-> {
-      _id,
+    "modules": modules[] {
       title,
-      slug,
-      lessonNumber,
-      duration,
-      freePreview
+      description,
+      "lessons": lessons[]-> {
+        _id,
+        title,
+        slug,
+        lessonNumber,
+        duration,
+        freePreview
+      }
     }
   }`
   return await sanityFetch(query)
