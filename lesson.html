@@ -275,18 +275,17 @@
             margin-top:48px;padding-top:24px;
             border-top:1px solid var(--border);
             flex-wrap:wrap;gap:12px;
-          ">
+          " id="lesson-nav">
             <a href="${courseSlug ? `course.html?slug=${courseSlug}` : 'courses.html'}"
               class="btn-ghost">
               ← Back to Course
             </a>
-            <a href="${courseSlug ? `course.html?slug=${courseSlug}` : 'courses.html'}"
-              class="btn-primary">
-              Next Lesson →
-            </a>
+            <div id="next-lesson-btn">
+              <div style="font-family:var(--mono);font-size:11px;color:var(--text3);">
+                Loading next lesson...
+              </div>
+            </div>
           </div>
-
-        </div>
       `
     }
 
