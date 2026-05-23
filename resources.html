@@ -50,15 +50,20 @@
   </div>
 
   <!-- RESOURCE TABS -->
-  <div style="padding: 0 2.5rem; background: var(--bg2); border-bottom: 1px solid var(--border); position:relative; z-index:1;">
-    <div class="tab-bar" style="margin-bottom:0;">
-      <button class="tab-btn res-tab active" onclick="switchResourceTab('books', this)">📚 Books</button>
-      <button class="tab-btn res-tab" onclick="switchResourceTab('software', this)">🛠 Software</button>
-      <button class="tab-btn res-tab" onclick="switchResourceTab('websites', this)">🌐 Websites</button>
-      <button class="tab-btn res-tab" onclick="switchResourceTab('videos', this)">▶ Videos</button>
-    </div>
+  <div style="background: var(--bg2); border-bottom: 1px solid var(--border); position:relative; z-index:1;">
+   <div style="
+     display:flex;gap:0;padding:0 2.5rem;
+     overflow-x:auto;white-space:nowrap;
+     -webkit-overflow-scrolling:touch;
+     scrollbar-width:none;
+   ">
+     <button class="tab-btn res-tab active" onclick="switchResourceTab('books', this)">📚 Books</button>
+     <button class="tab-btn res-tab" onclick="switchResourceTab('software', this)">🛠 Software</button>
+     <button class="tab-btn res-tab" onclick="switchResourceTab('websites', this)">🌐 Websites</button>
+     <button class="tab-btn res-tab" onclick="switchResourceTab('videos', this)">▶ Videos</button>
+   </div>
   </div>
-
+ 
   <!-- RESOURCE PANELS -->
   <div class="section">
     <div id="panel-books" class="tab-panel active">
