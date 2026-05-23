@@ -79,6 +79,9 @@ export default {
       title: 'Modules',
       description: 'Group lessons into modules. Drag to reorder.',
       type: 'array',
+      options: {
+        modal: { type: 'inline' }
+      },
       of: [
         {
           type: 'object',
