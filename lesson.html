@@ -80,6 +80,53 @@
       return match ? match[1] : null
     }
 
+   // ── FIND NEXT LESSON ─────────────────────────────────────
+    async function loadNextLesson(currentSlug, courseSlug) {
+      if (!courseSlug) {
+        document.getElementById('next-lesson-btn').innerHTML = ''
+        return
+      }
+    
+      const course = await getCourse(courseSlug)
+      if (!course || !course.modules) {
+        document.getElementById('next-lesson-btn').innerHTML = ''
+        return
+      }
+    
+      // flatten all lessons from all modules into one array
+      const allLessons = []
+      course.modules.forEach(mod => {
+        if (mod.lessons) {
+          mod.lessons.forEach(lesson => allLessons.push(lesson))
+        }
+      })
+    
+      // find current lesson index
+      const currentIndex = allLessons.findIndex(l => l.slug.current === currentSlug)
+      const nextLesson = currentIndex >= 0 && currentIndex < allLessons.length - 1
+        ? allLessons[currentIndex + 1]
+        : null
+    
+      const nextBtn = document.getElementById('next-lesson-btn')
+    
+      if (nextLesson) {
+        nextBtn.innerHTML = `
+          <a href="lesson.html?slug=${nextLesson.slug.current}&course=${courseSlug}"
+            class="btn-primary">
+            Next Lesson →
+          </a>
+        `
+      } else {
+        // last lesson — go back to course
+        nextBtn.innerHTML = `
+          <a href="course.html?slug=${courseSlug}"
+            class="btn-primary">
+            Complete Course ✓
+          </a>
+        `
+      }
+    }
+
     // ── RENDER QUIZ ───────────────────────────────────────
     function renderQuiz(quiz) {
       if (!quiz || quiz.length === 0) return ''
@@ -265,9 +312,34 @@
               ${renderBlock(lesson.content)}
             </div>
           ` : ''}
-
-          <!-- QUIZ -->
-          ${renderQuiz(lesson.quiz)}
+      
+          <!-- QUIZ BUTTON -->
+          ${lesson.quiz && lesson.quiz.length > 0 ? `
+            <div style="
+              background:var(--bg2);border:1px solid var(--border2);
+              border-radius:var(--radius);padding:28px 32px;
+              margin-top:40px;display:flex;
+              justify-content:space-between;align-items:center;
+              gap:20px;flex-wrap:wrap;
+            ">
+              <div>
+                <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">
+                  // Lesson Quiz
+                </div>
+                <div style="font-family:var(--cond);font-size:20px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:4px;">
+                  Test Your Understanding
+                </div>
+                <div style="font-size:13px;color:var(--text3);">
+                  ${lesson.quiz.length} question${lesson.quiz.length !== 1 ? 's' : ''} — takes about ${Math.ceil(lesson.quiz.length * 1.5)} minutes
+                </div>
+              </div>
+              <a href="lesson-quiz.html?lesson=${lesson.slug.current}&course=${courseSlug || ''}"
+                class="btn-primary"
+                style="white-space:nowrap;">
+                Take the Quiz →
+              </a>
+            </div>
+          ` : ''}
 
           <!-- NAVIGATION -->
           <div style="
@@ -288,8 +360,12 @@
           </div>
       `
     }
-
-    loadLessonPage()
+   
+    loadLessonPage().then(() => {
+      const slug = getParam('slug')
+      const courseSlug = getParam('course')
+      if (slug) loadNextLesson(slug, courseSlug)
+    })
   </script>
 
 </body>
