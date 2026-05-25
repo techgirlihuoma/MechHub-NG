@@ -146,9 +146,9 @@ async function getCourse(slug) {
 async function getLesson(slug) {
   const query = `*[_type == "lesson" && slug.current == "${slug}"][0] {
     _id,
+    _createdAt,
     title,
     slug,
-    lessonNumber,
     videoUrl,
     content,
     quiz,
