@@ -1,164 +1,336 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mechatronics Lesson Card</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      padding: 20px;
-      color: #222;
+export default {
+  name: 'lesson',
+  title: 'Lesson',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Lesson Title',
+      type: 'string',
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'title' },
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'videoUrl',
+      title: 'YouTube Video URL',
+      type: 'url'
+    },
+    {
+      name: 'content',
+      title: 'Lesson Content',
+      type: 'array',
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'Heading 1', value: 'h1' },
+            { title: 'Heading 2', value: 'h2' },
+            { title: 'Heading 3', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' }
+          ],
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+              { title: 'Underline', value: 'underline' },
+              { title: 'Highlight', value: 'highlight' }
+            ],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                    title: 'URL'
+                  },
+                  {
+                    name: 'blank',
+                    type: 'boolean',
+                    title: 'Open in new tab',
+                    initialValue: true
+                  }
+                ]
+              },
+              {
+                name: 'textStyle',
+                type: 'object',
+                title: 'Text Style',
+                fields: [
+                  {
+                    name: 'fontSize',
+                    title: 'Font Size',
+                    type: 'string',
+                    options: {
+                      list: [
+                        { title: 'Small (12px)', value: 'small' },
+                        { title: 'Normal (15px)', value: 'normal' },
+                        { title: 'Medium (18px)', value: 'medium' },
+                        { title: 'Large (22px)', value: 'large' },
+                        { title: 'XL (28px)', value: 'xl' }
+                      ]
+                    }
+                  },
+                  {
+                    name: 'fontFamily',
+                    title: 'Font Family',
+                    type: 'string',
+                    options: {
+                      list: [
+                        { title: 'Default (Barlow)', value: 'sans' },
+                        { title: 'Monospace (Space Mono)', value: 'mono' },
+                        { title: 'Display (Barlow Condensed)', value: 'cond' }
+                      ]
+                    }
+                  },
+                  {
+                    name: 'color',
+                    title: 'Text Color',
+                    type: 'string',
+                    options: {
+                      list: [
+                        { title: 'Default', value: 'default' },
+                        { title: 'Green', value: 'green' },
+                        { title: 'Muted', value: 'muted' },
+                        { title: 'White', value: 'white' },
+                        { title: 'Orange', value: 'orange' },
+                        { title: 'Blue', value: 'blue' },
+                        { title: 'Yellow', value: 'yellow' },
+                        { title: 'Red', value: 'red' }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          type: 'image',
+          title: 'Image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string'
+            },
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string'
+            }
+          ]
+        },
+        {
+          type: 'object',
+          name: 'htmlEmbed',
+          title: 'HTML Embed',
+          fields: [
+            {
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              description: 'Internal label e.g. Tinkercad Circuit, Codepen Example'
+            },
+            {
+              name: 'html',
+              title: 'HTML Code',
+              type: 'text',
+              rows: 8,
+              description: 'Paste raw HTML or an iframe embed code here.'
+            },
+            {
+              name: 'height',
+              title: 'Height (px)',
+              type: 'number',
+              initialValue: 400
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string'
+            }
+          ],
+          preview: {
+            select: { title: 'label', subtitle: 'caption' },
+            prepare({ title, subtitle }) {
+              return {
+                title: title || 'HTML Embed',
+                subtitle: subtitle || 'Custom HTML block'
+              }
+            }
+          }
+        },
+        {
+          type: 'object',
+          name: 'codeBlock',
+          title: 'Code Block',
+          fields: [
+            {
+              name: 'language',
+              title: 'Language',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Arduino / C++', value: 'cpp' },
+                  { title: 'C', value: 'c' },
+                  { title: 'Python', value: 'python' },
+                  { title: 'JavaScript', value: 'javascript' },
+                  { title: 'HTML', value: 'html' },
+                  { title: 'CSS', value: 'css' },
+                  { title: 'Bash / Terminal', value: 'bash' },
+                  { title: 'Plain Text', value: 'text' }
+                ]
+              },
+              initialValue: 'cpp'
+            },
+            {
+              name: 'code',
+              title: 'Code',
+              type: 'text',
+              rows: 12,
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'filename',
+              title: 'Filename',
+              type: 'string',
+              description: 'Optional e.g. blink.ino, main.py'
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string'
+            }
+          ],
+          preview: {
+            select: { title: 'filename', subtitle: 'language' },
+            prepare({ title, subtitle }) {
+              return {
+                title: title || 'Code Block',
+                subtitle: subtitle || 'code'
+              }
+            }
+          }
+        },
+        {
+          type: 'object',
+          name: 'callout',
+          title: 'Callout Box',
+          fields: [
+            {
+              name: 'type',
+              title: 'Type',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'ℹ️ Info', value: 'info' },
+                  { title: '💡 Tip', value: 'tip' },
+                  { title: '⚠️ Warning', value: 'warning' },
+                  { title: '🔥 Important', value: 'important' },
+                  { title: '✅ Success', value: 'success' }
+                ],
+                layout: 'radio'
+              },
+              initialValue: 'info'
+            },
+            {
+              name: 'title',
+              title: 'Title',
+              type: 'string'
+            },
+            {
+              name: 'content',
+              title: 'Content',
+              type: 'text',
+              rows: 3,
+              validation: Rule => Rule.required()
+            }
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'type' },
+            prepare({ title, subtitle }) {
+              return {
+                title: title || 'Callout',
+                subtitle: subtitle
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      name: 'quiz',
+      title: 'Mini Quiz',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'quizQuestion',
+          title: 'Question',
+          fields: [
+            {
+              name: 'question',
+              title: 'Question',
+              type: 'string',
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'options',
+              title: 'Answer Options',
+              type: 'array',
+              of: [{ type: 'string' }],
+              validation: Rule => Rule.min(2).max(4)
+            },
+            {
+              name: 'correctAnswer',
+              title: 'Correct Answer (must match one option exactly)',
+              type: 'string',
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'explanation',
+              title: 'Explanation (shown after answering)',
+              type: 'text',
+              rows: 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'duration',
+      title: 'Estimated Duration (e.g. 20 mins)',
+      type: 'string'
+    },
+    {
+      name: 'freePreview',
+      title: 'Free Preview?',
+      description: 'If true, this lesson is visible without enrollment',
+      type: 'boolean',
+      initialValue: false
     }
-
-    .lesson-card {
-      max-width: 850px;
-      margin: auto;
-      background: white;
-      border-radius: 14px;
-      padding: 30px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      line-height: 1.7;
-    }
-
-    .lesson-title {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #0f172a;
-    }
-
-    h2 {
-      margin-top: 28px;
-      color: #1e3a8a;
-      font-size: 1.3rem;
-    }
-
-    p {
-      margin-top: 10px;
-    }
-
-    ul {
-      margin-top: 10px;
-      padding-left: 20px;
-    }
-
-    .formula {
-      background: #eef2ff;
-      border-left: 5px solid #2563eb;
-      padding: 16px;
-      margin: 20px 0;
-      border-radius: 8px;
-      font-size: 1.4rem;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .takeaway {
-      background: #ecfeff;
-      border-left: 5px solid #0891b2;
-      padding: 18px;
-      border-radius: 8px;
-      margin-top: 25px;
-    }
-
-    .graphic-box {
-      background: #f8fafc;
-      border: 2px dashed #94a3b8;
-      padding: 20px;
-      margin-top: 25px;
-      border-radius: 10px;
-    }
-
-    .graphic-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #334155;
-    }
-
-    @media (max-width: 600px) {
-      .lesson-card {
-        padding: 20px;
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'duration'
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title,
+        subtitle: subtitle || ''
       }
-
-      .lesson-title {
-        font-size: 1.6rem;
-      }
-
-      .formula {
-        font-size: 1.1rem;
-      }
     }
-  </style>
-</head>
-<body>
-
-<div class="lesson-card">
-  <div class="lesson-title">What Actually Is Electricity?</div>
-
-  <h2>Understanding Electricity Simply</h2>
-  <p>
-    Electricity is the movement of tiny charged particles called electrons.
-    These electrons already exist inside wires. When a battery is connected,
-    it creates electrical pressure that pushes the electrons to move.
-  </p>
-
-  <p>
-    Think of electricity like water flowing through pipes. The water is already
-    inside the pipe, but pressure is needed to make it move.
-  </p>
-
-  <h2>Voltage — The Push</h2>
-  <p>
-    Voltage is the electrical pressure that pushes electrons through a wire.
-    It is measured in volts (V).
-  </p>
-
-  <h2>Current — The Flow</h2>
-  <p>
-    Current is the flow of electrons through the circuit. It is measured in
-    amperes (A), commonly called amps.
-  </p>
-
-  <ul>
-    <li>Voltage = Pressure</li>
-    <li>Current = Flow</li>
-    <li>Resistance = Blockage</li>
-  </ul>
-
-  <h2>Resistance — The Blockade</h2>
-  <p>
-    Resistance slows down the movement of electrons. Thin wires and electrical
-    components make it harder for current to flow.
-  </p>
-
-  <h2>Ohm's Law</h2>
-
-  <div class="formula">
-    V = I × R
-  </div>
-
-  <p>
-    This equation connects voltage, current, and resistance.
-  </p>
-
-  <div class="takeaway">
-    <strong>Key Takeaway:</strong><br>
-    A battery does not “contain electricity.” It creates a pressure difference
-    that pushes electrons through a complete circuit.
-  </div>
-
-  <div class="graphic-box">
-    <div class="graphic-title">Supporting Graphic Suggestion</div>
-    Show a side-by-side comparison of:
-    <ul>
-      <li>Water flowing through pipes</li>
-      <li>A battery connected to a bulb with flowing current arrows</li>
-      <li>A narrow pipe section labeled “Resistance”</li>
-    </ul>
-  </div>
-</div>
-
-</body>
-</html>
+  }
+}
