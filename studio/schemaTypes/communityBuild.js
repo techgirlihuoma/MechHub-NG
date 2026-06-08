@@ -149,6 +149,13 @@ export default {
       description: 'Only approved builds show on the site'
     },
     {
+      name: 'featured',
+      title: 'Build of the Week?',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Only one build should be featured at a time'
+    },
+    {
       name: 'publishedAt',
       title: 'Published At',
       type: 'datetime'

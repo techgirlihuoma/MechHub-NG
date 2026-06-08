@@ -153,6 +153,13 @@ export default {
       title: 'Thumbnail Image',
       type: 'image',
       options: { hotspot: true }
+    },
+    {
+      name: 'featured',
+      title: 'Featured on Home Page?',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Only one project should be featured at a time'
     }
   ],
   preview: {

@@ -120,6 +120,20 @@
     </div>
   </section>
 
+  <!-- BUILD OF THE WEEK -->
+  <div class="section" id="build-of-week-section" style="display:none;">
+    <div class="section-eyebrow">Community</div>
+    <h2 class="section-title">Build of the Week</h2>
+    <div id="build-of-week-card"></div>
+  </div>
+
+  <!-- FEATURED PROJECT -->
+  <div class="section" id="featured-project-section" style="display:none;">
+    <div class="section-eyebrow">Project Highlight</div>
+    <h2 class="section-title">Featured Project</h2>
+    <div id="featured-project-card"></div>
+  </div>
+
   <!-- GROWTH LOOP -->
   <section class="section">
     <div class="section-eyebrow">How You'll Learn</div>
@@ -266,6 +280,106 @@
         renderCareers(careers)
       }
     }
+
+      // Load featured project
+      const featuredProject = await getFeaturedProject()
+      if (featuredProject) {
+        document.getElementById('featured-project-section').style.display = 'block'
+        document.getElementById('featured-project-card').innerHTML = `
+          <a href="project.html?slug=${featuredProject.slug.current}" style="
+            display:flex;align-items:center;gap:28px;
+            background:var(--bg2);border:1px solid var(--border);
+            border-radius:var(--radius);padding:28px;
+            text-decoration:none;transition:border-color 0.2s;
+            flex-wrap:wrap;
+          "
+          onmouseover="this.style.borderColor='var(--green)'"
+          onmouseout="this.style.borderColor='var(--border)'">
+            <div style="font-size:64px;flex-shrink:0;">${featuredProject.emoji || '🔧'}</div>
+            <div style="flex:1;min-width:200px;">
+              <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
+                <span class="badge badge-${featuredProject.tier}">${featuredProject.tier}</span>
+                ${featuredProject.estimatedCost ? `
+                  <span style="font-family:var(--mono);font-size:10px;color:var(--green-dim);">
+                    ${featuredProject.estimatedCost}
+                  </span>
+                ` : ''}
+              </div>
+              <div style="font-family:var(--cond);font-size:26px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:8px;">
+                ${featuredProject.title}
+              </div>
+              <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:14px;">
+                ${featuredProject.description}
+              </div>
+              ${featuredProject.skills && featuredProject.skills.length > 0 ? `
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  ${featuredProject.skills.map(skill => `
+                    <span style="
+                      font-family:var(--mono);font-size:9px;
+                      letter-spacing:0.1em;text-transform:uppercase;
+                      padding:3px 10px;border-radius:20px;
+                      background:rgba(0,180,216,0.1);
+                      color:var(--blue);
+                      border:1px solid rgba(0,180,216,0.2);
+                    ">${skill}</span>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+            <div style="
+              font-family:var(--mono);font-size:11px;
+              color:var(--green);letter-spacing:0.08em;
+              text-transform:uppercase;flex-shrink:0;
+            ">View Project →</div>
+          </a>
+        `
+      }
+
+      // Load build of the week
+      const featuredBuild = await getFeaturedBuild()
+      if (featuredBuild) {
+        document.getElementById('build-of-week-section').style.display = 'block'
+        document.getElementById('build-of-week-card').innerHTML = `
+          <a href="build.html?slug=${featuredBuild.slug.current}" style="
+            display:flex;align-items:flex-start;gap:24px;
+            background:var(--bg2);border:1px solid var(--border);
+            border-radius:var(--radius);padding:28px;
+            text-decoration:none;transition:border-color 0.2s;
+            flex-wrap:wrap;
+          "
+          onmouseover="this.style.borderColor='var(--blue)'"
+          onmouseout="this.style.borderColor='var(--border)'">
+            <div style="
+              width:52px;height:52px;border-radius:var(--radius);
+              background:var(--bg4);border:1px solid var(--border2);
+              display:flex;align-items:center;justify-content:center;
+              font-family:var(--mono);font-size:18px;font-weight:700;
+              color:var(--green);flex-shrink:0;
+            ">${featuredBuild.authorInitials || '??'}</div>
+            <div style="flex:1;min-width:200px;">
+              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
+                <span class="badge badge-${featuredBuild.tier}">${featuredBuild.tier}</span>
+                <span style="font-size:12px;color:var(--text3);">
+                  ${featuredBuild.authorName}
+                  ${featuredBuild.authorSchool ? `· ${featuredBuild.authorSchool}` : ''}
+                  ${featuredBuild.authorLevel ? `· ${featuredBuild.authorLevel}` : ''}
+                </span>
+              </div>
+              <div style="font-family:var(--cond);font-size:24px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:8px;">
+                ${featuredBuild.title}
+              </div>
+              <div style="font-size:14px;color:var(--text2);line-height:1.6;">
+                ${featuredBuild.description}
+              </div>
+            </div>
+            <div style="
+              font-family:var(--mono);font-size:11px;
+              color:var(--blue);letter-spacing:0.08em;
+              text-transform:uppercase;flex-shrink:0;
+            ">See Build →</div>
+          </a>
+        `
+      }
 
     loadHomePage()
   </script>

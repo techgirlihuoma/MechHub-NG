@@ -213,6 +213,38 @@ async function getProject(slug) {
   return await sanityFetch(query)
 }
 
+async function getFeaturedProject() {
+  const query = `*[_type == "project" && featured == true][0] {
+    _id,
+    title,
+    slug,
+    tier,
+    emoji,
+    description,
+    estimatedCost,
+    skills,
+    thumbnail
+  }`
+  return await sanityFetch(query)
+}
+
+async function getFeaturedBuild() {
+  const query = `*[_type == "communityBuild" && featured == true && approved == true][0] {
+    _id,
+    title,
+    slug,
+    authorName,
+    authorInitials,
+    authorSchool,
+    authorLevel,
+    tier,
+    description,
+    photos,
+    skills
+  }`
+  return await sanityFetch(query)
+}
+
 // ─── RESOURCES ───────────────────────────────────────────────
 async function getAllResources() {
   const query = `*[_type == "resource"] | order(type asc, title asc) {
