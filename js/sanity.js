@@ -42,7 +42,20 @@ async function getSiteSettings() {
     quizCtaTitle,
     quizCtaSubtext,
     announcementBar,
-    whyThisContent
+    whyThisContent,
+    "lessonSidebar": lessonSidebar[] {
+      type,
+      isActive,
+      title,
+      content,
+      buttonLabel,
+      buttonUrl,
+      buttonStyle,
+      platform,
+      adImageUrl,
+      "adImageUpload": adImageUpload.asset->url,
+      adLinkUrl
+    }
   }`
   return await sanityFetch(query)
 }
