@@ -11,12 +11,15 @@
   <link rel="stylesheet" href="css/components.css">
 </head>
 <style>
-@media (max-width: 768px) {
-  #course-body > div[style*="grid-template-columns:2fr 1fr"] {
-    display: flex !important;
-    flex-direction: column !important;
+  @media (max-width: 768px) {
+    .course-two-col {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    body {
+      overflow-x: hidden;
+    }
   }
-}
 </style>  
 <body>
 
@@ -162,7 +165,7 @@
 
         <!-- COURSE BODY -->
         <div class="section">
-          <div style="display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:start;">
+          <div class="course-two-col" style="display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:start;">
 
             <!-- LEFT: MODULES + LESSONS -->
             <div>
@@ -384,13 +387,6 @@
 
     loadCoursePage()
   </script>
-  <style>
-    @media (max-width: 768px) {
-      #course-body > div[style*="grid-template-columns:2fr 1fr"] {
-        display: flex !important;
-        flex-direction: column !important;
-      }
-    }
-  </style>
+
 </body>
 </html>
