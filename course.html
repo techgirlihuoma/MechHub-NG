@@ -384,6 +384,13 @@
 
     loadCoursePage()
   </script>
-
+  <style>
+    @media (max-width: 768px) {
+      #course-body > div[style*="grid-template-columns:2fr 1fr"] {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+    }
+  </style>
 </body>
 </html>
