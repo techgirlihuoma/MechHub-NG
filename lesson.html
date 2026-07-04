@@ -324,88 +324,92 @@
 
     // ── BUILD LEFT SIDEBAR ────────────────────────────────
     async function buildLeftSidebar(currentSlug, courseSlug) {
-      if (!courseSlug) return ''
-      const course = await getCourse(courseSlug)
-      if (!course || !course.modules) return ''
+  if (!courseSlug) return ''
+  const course = await getCourse(courseSlug)
+  if (!course || !course.modules) return ''
 
-      return `
-        <div style="
-          position:sticky;top:80px;
-          max-height:calc(100vh - 100px);
-          overflow-y:auto;
-          background:var(--bg2);
-          border:1px solid var(--border);
-          border-radius:var(--radius);
-        ">
+  return `
+    <div style="
+      position:sticky;top:80px;
+      max-height:calc(100vh - 100px);
+      overflow-y:auto;
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      width:280px;
+      min-width:280px;
+    ">
+      <div style="
+        padding:16px 20px;
+        border-bottom:1px solid var(--border);
+        position:sticky;top:0;
+        background:var(--bg2);z-index:1;
+      ">
+        <a href="course.html?slug=${courseSlug}" style="
+          font-family:var(--mono);font-size:10px;
+          letter-spacing:0.15em;text-transform:uppercase;
+          color:var(--text3);text-decoration:none;
+          display:flex;align-items:center;gap:6px;
+          transition:color 0.2s;
+        "
+        onmouseover="this.style.color='var(--green)'"
+        onmouseout="this.style.color='var(--text3)'">
+          ← ${course.title}
+        </a>
+      </div>
+
+      ${course.modules.map((mod, mi) => `
+        <div>
           <div style="
-            padding:16px 20px;
+            padding:10px 20px;
+            background:var(--bg3);
             border-bottom:1px solid var(--border);
-            position:sticky;top:0;
-            background:var(--bg2);z-index:1;
+            font-family:var(--mono);font-size:10px;
+            letter-spacing:0.12em;text-transform:uppercase;
+            color:var(--text3);
           ">
-            <a href="course.html?slug=${courseSlug}" style="
-              font-family:var(--mono);font-size:9px;
-              letter-spacing:0.15em;text-transform:uppercase;
-              color:var(--text3);text-decoration:none;
-              display:flex;align-items:center;gap:6px;
-              transition:color 0.2s;
-            "
-            onmouseover="this.style.color='var(--green)'"
-            onmouseout="this.style.color='var(--text3)'">
-              ← ${course.title}
-            </a>
+            ${String(mi + 1).padStart(2,'0')} · ${mod.title}
           </div>
-
-          ${course.modules.map((mod, mi) => `
-            <div>
-              <div style="
-                padding:10px 20px;
-                background:var(--bg3);
+          ${mod.lessons && mod.lessons.length > 0 ? mod.lessons.map((lesson, li) => `
+            <a href="lesson.html?slug=${lesson.slug.current}&course=${courseSlug}"
+              style="
+                display:flex;align-items:flex-start;gap:12px;
+                padding:13px 20px;
                 border-bottom:1px solid var(--border);
-                font-family:var(--mono);font-size:9px;
-                letter-spacing:0.15em;text-transform:uppercase;
-                color:var(--text3);
-              ">
-                ${String(mi + 1).padStart(2,'0')} · ${mod.title}
-              </div>
-              ${mod.lessons && mod.lessons.length > 0 ? mod.lessons.map((lesson, li) => `
-                <a href="lesson.html?slug=${lesson.slug.current}&course=${courseSlug}"
-                  style="
-                    display:flex;align-items:center;gap:10px;
-                    padding:11px 20px;
-                    border-bottom:1px solid var(--border);
-                    text-decoration:none;
-                    transition:background 0.2s;
-                    background:${lesson.slug.current === currentSlug ? 'rgba(0,230,118,0.08)' : 'transparent'};
-                    border-left:${lesson.slug.current === currentSlug ? '3px solid var(--green)' : '3px solid transparent'};
-                  "
-                  onmouseover="this.style.background='var(--bg3)'"
-                  onmouseout="this.style.background='${lesson.slug.current === currentSlug ? 'rgba(0,230,118,0.08)' : 'transparent'}'"
-                >
-                  <span style="
-                    font-family:var(--mono);font-size:9px;
-                    color:${lesson.slug.current === currentSlug ? 'var(--green)' : 'var(--text3)'};
-                    flex-shrink:0;min-width:20px;
-                  ">${String(li + 1).padStart(2,'0')}</span>
-                  <span style="
-                    font-size:14px;
-                    color:${lesson.slug.current === currentSlug ? '#fff' : 'var(--text2)'};
-                    line-height:1.5;
-                  ">${lesson.title}</span>
-                  ${lesson.freePreview ? `
-                    <span style="
-                      font-family:var(--mono);font-size:8px;
-                      color:var(--green);margin-left:auto;flex-shrink:0;
-                    ">FREE</span>
-                  ` : ''}
-                </a>
-              `).join('') : ''}
-            </div>
-          `).join('')}
+                text-decoration:none;
+                transition:background 0.2s;
+                background:${lesson.slug.current === currentSlug ? 'rgba(0,230,118,0.08)' : 'transparent'};
+                border-left:${lesson.slug.current === currentSlug ? '3px solid var(--green)' : '3px solid transparent'};
+              "
+              onmouseover="this.style.background='var(--bg3)'"
+              onmouseout="this.style.background='${lesson.slug.current === currentSlug ? 'rgba(0,230,118,0.08)' : 'transparent'}'"
+            >
+              <span style="
+                font-family:var(--mono);font-size:10px;
+                color:${lesson.slug.current === currentSlug ? 'var(--green)' : 'var(--text3)'};
+                flex-shrink:0;min-width:22px;
+                margin-top:2px;
+              ">${String(li + 1).padStart(2,'0')}</span>
+              <span style="
+                font-size:15px;
+                font-weight:${lesson.slug.current === currentSlug ? '600' : '400'};
+                color:${lesson.slug.current === currentSlug ? '#fff' : 'var(--text2)'};
+                line-height:1.5;
+              ">${lesson.title}</span>
+              ${lesson.freePreview ? `
+                <span style="
+                  font-family:var(--mono);font-size:8px;
+                  color:var(--green);margin-left:auto;
+                  flex-shrink:0;padding-top:3px;
+                ">FREE</span>
+              ` : ''}
+            </a>
+          `).join('') : ''}
         </div>
-      `
-    }
-
+      `).join('')}
+    </div>
+  `
+}
     // ── BUILD RIGHT SIDEBAR ───────────────────────────────
    function buildRightSidebar(lesson, courseSlug, hasQuiz, sidebarBlocks) {
   return `
@@ -592,7 +596,7 @@ function renderSidebarBlock(block) {
         <!-- THREE COLUMN LAYOUT -->
         <div style="
           display:grid;
-          grid-template-columns:240px 1fr 220px;
+          grid-template-columns:280px 1fr 220px;
           gap:32px;
           padding:40px 2.5rem;
           align-items:start;
