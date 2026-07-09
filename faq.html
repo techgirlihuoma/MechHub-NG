@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){var t=localStorage.getItem('mechhub-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAQ — MechHub NG</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +29,7 @@
       <a href="why.html" class="nav-link">Why This?</a>
     </div>
     <a href="courses.html" class="nav-cta">Start →</a>
-    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+    <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid var(--border2);width:34px;height:34px;border-radius:var(--radius);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;margin-right:6px;transition:border-color 0.2s;flex-shrink:0;">🌙</button><button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
   </nav>
 
   <!-- MOBILE MENU -->

@@ -35,6 +35,48 @@ html {
   --radius2: 12px;
 }
 
+/* ─── LIGHT MODE ─────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg: #f5f5f0;
+  --bg2: #ffffff;
+  --bg3: #eeede8;
+  --bg4: #e4e2db;
+  --green: #1a7a4a;
+  --green-dim: #2d9e64;
+  --green-dark: #e8f5ee;
+  --green-glow: rgba(26,122,74,0.1);
+  --orange: #c0390b;
+  --blue: #0070a8;
+  --yellow: #b07d12;
+  --text: #1c1712;
+  --text2: #4a3f35;
+  --text3: #7a6e64;
+  --border: #d8d4cc;
+  --border2: #c8c2b8;
+}
+
+[data-theme="light"] body::before {
+  background-image:
+    linear-gradient(rgba(26,122,74,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,122,74,0.04) 1px, transparent 1px);
+}
+
+[data-theme="light"] #main-nav {
+  background: rgba(245,245,240,0.95);
+}
+
+[data-theme="light"] .nav-brand-dot {
+  box-shadow: 0 0 8px var(--green);
+}
+
+[data-theme="light"] .hero {
+  background: var(--bg);
+}
+
+[data-theme="light"] .goal-block {
+  background: #1c1712;
+}
+
 /* ─── BASE ───────────────────────────────────────────────── */
 body {
   font-family: var(--sans);
