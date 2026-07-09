@@ -75,6 +75,34 @@ html {
 
 [data-theme="light"] .goal-block {
   background: #1c1712;
+
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5 {
+  color: var(--ink, #1c1712);
+}
+
+[data-theme="light"] .section-title,
+[data-theme="light"] .loop-title,
+[data-theme="light"] .cc-title,
+[data-theme="light"] .course-card-title,
+[data-theme="light"] .project-card-title,
+[data-theme="light"] .build-title,
+[data-theme="light"] .resource-title,
+[data-theme="light"] .res-title,
+[data-theme="light"] .step-title,
+[data-theme="light"] .pc-title,
+[data-theme="light"] .modal-title,
+[data-theme="light"] .why-title,
+[data-theme="light"] .footer-brand {
+  color: #1c1712 !important;
+}
+
+[data-theme="light"] #main-nav .nav-brand {
+  color: var(--green);
+}
 }
 
 /* ─── BASE ───────────────────────────────────────────────── */
