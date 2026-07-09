@@ -76,7 +76,7 @@ html {
 }
 
 [data-theme="light"] .goal-block {
-  background: #1c1712;
+  background: #4c4c4c;
 }
 
 [data-theme="light"] h1,
@@ -84,7 +84,7 @@ html {
 [data-theme="light"] h3,
 [data-theme="light"] h4,
 [data-theme="light"] h5 {
-  color: var(--ink, #090807);
+  color: var(--ink, #1a1a1a);
 }
 
 [data-theme="light"] .section-title,
