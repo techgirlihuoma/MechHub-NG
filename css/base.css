@@ -84,7 +84,7 @@ html {
 [data-theme="light"] h3,
 [data-theme="light"] h4,
 [data-theme="light"] h5 {
-  color: var(--ink, #1c1712);
+  color: var(--ink, #090807);
 }
 
 [data-theme="light"] .section-title,
@@ -100,7 +100,7 @@ html {
 [data-theme="light"] .modal-title,
 [data-theme="light"] .why-title,
 [data-theme="light"] .footer-brand {
-  color: #1c1712 !important;
+  color: #0f0c09 !important;
 }
 
 [data-theme="light"] #main-nav .nav-brand {
