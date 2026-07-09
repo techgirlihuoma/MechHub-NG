@@ -76,6 +76,29 @@ function toggleTheme() {
 function updateThemeBtn(theme) {
   const btn = document.getElementById('theme-toggle')
   if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙'
+
+  // inject a style tag that forces heading colors in light mode
+  let styleTag = document.getElementById('theme-heading-fix')
+  if (!styleTag) {
+    styleTag = document.createElement('style')
+    styleTag.id = 'theme-heading-fix'
+    document.head.appendChild(styleTag)
+  }
+
+  if (theme === 'light') {
+    styleTag.textContent = `
+      * { color-scheme: light; }
+      h1, h2, h3, h4, h5,
+      [style*="color:#fff"],
+      [style*="color: #fff"],
+      [style*="color:white"],
+      [style*="color: white"] {
+        color: #1c1712 !important;
+      }
+    `
+  } else {
+    styleTag.textContent = ''
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
