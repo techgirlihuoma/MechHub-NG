@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -29,7 +29,8 @@
       <a href="why.html" class="nav-link">Why This?</a>
     </div>
     <a href="courses.html" class="nav-cta">Start →</a>
-    <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid var(--border2);width:34px;height:34px;border-radius:var(--radius);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;margin-right:6px;transition:border-color 0.2s;flex-shrink:0;">🌙</button><button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
+    <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid var(--border2);width:34px;height:34px;border-radius:var(--radius);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;margin-right:6px;transition:border-color 0.2s;flex-shrink:0;">🌙</button>
+    <button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
   </nav>
 
   <!-- MOBILE MENU -->
@@ -43,57 +44,175 @@
     <a href="why.html" class="mobile-link">Why This?</a>
   </div>
 
-  <!-- CONTENT -->
-  <div style="max-width:680px;margin:0 auto;padding:72px 2.5rem;position:relative;z-index:1;">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
     <div class="section-eyebrow">Legal</div>
-    <h1 style="font-family:var(--cond);font-size:44px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:6px;letter-spacing:-1px;">
-      Privacy Policy
-    </h1>
-    <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:48px;">
-      Last updated: January 2025
-    </p>
+    <h1 class="section-title">Privacy Policy</h1>
+    <p class="section-sub">Last updated: July 2026 · MechHub NG is operated as a free educational platform for Nigerian mechatronics students.</p>
+  </div>
 
-    <h2 style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-top:36px;margin-bottom:10px;">
-      What We Collect
-    </h2>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
-      We collect only what is necessary: your email address if you choose to sign up, and anonymous aggregated analytics data such as pages viewed and time on site. We do not collect names, phone numbers, or payment information.
-    </p>
+  <!-- CONTENT -->
+  <div style="max-width:960px;margin:0 auto;padding:56px 2.5rem;position:relative;z-index:1;">
 
-    <h2 style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-top:36px;margin-bottom:10px;">
-      How We Use It
-    </h2>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
-      Your email is used only to send updates you explicitly opt into. Analytics data is used solely to understand which content is helpful so we can improve it. Nothing is sold. Nothing is shared with advertisers.
-    </p>
+    <div style="
+      background:var(--bg2);border:1px solid var(--border);
+      border-radius:var(--radius);padding:20px 24px;
+      margin-bottom:40px;
+      border-left:3px solid var(--green);
+    ">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">
+        // Summary
+      </div>
+      <p style="font-size:14px;color:var(--text2);line-height:1.7;margin:0;">
+        MechHub NG does not sell your data, and does not require an account to access any content. This site is free, educational, and built for Nigerian engineering students.
+      </p>
+    </div>
 
-    <h2 style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-top:36px;margin-bottom:10px;">
-      Cookies
-    </h2>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
-      We use minimal cookies for session management and basic analytics. You can disable cookies in your browser settings at any time. This will not prevent you from accessing any content on the site.
-    </p>
+    <!-- SECTION -->
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        01 / Who We Are
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;">
+        MechHub NG is a free educational platform designed specifically for Nigerian undergraduate mechatronics engineering students. We provide courses, project guides, resources, and community features to help students learn mechanical design, electronics, and programming. We are not a registered company — this is an independent educational initiative operated by a Nigerian engineering student.
+      </p>
+    </div>
 
-    <h2 style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-top:36px;margin-bottom:10px;">
-      Third-Party Links
-    </h2>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
-      This site links to external resources including YouTube, GitHub, and product pages. We are not responsible for the privacy practices of those sites. We recommend reviewing their policies independently.
-    </p>
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        02 / What Data We Collect
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;margin-bottom:12px;">
+        We collect minimal data and only what is necessary:
+      </p>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          <span><strong style="color:var(--text);">Theme preference</strong> — stored locally in your browser via localStorage. Never sent to any server.</span>
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          <span><strong style="color:var(--text);">Disclaimer dismissal</strong> — stored locally in your browser. Never sent to any server.</span>
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          <span><strong style="color:var(--text);">Anonymous analytics</strong> — if enabled in future, will be aggregate only (page views, session duration). No personal identifiers.</span>
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          <span><strong style="color:var(--text);">Community build submissions</strong> — if you submit a build via email or Google Form, your name, school, and build description will be published on the site. You consent to this by submitting.</span>
+        </li>
+      </ul>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;margin-top:12px;">
+        We do <strong style="color:var(--text);">not</strong> collect: email addresses (unless you contact us directly), payment information, location data, device fingerprints, or any personally identifiable information without your explicit consent.
+      </p>
+    </div>
 
-    <h2 style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-top:36px;margin-bottom:10px;">
-      Your Rights
-    </h2>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
-      You can request deletion of your data at any time by emailing hello@mechhub.ng. We will process your request within 30 days.
-    </p>
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        03 / YouTube Videos and Third-Party Content
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;margin-bottom:12px;">
+        MechHub NG embeds videos from YouTube and links to external resources. We want to be transparent about this:
+      </p>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          All videos embedded on this site are created by independent YouTube creators. MechHub NG does not own or produce these videos.
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          All embedded videos are publicly available on YouTube and are embedded using YouTube's official embed API in accordance with YouTube's Terms of Service.
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          No videos are downloaded, reproduced, or redistributed. We link to the original source.
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          When you watch an embedded video, YouTube may collect data according to their own privacy policy. We encourage you to review <a href="https://policies.google.com/privacy" target="_blank" style="color:var(--green);text-decoration:underline;">Google's Privacy Policy</a>.
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          MechHub NG does not monetise any embedded video content and receives no revenue from video views.
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          If you are a content creator and believe your content has been embedded inappropriately, contact us at hello@mechhub.ng and we will remove it within 48 hours.
+        </li>
+      </ul>
+    </div>
 
-    <h2 style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-top:36px;margin-bottom:10px;">
-      Contact
-    </h2>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
-      Questions about this policy? Email us at hello@mechhub.ng
-    </p>
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        04 / External Links and Resources
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;">
+        MechHub NG links to external websites including YouTube, online stores (Nerdshed, Hub360), and educational platforms. We are not responsible for the privacy practices or content of these external sites. Links are provided for educational convenience only. We do not receive affiliate commissions or any compensation for linking to external resources.
+      </p>
+    </div>
+
+    
+
+    
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        08 / Children and Students
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;">
+        MechHub NG is designed for undergraduate university students aged 16 and above. We do not knowingly collect personal data from anyone under 16. If you believe a minor has submitted personal information to this site, contact us at hello@mechhub.ng and we will remove it promptly.
+      </p>
+    </div>
+
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        09 / Your Rights
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;margin-bottom:12px;">
+        Since we collect almost no personal data, there is very little to exercise rights over. However:
+      </p>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          You can clear your localStorage preferences at any time in your browser settings.
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          If you submitted a community build and want it removed, email hello@mechhub.ng and we will remove it within 48 hours.
+        </li>
+        <li style="font-size:14px;color:var(--text2);display:flex;gap:10px;line-height:1.6;">
+          <span style="color:var(--green);font-family:var(--mono);flex-shrink:0;">→</span>
+          If you contacted us by email and want your message deleted, let us know and we will delete it.
+        </li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        10 / Changes to This Policy
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;">
+        We may update this policy as the site grows and new features are added. The date at the top of this page will always reflect when it was last updated. Continued use of the site after an update constitutes acceptance of the revised policy.
+      </p>
+    </div>
+
+    <div style="margin-bottom:56px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+        11 / Contact
+      </div>
+      <p style="font-size:15.5px;color:var(--text2);line-height:1.85;">
+        Questions, concerns, or takedown requests:
+      </p>
+      <div style="
+        margin-top:12px;
+        background:var(--bg2);border:1px solid var(--border);
+        border-radius:var(--radius);padding:20px 24px;
+        font-family:var(--mono);font-size:13px;color:var(--text);
+      ">
+        hello@mechhub.ng
+      </div>
+    </div>
+
   </div>
 
   <!-- FOOTER -->

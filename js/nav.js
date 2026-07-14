@@ -101,9 +101,37 @@ function updateThemeBtn(theme) {
   }
 }
 
+// ── DISCLAIMER BANNER ─────────────────────────────────────
+function initDisclaimer() {
+  const dismissed = localStorage.getItem('mechhub-disclaimer')
+  if (dismissed) return
+
+  const bar = document.createElement('div')
+  bar.className = 'disclaimer-bar'
+  bar.id = 'disclaimer-bar'
+  bar.innerHTML = `
+    <span>
+      DISCLAIMER❗❗:Videos on this site are sourced from independent YouTube creators and are not produced by MechHub NG.
+      All content is freely available and no copyright is infringed.
+      See our <a href="privacy.html">Privacy Policy</a> for details.
+    </span>
+    <button class="disclaimer-close" onclick="dismissDisclaimer()">✕</button>
+  `
+
+  const nav = document.getElementById('main-nav')
+  if (nav) nav.insertAdjacentElement('afterend', bar)
+}
+
+function dismissDisclaimer() {
+  const bar = document.getElementById('disclaimer-bar')
+  if (bar) bar.remove()
+  localStorage.setItem('mechhub-disclaimer', 'true')
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initTheme()
   setActiveNav()
   initMobileMenu()
   renderFooter()
+  initDisclaimer()
 })

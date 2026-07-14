@@ -718,3 +718,39 @@ a {
   }
   .footer-nav { justify-content: center; }
 }
+
+/* ─── DISCLAIMER BANNER ──────────────────────────────────── */
+.disclaimer-bar {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 2.5rem;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.disclaimer-bar a {
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.disclaimer-close {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.disclaimer-close:hover { color: var(--text); }
