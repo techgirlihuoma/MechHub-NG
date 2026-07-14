@@ -124,7 +124,7 @@ function initDisclaimer() {
   bar.id = 'disclaimer-bar'
   bar.innerHTML = `
     <span>
-      DISCLAIMER❗❗:Videos on this site are sourced from independent YouTube creators and are not produced by MechHub NG.
+      DISCLAIMER❗❗Videos on this site are sourced from independent YouTube creators and are not produced by MechHub NG.
       All content is freely available and no copyright is infringed.
       See our <a href="privacy.html">Privacy Policy</a> for details.
     </span>
