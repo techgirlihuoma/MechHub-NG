@@ -10,6 +10,15 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    @media (max-width: 768px) {
+      .quiz-result-grid {
+        display: flex !important;
+        flex-direction: column-reverse !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -101,7 +110,7 @@
       </div>
 
       <div class="section">
-        <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;max-width:900px;">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;max-width:900px;" class="quiz-result-grid">
 
           <!-- LEFT -->
           <div>
