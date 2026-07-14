@@ -177,6 +177,8 @@ export default {
         }
       ]
     }
+    
+    
   ],
   preview: {
     prepare() {

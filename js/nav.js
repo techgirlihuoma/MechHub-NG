@@ -53,7 +53,20 @@ function renderFooter() {
       <a href="why.html">Why This?</a>
       <a href="privacy.html">Privacy</a>
     </nav>
-    <div class="footer-copy">// Built for Nigerian engineers. Build something real.</div>
+    <div class="footer-copy">// Build something real...</div>
+    <div style="
+      width:100%;
+      border-top:1px solid var(--border);
+      margin-top:20px;
+      padding-top:16px;
+      font-family:var(--mono);
+      font-size:10px;
+      color:var(--text3);
+      letter-spacing:0.06em;
+      text-align:center;
+    ">
+      © ${new Date().getFullYear()} MechHub NG · Built for Nigerian engineering students · All rights reserved
+    </div>
   `
 }
 
