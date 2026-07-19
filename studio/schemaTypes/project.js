@@ -116,31 +116,8 @@ export default {
       name: 'steps',
       title: 'Step by Step Guide',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          name: 'step',
-          title: 'Step',
-          fields: [
-            {
-              name: 'stepNumber',
-              title: 'Step Number',
-              type: 'number'
-            },
-            {
-              name: 'title',
-              title: 'Step Title',
-              type: 'string'
-            },
-            {
-              name: 'content',
-              title: 'Step Details',
-              type: 'array',
-              of: [{ type: 'block' }]
-            }
-          ]
-        }
-      ]
+      of: [{ type: 'string' }],
+      description: 'Add each step as a single line, in order.'
     },
     {
       name: 'relatedCourses',
