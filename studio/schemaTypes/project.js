@@ -31,12 +31,7 @@ export default {
       },
       validation: Rule => Rule.required()
     },
-    {
-      name: 'emoji',
-      title: 'Emoji Icon',
-      type: 'string',
-      description: 'Single emoji to represent the project e.g. 🚗'
-    },
+    
     {
       name: 'description',
       title: 'Short Description',

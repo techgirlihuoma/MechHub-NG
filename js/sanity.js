@@ -111,7 +111,7 @@ async function getCareer(slug) {
       title,
       slug,
       tier,
-      emoji,
+      thumbnail,
       estimatedCost,
       description
     }
@@ -187,7 +187,6 @@ async function getAllProjects() {
     title,
     slug,
     tier,
-    emoji,
     description,
     estimatedCost,
     skills,
@@ -202,7 +201,6 @@ async function getProject(slug) {
     title,
     slug,
     tier,
-    emoji,
     description,
     overview,
     videoUrl,
@@ -228,7 +226,6 @@ async function getFeaturedProject() {
     title,
     slug,
     tier,
-    emoji,
     description,
     estimatedCost,
     skills,

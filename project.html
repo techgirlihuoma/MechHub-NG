@@ -122,7 +122,7 @@
         <div class="page-header">
           <a href="projects.html" class="back-link">← Back to Projects</a>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
-            <span style="font-size:32px;">${project.emoji || '🔧'}</span>
+            ${project.thumbnail ? `<img src="${imageurl(project.thumbnail)}" alt="${project.title}" style="width:44px;height:44px;border-radius:8px;object-fit:cover;">` : ''}
             <span class="badge badge-${project.tier}">${project.tier}</span>
             ${project.estimatedCost ? `
               <span style="font-family:var(--mono);font-size:11px;color:var(--green-dim);">

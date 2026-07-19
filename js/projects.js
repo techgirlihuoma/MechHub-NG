@@ -37,8 +37,10 @@ function renderProjects(projects) {
 
     const card = `
       <a class="project-card" href="project.html?slug=${project.slug.current}">
-        <div class="project-thumb" style="background:${thumbBg[project.tier]};">
-          ${project.emoji || '🔧'}
+        <div class="project-thumb" style="background:${thumbBg[project.tier]};overflow:hidden;">
+          ${project.thumbnail
+            ? `<img src="${imageUrl(project.thumbnail)}" alt="${project.title}" style="width:100%;height:100%;object-fit:cover;">`
+            : ''}
         </div>
         <div class="project-body">
           <div class="project-card-title">${project.title}</div>

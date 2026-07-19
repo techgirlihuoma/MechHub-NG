@@ -227,7 +227,7 @@
                       onmouseover="this.style.borderColor='var(--green)'"
                       onmouseout="this.style.borderColor='var(--border)'">
                         <div style="display:flex;align-items:center;gap:14px;">
-                          <span style="font-size:24px;">${project.emoji || '🔧'}</span>
+                          ${project.thumbnail ? `<img src="${imageurl(project.thumbnail)}" alt="${project.title}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;flex-shrink:0;">` : ''}
                           <div>
                             <div style="font-family:var(--cond);font-size:16px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:4px;">
                               ${project.title}
