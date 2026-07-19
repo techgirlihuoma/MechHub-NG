@@ -43,6 +43,15 @@ async function getSiteSettings() {
     quizCtaSubtext,
     announcementBar,
     whyThisContent,
+    "teamMembers": teamMembers[] {
+      name,
+      initials,
+      role,
+      school,
+      bio,
+      photo,
+      links
+    },
     "lessonSidebar": lessonSidebar[] {
       type,
       isActive,

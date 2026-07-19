@@ -44,6 +44,70 @@ export default {
       type: 'array',
       of: [{ type: 'block' }]
     },
+
+    {
+      name: 'teamMembers',
+      title: 'Team Members',
+      description: 'Shown as a carousel on the Why This page. Add the founder as the first entry.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'teamMember',
+          title: 'Team Member',
+          fields: [
+            {
+              name: 'name',
+              title: 'Name',
+              type: 'string',
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'initials',
+              title: 'Initials',
+              type: 'string',
+              description: 'Shown as a fallback avatar if no photo is uploaded, e.g. "TI"'
+            },
+            {
+              name: 'role',
+              title: 'Role',
+              type: 'string',
+              description: 'e.g. Founder, Lead Engineer, Content Lead'
+            },
+            {
+              name: 'school',
+              title: 'School / University',
+              type: 'string'
+            },
+            {
+              name: 'bio',
+              title: 'Short Bio',
+              type: 'text',
+              rows: 4
+            },
+            {
+              name: 'photo',
+              title: 'Photo',
+              type: 'image',
+              options: { hotspot: true }
+            },
+            {
+              name: 'links',
+              title: 'Links',
+              type: 'object',
+              fields: [
+                { name: 'linkedin', title: 'LinkedIn URL', type: 'url' },
+                { name: 'twitter', title: 'Twitter / X URL', type: 'url' },
+                { name: 'github', title: 'GitHub URL', type: 'url' }
+              ]
+            }
+          ],
+          preview: {
+            select: { title: 'name', subtitle: 'role', media: 'photo' }
+          }
+        }
+      ]
+    },
     {
       name: 'lessonSidebar',
       title: 'Lesson Page — Right Sidebar',

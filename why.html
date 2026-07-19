@@ -105,46 +105,96 @@
     </div>
   </div>
 
-  <!-- ABOUT THE FOUNDER -->
+  <!-- TEAM CAROUSEL -->
   <div class="section" style="border-top:1px solid var(--border);">
-    <div class="section-eyebrow">The Person Behind This</div>
-    <h2 class="section-title" style="margin-bottom:28px;">About the Founder</h2>
-    <div style="
-      max-width:760px;
-      background:var(--bg2);border:1px solid var(--border2);
-      border-radius:var(--radius);padding:36px 40px;
-      display:flex;gap:28px;align-items:flex-start;
-      flex-wrap:wrap;
-    ">
-      <div style="
-        width:72px;height:72px;border-radius:50%;
-        background:var(--bg4);border:2px solid var(--green-dim);
-        display:flex;align-items:center;justify-content:center;
-        font-family:var(--mono);font-size:24px;font-weight:700;
-        color:var(--green);flex-shrink:0;
-      ">??</div>
-      <div style="flex:1;min-width:240px;">
-        <div style="font-family:var(--cond);font-size:22px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:4px;">
-          Founder Name
-        </div>
-        <div style="font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:0.08em;margin-bottom:16px;">
-          University · Mechatronics Engineering
-        </div>
-        <p style="font-size:14px;line-height:1.75;color:var(--text2);">
-          Write a short, honest paragraph here about why you built MechHub NG —
-          what frustrated you as a student, what you wished existed, and what
-          you want this site to become.
-        </p>
+    <div class="section-eyebrow">The People Behind This</div>
+    <h2 class="section-title" style="margin-bottom:28px;">The Team</h2>
+    <div id="team-carousel-wrap" style="position:relative;max-width:760px;">
+      <div id="team-carousel" style="
+        display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;
+      ">
+        <div class="loading-state">Loading team...</div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
+        <button onclick="scrollTeam(-1)" style="
+          width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);
+          background:var(--bg2);color:var(--text2);cursor:pointer;font-size:14px;
+        ">←</button>
+        <button onclick="scrollTeam(1)" style="
+          width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);
+          background:var(--bg2);color:var(--text2);cursor:pointer;font-size:14px;
+        ">→</button>
       </div>
     </div>
   </div>
-
   <!-- FOOTER -->
   <footer id="main-footer"></footer>
 
   <!-- SCRIPTS -->
   <script src="js/sanity.js"></script>
   <script src="js/nav.js"></script>
+
+  <script>
+    function scrollTeam(direction) {
+      const track = document.getElementById('team-carousel')
+      track.scrollBy({ left: direction * 280, behavior: 'smooth' })
+    }
+
+    function renderTeamCard(member) {
+      const photoUrl = imageUrl(member.photo)
+      const avatar = photoUrl
+        ? `<img src="${photoUrl}" alt="${member.name}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--green-dim);flex-shrink:0;">`
+        : `<div style="
+            width:72px;height:72px;border-radius:50%;
+            background:var(--bg4);border:2px solid var(--green-dim);
+            display:flex;align-items:center;justify-content:center;
+            font-family:var(--mono);font-size:20px;font-weight:700;
+            color:var(--green);flex-shrink:0;
+          ">${member.initials || '??'}</div>`
+
+      const links = member.links ? `
+        <div style="display:flex;gap:10px;margin-top:12px;">
+          ${member.links.linkedin ? `<a href="${member.links.linkedin}" target="_blank" style="color:var(--text3);font-size:12px;">LinkedIn</a>` : ''}
+          ${member.links.twitter ? `<a href="${member.links.twitter}" target="_blank" style="color:var(--text3);font-size:12px;">X</a>` : ''}
+          ${member.links.github ? `<a href="${member.links.github}" target="_blank" style="color:var(--text3);font-size:12px;">GitHub</a>` : ''}
+        </div>
+      ` : ''
+
+      return `
+        <div style="
+          flex:0 0 260px;scroll-snap-align:start;
+          background:var(--bg2);border:1px solid var(--border2);
+          border-radius:var(--radius);padding:24px;
+        ">
+          ${avatar}
+          <div style="font-family:var(--cond);font-size:18px;font-weight:900;text-transform:uppercase;color:#fff;margin-top:14px;">
+            ${member.name}
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:0.08em;margin-top:2px;">
+            ${member.role || ''}
+          </div>
+          ${member.school ? `<div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:2px;">${member.school}</div>` : ''}
+          ${member.bio ? `<p style="font-size:13px;line-height:1.6;color:var(--text2);margin-top:12px;">${member.bio}</p>` : ''}
+          ${links}
+        </div>
+      `
+    }
+
+    async function loadTeam() {
+      const settings = await getSiteSettings()
+      const track = document.getElementById('team-carousel')
+
+      if (!settings || !settings.teamMembers || settings.teamMembers.length === 0) {
+        track.innerHTML = '<div class="error-state">Team info coming soon.</div>'
+        return
+      }
+
+      track.innerHTML = settings.teamMembers.map(renderTeamCard).join('')
+    }
+
+    loadTeam()
+  </script>
 
 </body>
 </html>
