@@ -7,6 +7,11 @@ function renderProjects(projects) {
     pro: document.getElementById('grid-pro')
   }
 
+   // sort projects alphabetically by title
+  if (projects && projects.length > 0) {
+    projects = [...projects].sort((a, b) => a.title.localeCompare(b.title))
+  }
+
   const thumbBg = {
     beginner: '#0a1f12',
     intermediate: '#1f160a',

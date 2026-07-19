@@ -62,7 +62,7 @@ export default {
     },
     {
       name: 'skills',
-      title: 'Skills Used',
+      title: 'Tags',
       type: 'array',
       of: [{ type: 'string' }],
       options: {
