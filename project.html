@@ -181,23 +181,15 @@
               ` : ''}
 
               <!-- STEPS -->
-              ${project.steps && project.steps.length > 0 ? `
+             ${project.steps && project.steps.length > 0 ? `
                 <div style="margin-bottom:40px;">
                   <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:16px;">
                     // Step by Step
                   </div>
                   <div class="step-list">
                     ${project.steps.map(step => `
-                      <div class="step-item">
-                        <div class="step-num">${String(step.stepNumber).padStart(2,'0')} /</div>
-                        <div>
-                          <div class="step-title">${step.title}</div>
-                          ${step.content ? `
-                            <div class="step-content" style="margin-top:8px;">
-                              ${renderBlock(step.content)}
-                            </div>
-                          ` : ''}
-                        </div>
+                      <div class="step-item" style="padding:10px 0;font-size:15px;color:var(--text2);line-height:1.7;">
+                        ${step}
                       </div>
                     `).join('')}
                   </div>
