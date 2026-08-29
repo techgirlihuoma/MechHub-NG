@@ -147,8 +147,17 @@
               </span>
             ` : ''}
           </div>
+
+
+          ${course.thumbnail ? `
+            <img src="${imageUrl(course.thumbnail)}" alt="${course.title}" style="
+              width:100%;max-width:640px;height:220px;object-fit:cover;
+              border-radius:var(--radius);margin-bottom:24px;border:1px solid var(--border);
+            ">
+          ` : ''}
           <h1 class="section-title">${course.title}</h1>
           <p class="section-sub">${course.description}</p>
+
           ${course.comingSoon ? `
             <div style="
               display:inline-block;

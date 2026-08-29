@@ -35,8 +35,14 @@ function renderCourses(courses) {
     const grid = grids[course.pillar]
     if (!grid) return
 
+
     const card = `
       <a class="course-card" href="course.html?slug=${course.slug.current}">
+        ${course.thumbnail ? `
+          <div style="height:120px;margin:-24px -24px 16px;overflow:hidden;border-bottom:1px solid var(--border);">
+            <img src="${imageUrl(course.thumbnail)}" alt="${course.title}" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        ` : ''}
         <div class="course-card-num">${course.pillar.toUpperCase()} · ${course.level.toUpperCase()}</div>
         <div class="course-card-title">${course.title}</div>
         <div class="course-card-desc">${course.description}</div>
@@ -46,6 +52,7 @@ function renderCourses(courses) {
           ${course.comingSoon ? `<span class="badge" style="background:rgba(255,214,10,0.1);color:var(--yellow);border:1px solid rgba(255,214,10,0.2);">Coming Soon</span>` : ''}
         </div>
       </a>
+    `
     `
     grid.innerHTML += card
   })
@@ -63,3 +70,4 @@ async function loadCoursesPage() {
   const courses = await getAllCourses()
   renderCourses(courses)
 }
+
