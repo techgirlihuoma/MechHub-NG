@@ -53,7 +53,6 @@ function renderCourses(courses) {
         </div>
       </a>
     `
-    `
     grid.innerHTML += card
   })
 
