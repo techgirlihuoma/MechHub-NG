@@ -1,79 +1,67 @@
- // ─── RENDER PROJECTS ──────────────────────────────────────
-function renderProjects(projects) {
-  const grids = {
-    beginner: document.getElementById('grid-beginner'),
-    intermediate: document.getElementById('grid-intermediate'),
-    advanced: document.getElementById('grid-advanced'),
-    pro: document.getElementById('grid-pro')
-  }
+// projects.js — projects listing page, tier tabs (alphabetical within each tier)
+// Uses: sanity.js (getAllProjects), common.js helpers
 
-  const thumbBg = {
-    beginner: '#0a1f12',
-    intermediate: '#1f160a',
-    advanced: '#0a121f',
-    pro: '#1a0a1f'
-  }
+const TIER_IDS = ['beginner', 'intermediate', 'advanced', 'pro']
 
-  // clear grids
-  Object.values(grids).forEach(grid => {
-    if (grid) grid.innerHTML = ''
+function switchTier(tier, focus) {
+  if (!TIER_IDS.includes(tier)) tier = 'beginner'
+  TIER_IDS.forEach(id => {
+    const tab = document.getElementById('tab-' + id)
+    const on = id === tier
+    tab.setAttribute('aria-selected', String(on))
+    tab.tabIndex = on ? 0 : -1
+    document.getElementById('panel-' + id).hidden = !on
   })
+  try { history.replaceState(null, '', '#' + tier) } catch (e) {}
+  if (focus) document.getElementById('tab-' + tier).focus()
+}
 
-  if (!projects || projects.length === 0) {
-    Object.values(grids).forEach(grid => {
-      if (grid) grid.innerHTML = '<div class="error-state">No projects found.</div>'
+function projectCard(p) {
+  const thumb = img(p.thumbnail, 640)
+  const tags = (p.skills || []).slice(0, 3)
+  return `
+    <a class="pcard" href="project.html?slug=${encodeURIComponent(p.slug.current)}">
+      <div class="pc-media">
+        ${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : `<div class="pc-ph">${icon('wrench')}</div>`}
+      </div>
+      <div class="pc-body">
+        <h3 class="pc-title">${esc(p.title)}</h3>
+        ${p.description ? `<p class="pc-desc">${esc(p.description)}</p>` : ''}
+        ${tags.length ? `<div class="badge-row">${tags.map(t => `<span class="badge badge-plain">${esc(tagLabel(t))}</span>`).join('')}</div>` : ''}
+        <div class="pc-foot">
+          ${p.estimatedCost ? `<span class="pc-cost">${esc(p.estimatedCost)}</span>` : '<span></span>'}
+          <span class="link-more">View ${icon('arrow-right')}</span>
+        </div>
+      </div>
+    </a>`
+}
+
+async function loadProjectsPage() {
+  TIER_IDS.forEach((id, i) => {
+    const tab = document.getElementById('tab-' + id)
+    tab.addEventListener('click', () => switchTier(id))
+    tab.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+      switchTier(TIER_IDS[(i + (e.key === 'ArrowRight' ? 1 : TIER_IDS.length - 1)) % TIER_IDS.length], true)
+    })
+  })
+  switchTier(location.hash.replace('#', ''))
+
+  const projects = await getAllProjects()
+  if (!projects) {
+    TIER_IDS.forEach(id => {
+      document.getElementById('grid-' + id).innerHTML =
+        `<div class="state" style="grid-column:1/-1">Couldn't load projects. Check your connection and refresh.</div>`
     })
     return
   }
-
-  // sort projects alphabetically by title
-  if (projects && projects.length > 0) {
-    projects = [...projects].sort((a, b) => a.title.localeCompare(b.title))
-  }
-
-  projects.forEach(project => {
-    const grid = grids[project.tier]
-    if (!grid) return
-
-    const card = `
-      <a class="project-card" href="project.html?slug=${project.slug.current}">
-        <div class="project-thumb" style="background:${thumbBg[project.tier]};overflow:hidden;">
-          ${project.thumbnail
-            ? `<img src="${imageUrl(project.thumbnail)}" alt="${project.title}" style="width:100%;height:100%;object-fit:cover;">`
-            : ''}
-        </div>
-        <div class="project-body">
-          <div class="project-card-title">${project.title}</div>
-          <div class="project-card-desc">${project.description}</div>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="project-cost">// Est. Cost: ${project.estimatedCost || 'TBC'}</span>
-            <span class="badge badge-${project.tier}">${project.tier}</span>
-          </div>
-        </div>
-      </a>
-    `
-    grid.innerHTML += card
-  })
-
-  // check for empty tiers
-  Object.entries(grids).forEach(([tier, grid]) => {
-    if (grid && grid.innerHTML === '') {
-      grid.innerHTML = `<div class="error-state">No ${tier} projects yet — check back soon.</div>`
-    }
+  const valid = projects.filter(p => p && p.slug && p.slug.current)
+  TIER_IDS.forEach(id => {
+    const list = valid.filter(p => p.tier === id).sort((a, b) => String(a.title).localeCompare(String(b.title)))
+    document.getElementById('grid-' + id).innerHTML = list.length
+      ? list.map(projectCard).join('')
+      : `<div class="state" style="grid-column:1/-1">No ${id} projects yet. Check back soon.</div>`
   })
 }
 
-// ─── SWITCH TIER TAB ──────────────────────────────────────
-function switchTier(tier, btn) {
-  document.querySelectorAll('.tier-tab').forEach(b => b.classList.remove('active'))
-  btn.classList.add('active')
-
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
-  document.getElementById('panel-' + tier).classList.add('active')
-}
-
-// ─── LOAD PROJECTS PAGE ───────────────────────────────────
-async function loadProjectsPage() {
-  const projects = await getAllProjects()
-  renderProjects(projects)
-}
+loadProjectsPage()

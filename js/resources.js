@@ -1,79 +1,69 @@
- // ─── RENDER RESOURCES ─────────────────────────────────────
-function renderResources(resources) {
-  const grids = {
-    book: document.getElementById('grid-books'),
-    software: document.getElementById('grid-software'),
-    website: document.getElementById('grid-websites'),
-    video: document.getElementById('grid-videos')
-  }
+// resources.js — resources page, tabs by type (books / software / websites / videos)
+// Uses: sanity.js (getAllResources), common.js helpers
 
-  // clear grids
-  Object.values(grids).forEach(grid => {
-    if (grid) grid.innerHTML = ''
+const RES_TYPES = ['books', 'software', 'websites', 'videos']
+
+function switchResourceTab(type, focus) {
+  if (!RES_TYPES.includes(type)) type = 'books'
+  RES_TYPES.forEach(id => {
+    const tab = document.getElementById('tab-' + id)
+    tab.setAttribute('aria-selected', String(id === type))
+    tab.tabIndex = id === type ? 0 : -1
+    document.getElementById('panel-' + id).hidden = id !== type
   })
+  try { history.replaceState(null, '', '#' + type) } catch (e) {}
+  if (focus) document.getElementById('tab-' + type).focus()
+}
 
-  if (!resources || resources.length === 0) {
-    Object.values(grids).forEach(grid => {
-      if (grid) grid.innerHTML = '<div class="error-state">No resources found.</div>'
+// Your Sanity `type` values may be singular/plural or worded differently
+// (book, Books, video, youtube, website, tool...). Normalise them to our 4 tabs.
+function resourceKind(r) {
+  const t = String(r.type || '').toLowerCase().trim()
+  if (/book|ebook|pdf|read/.test(t)) return 'books'
+  if (/video|youtube|channel|watch/.test(t)) return 'videos'
+  if (/soft|tool|app|program/.test(t)) return 'software'
+  return 'websites'   // website, web, site, link, anything else
+}
+
+function resourceCard(r) {
+  const href = /^https?:\/\//i.test(r.link || '') ? r.link : ''
+  const tag = href ? 'a' : 'div'
+  return `
+    <${tag} class="res-card"${href ? ` href="${esc(href)}" target="_blank" rel="noopener"` : ''}>
+      <div class="res-top"><h3 class="res-title">${esc(r.title)}</h3>${href ? `<span class="res-ext">${icon('external')}</span>` : ''}</div>
+      <div class="badge-row">
+        ${r.recommended ? '<span class="badge badge-pick">Recommended</span>' : ''}
+        ${r.free ? '<span class="badge badge-free">Free</span>' : ''}
+        ${r.pillar && PILLARS[r.pillar] ? `<span class="badge badge-${esc(r.pillar)}">${esc(r.pillar)}</span>` : ''}
+        ${r.badge ? `<span class="badge badge-plain">${esc(r.badge)}</span>` : ''}
+      </div>
+      ${r.description ? `<p class="res-desc">${esc(r.description)}</p>` : ''}
+    </${tag}>`
+}
+
+async function loadResourcesPage() {
+  RES_TYPES.forEach((id, i) => {
+    const tab = document.getElementById('tab-' + id)
+    tab.addEventListener('click', () => switchResourceTab(id))
+    tab.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+      switchResourceTab(RES_TYPES[(i + (e.key === 'ArrowRight' ? 1 : RES_TYPES.length - 1)) % RES_TYPES.length], true)
     })
+  })
+  switchResourceTab(location.hash.replace('#', ''))
+
+  const all = await getAllResources()
+  if (!all) {
+    document.getElementById('grid-books').innerHTML = `<div class="state" style="grid-column:1/-1">Couldn't load resources. Check your connection and refresh.</div>`
     return
   }
-
-  resources.forEach(resource => {
-    const grid = grids[resource.type]
-    if (!grid) return
-
-    const card = `
-      <div class="resource-card">
-        <div class="resource-badge">${resource.badge || resource.type}</div>
-        <div class="resource-title">${resource.title}</div>
-        <div class="resource-desc">${resource.description}</div>
-        ${resource.link ? `
-          <a href="${resource.link}" target="_blank" style="
-            display:inline-flex;align-items:center;gap:6px;
-            font-family:var(--mono);font-size:10px;
-            letter-spacing:0.08em;text-transform:uppercase;
-            color:var(--green);margin-top:12px;
-            transition:opacity 0.2s;
-          ">
-            Visit Resource →
-          </a>
-        ` : ''}
-        ${resource.recommended ? `
-          <div style="
-            display:inline-block;margin-top:8px;margin-left:8px;
-            font-family:var(--mono);font-size:9px;
-            letter-spacing:0.1em;text-transform:uppercase;
-            padding:3px 8px;border-radius:20px;
-            background:rgba(255,214,10,0.1);
-            color:var(--yellow);
-            border:1px solid rgba(255,214,10,0.2);
-          ">★ Recommended</div>
-        ` : ''}
-      </div>
-    `
-    grid.innerHTML += card
-  })
-
-  // check for empty tabs
-  Object.entries(grids).forEach(([type, grid]) => {
-    if (grid && grid.innerHTML === '') {
-      grid.innerHTML = `<div class="error-state">No ${type} resources yet — check back soon.</div>`
-    }
+  RES_TYPES.forEach(type => {
+    const list = all.filter(r => r && resourceKind(r) === type)
+      .sort((a, b) => Number(!!b.recommended) - Number(!!a.recommended) || String(a.title).localeCompare(String(b.title)))
+    document.getElementById('grid-' + type).innerHTML = list.length
+      ? list.map(resourceCard).join('')
+      : `<div class="state" style="grid-column:1/-1">Nothing here yet. Check back soon.</div>`
   })
 }
 
-// ─── SWITCH RESOURCE TAB ──────────────────────────────────
-function switchResourceTab(type, btn) {
-  document.querySelectorAll('.res-tab').forEach(b => b.classList.remove('active'))
-  btn.classList.add('active')
-
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
-  document.getElementById('panel-' + type).classList.add('active')
-}
-
-// ─── LOAD RESOURCES PAGE ──────────────────────────────────
-async function loadResourcesPage() {
-  const resources = await getAllResources()
-  renderResources(resources)
-}
+loadResourcesPage()

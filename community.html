@@ -1,157 +1,69 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script>(function(){var t=localStorage.getItem('mechhub-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){var t='light';try{t=localStorage.getItem('mechhub-theme')||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Community — MechHub NG</title>
+  <meta name="description" content="Builds from Nigerian mechatronics students. Share yours, get feedback and inspire others.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/nav.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/redesign.css">
 </head>
-<body>
+<body data-page="community">
 
-  <!-- NAV -->
-  <nav id="main-nav">
-    <div class="nav-brand">
-      <span class="nav-brand-dot"></span>
-      MechHub<span class="nav-brand-accent">.NG</span>
-    </div>
-    <div class="nav-links">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="courses.html" class="nav-link">Courses</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="community.html" class="nav-link active">Community</a>
-      <a href="resources.html" class="nav-link">Resources</a>
-      <a href="faq.html" class="nav-link">FAQ</a>
-      <a href="why.html" class="nav-link">Why This?</a>
-    </div>
-    <a href="courses.html" class="nav-cta">Start →</a>
-    <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid var(--border2);width:34px;height:34px;border-radius:var(--radius);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;margin-right:6px;transition:border-color 0.2s;flex-shrink:0;">🌙</button><button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
-  </nav>
+  <div id="site-nav"></div>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="index.html" class="mobile-link">Home</a>
-    <a href="courses.html" class="mobile-link">Courses</a>
-    <a href="projects.html" class="mobile-link">Projects</a>
-    <a href="community.html" class="mobile-link">Community</a>
-    <a href="resources.html" class="mobile-link">Resources</a>
-    <a href="faq.html" class="mobile-link">FAQ</a>
-    <a href="why.html" class="mobile-link">Why This?</a>
-  </div>
-
-  <!-- PAGE HEADER -->
-  <div class="page-header" style="text-align:center;">
-    <div class="section-eyebrow" style="justify-content:center;">Community</div>
-    <h1 class="section-title">Share What You're Building</h1>
-    <p class="section-sub" style="margin:0 auto 28px;">
-      No matter how simple or it is, we want to see it. Get feedback, inspire others, and be part of the growing Nigerian mechatronics community.
-    </p>
-    <a href="mailto:hello@mechhub.ng?subject=My Build Submission" class="btn-primary" style="margin:0 auto;">
-      Submit Your Build
-    </a>
-  </div>
-
-  <!-- BUILDS GRID -->
-  <div class="section">
-    <div class="section-eyebrow">Recent Builds</div>
-    <h2 class="section-title" style="margin-bottom:32px;">From the Community</h2>
-    <div class="builds-grid" id="builds-grid">
-      <div class="loading-state">Loading builds...</div>
-    </div>
-  </div>
-
-  <!-- EMPTY STATE — shown when no approved builds yet -->
-  <div id="empty-builds" style="display:none;">
-    <div class="section" style="text-align:center;padding-top:0;">
-      <div style="
-        background:var(--bg2);border:1px solid var(--border);
-        border-radius:var(--radius);padding:64px 40px;
-        max-width:480px;margin:0 auto;
-      ">
-        <div style="font-size:48px;margin-bottom:16px;">🔧</div>
-        <h3 style="font-family:var(--cond);font-size:22px;text-transform:uppercase;color:#fff;margin-bottom:10px;">
-          Be the First
-        </h3>
-        <p style="font-size:14px;color:var(--text3);line-height:1.7;margin-bottom:24px;">
-          No builds posted yet. Submit yours and be the first Nigerian mechatronics student featured on MechHub NG.
-        </p>
-        <a href="mailto:hello@mechhub.ng?subject=My Build Submission" class="btn-primary">
-          Submit Your Build →
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- HOW TO SUBMIT -->
-  <div class="section" style="padding-top:0;">
-    <div style="max-width:600px;
-     ">
-      <div class="section-eyebrow" style="margin-bottom:16px;">How to Submit</div>
-      <div class="step-list">
-        <div class="step-item">
-          <div class="step-num">01 /</div>
-          <div>
-            <div class="step-title">Build Something</div>
-            <div class="step-content">Any project — beginner to pro. It does not have to be perfect.</div>
-          </div>
-        </div>
-        <div class="step-item">
-          <div class="step-num">02 /</div>
-          <div>
-            <div class="step-title">Document It</div>
-            <div class="step-content">Take photos or a short video. Write a few sentences about what you built, what you learned, and what broke.</div>
-          </div>
-        </div>
-        <div class="step-item">
-          <div class="step-num">03 /</div>
-          <div>
-            <div class="step-title">Email Us</div>
-            <div class="step-content">Send everything to hello@mechhub.ng with the subject line "My Build Submission". We review and publish within 48 hours.</div>
-          </div>
+  <main>
+    <section class="page-head center">
+      <div class="wrap">
+        <span class="eyebrow">Community</span>
+        <h1>Share what you're building</h1>
+        <p>No matter how simple it is, we want to see it. Get feedback, inspire others, and be part of the growing Nigerian mechatronics community.</p>
+        <div class="head-cta" style="justify-content:center">
+          <a class="btn btn-accent" href="mailto:hello@mechhub.ng?subject=My Build Submission">Submit your build</a>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- FOOTER -->
-  <footer id="main-footer"></footer>
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <h2>From the community</h2>
+            <p>Recent builds by students across Nigeria.</p>
+          </div>
+        </div>
+        <div class="grid-cards" id="builds-grid">
+          <div class="state" style="grid-column:1/-1">Loading builds…</div>
+        </div>
+        <div class="empty" id="empty-builds" hidden>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3 17.7 6.3 21l6.3-6.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>
+          <h3>Be the first</h3>
+          <p>No builds posted yet. Submit yours and be the first Nigerian mechatronics student featured on MechHub NG.</p>
+          <a class="btn btn-primary" href="mailto:hello@mechhub.ng?subject=My Build Submission">Submit your build</a>
+        </div>
+      </div>
+    </section>
 
-  <!-- SCRIPTS -->
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>How to submit</h2><p>Three steps. It does not have to be perfect.</p></div></div>
+        <div class="how">
+          <div class="how-step"><div class="n">1</div><h3>Build something</h3><p>Any project, beginner to pro. It does not have to be perfect.</p></div>
+          <div class="how-step"><div class="n">2</div><h3>Document it</h3><p>Take photos or a short video. Write a few sentences about what you built, what you learned, and what broke.</p></div>
+          <div class="how-step"><div class="n">3</div><h3>Email us</h3><p>Send everything to hello@mechhub.ng with the subject line "My Build Submission". We review and publish within 48 hours.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
   <script src="js/sanity.js"></script>
-  <script src="js/nav.js"></script>
-  <script>
-    async function loadCommunityPage() {
-      const builds = await getAllBuilds()
-      const grid = document.getElementById('builds-grid')
-      const empty = document.getElementById('empty-builds')
-
-      if (!builds || builds.length === 0) {
-        grid.style.display = 'none'
-        empty.style.display = 'block'
-        return
-      }
-
-      grid.innerHTML = builds.map(build => `
-        <a class="build-card" href="build.html?slug=${build.slug.current}">
-          <div class="build-avatar">${build.authorInitials || '??'}</div>
-          <div class="build-title">${build.title}</div>
-          <div class="build-desc">${build.description}</div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span class="badge badge-${build.tier}">${build.tier}</span>
-            <span style="font-family:var(--mono);font-size:9px;color:var(--text3);">
-              ${build.authorName} · ${build.authorSchool || ''}
-            </span>
-          </div>
-        </a>
-      `).join('')
-    }
-
-    loadCommunityPage()
-  </script>
-
+  <script src="js/shell.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/community.js"></script>
 </body>
 </html>

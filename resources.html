@@ -1,104 +1,47 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script>(function(){var t=localStorage.getItem('mechhub-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){var t='light';try{t=localStorage.getItem('mechhub-theme')||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resources — MechHub NG</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/nav.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/redesign.css">
 </head>
-<body>
+<body data-page="resources">
 
-  <!-- NAV -->
-  <nav id="main-nav">
-    <div class="nav-brand">
-      <span class="nav-brand-dot"></span>
-      MechHub<span class="nav-brand-accent">.NG</span>
-    </div>
-    <div class="nav-links">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="courses.html" class="nav-link">Courses</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="community.html" class="nav-link">Community</a>
-      <a href="resources.html" class="nav-link active">Resources</a>
-      <a href="faq.html" class="nav-link">FAQ</a>
-      <a href="why.html" class="nav-link">Why This?</a>
-    </div>
-    <a href="courses.html" class="nav-cta">Start →</a>
-    <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid var(--border2);width:34px;height:34px;border-radius:var(--radius);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;margin-right:6px;transition:border-color 0.2s;flex-shrink:0;">🌙</button><button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
-  </nav>
+  <div id="site-nav"></div>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="index.html" class="mobile-link">Home</a>
-    <a href="courses.html" class="mobile-link">Courses</a>
-    <a href="projects.html" class="mobile-link">Projects</a>
-    <a href="community.html" class="mobile-link">Community</a>
-    <a href="resources.html" class="mobile-link">Resources</a>
-    <a href="faq.html" class="mobile-link">FAQ</a>
-    <a href="why.html" class="mobile-link">Why This?</a>
-  </div>
-
-  <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="section-eyebrow">The Aisle</div>
-    <h1 class="section-title">Best Resources Handpicked<br>For YOU (MOST ARE FREE!)</h1>
-    <p class="section-sub">Everything from awesome Youtube channels to great books, free websites, mind-blowing software you may not have known existed until now.</p>
-  </div>
-
-  <!-- RESOURCE TABS -->
-  <div style="background: var(--bg2); border-bottom: 1px solid var(--border); position:relative; z-index:1;">
-   <div style="
-     display:flex;gap:0;padding:0 2.5rem;
-     overflow-x:auto;white-space:nowrap;
-     -webkit-overflow-scrolling:touch;
-     scrollbar-width:none;
-   ">
-     <button class="tab-btn res-tab active" onclick="switchResourceTab('books', this)">📚 Books</button>
-     <button class="tab-btn res-tab" onclick="switchResourceTab('software', this)">🛠 Software</button>
-     <button class="tab-btn res-tab" onclick="switchResourceTab('websites', this)">🌐 Websites</button>
-     <button class="tab-btn res-tab" onclick="switchResourceTab('videos', this)">▶ Videos</button>
-   </div>
-  </div>
- 
-  <!-- RESOURCE PANELS -->
-  <div class="section">
-    <div id="panel-books" class="tab-panel active">
-      <div class="resource-grid" id="grid-books">
-        <div class="loading-state">Loading books...</div>
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow">The aisle</span>
+        <h1>Best resources handpicked for you (most are free!)</h1>
+        <p>Everything from awesome YouTube channels to great books, free websites, and mind-blowing software you may not have known existed until now.</p>
+        <div class="seg" role="tablist" aria-label="Resource types" style="margin-top:24px">
+          <button class="seg-btn" role="tab" id="tab-books" aria-selected="true" aria-controls="panel-books" data-type="books">Books</button>
+          <button class="seg-btn" role="tab" id="tab-software" aria-selected="false" aria-controls="panel-software" data-type="software">Software</button>
+          <button class="seg-btn" role="tab" id="tab-websites" aria-selected="false" aria-controls="panel-websites" data-type="websites">Websites</button>
+          <button class="seg-btn" role="tab" id="tab-videos" aria-selected="false" aria-controls="panel-videos" data-type="videos">Videos</button>
+        </div>
       </div>
-    </div>
-    <div id="panel-software" class="tab-panel">
-      <div class="resource-grid" id="grid-software">
-        <div class="loading-state">Loading software...</div>
-      </div>
-    </div>
-    <div id="panel-websites" class="tab-panel">
-      <div class="resource-grid" id="grid-websites">
-        <div class="loading-state">Loading websites...</div>
-      </div>
-    </div>
-    <div id="panel-videos" class="tab-panel">
-      <div class="resource-grid" id="grid-videos">
-        <div class="loading-state">Loading videos...</div>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- FOOTER -->
-  <footer id="main-footer"></footer>
+    <div class="wrap main-pad">
+      <div class="tab-panel" id="panel-books" role="tabpanel"><div class="grid-cards" id="grid-books"><div class="state" style="grid-column:1/-1">Loading…</div></div></div>
+      <div class="tab-panel" id="panel-software" role="tabpanel" hidden><div class="grid-cards" id="grid-software"></div></div>
+      <div class="tab-panel" id="panel-websites" role="tabpanel" hidden><div class="grid-cards" id="grid-websites"></div></div>
+      <div class="tab-panel" id="panel-videos" role="tabpanel" hidden><div class="grid-cards" id="grid-videos"></div></div>
+    </div>
+  </main>
 
-  <!-- SCRIPTS -->
+  <div id="site-footer"></div>
+
   <script src="js/sanity.js"></script>
-  <script src="js/nav.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/common.js"></script>
   <script src="js/resources.js"></script>
-  <script>
-    loadResourcesPage()
-  </script>
-
 </body>
 </html>

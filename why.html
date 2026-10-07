@@ -1,200 +1,54 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script>(function(){var t=localStorage.getItem('mechhub-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){var t='light';try{t=localStorage.getItem('mechhub-theme')||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Why This? — MechHub NG</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/nav.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/redesign.css">
 </head>
-<body>
+<body data-page="why">
 
-  <!-- NAV -->
-  <nav id="main-nav">
-    <div class="nav-brand">
-      <span class="nav-brand-dot"></span>
-      MechHub<span class="nav-brand-accent">.NG</span>
-    </div>
-    <div class="nav-links">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="courses.html" class="nav-link">Courses</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="community.html" class="nav-link">Community</a>
-      <a href="resources.html" class="nav-link">Resources</a>
-      <a href="faq.html" class="nav-link">FAQ</a>
-      <a href="why.html" class="nav-link active">Why This?</a>
-    </div>
-    <a href="courses.html" class="nav-cta">Start →</a>
-    <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid var(--border2);width:34px;height:34px;border-radius:var(--radius);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;margin-right:6px;transition:border-color 0.2s;flex-shrink:0;">🌙</button><button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
-  </nav>
+  <div id="site-nav"></div>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="index.html" class="mobile-link">Home</a>
-    <a href="courses.html" class="mobile-link">Courses</a>
-    <a href="projects.html" class="mobile-link">Projects</a>
-    <a href="community.html" class="mobile-link">Community</a>
-    <a href="resources.html" class="mobile-link">Resources</a>
-    <a href="faq.html" class="mobile-link">FAQ</a>
-    <a href="why.html" class="mobile-link">Why This?</a>
-  </div>
-
-  <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="section-eyebrow">The Honest Answer</div>
-    <h1 class="section-title">Why I Built This</h1>
-    <p class="section-sub">Because I was once in your shoes - confused and overwhelmed. Aching to build something but not knowing where to start, or what to learn first. I want to hold your hands and help you climb easier, and avoid the limitations that held me back</p>
-  </div>
-
-  <!-- WHY CARDS — VERTICAL STACK -->
-  <div class="section">
-    <div style="display:flex;flex-direction:column;gap:14px;max-width:760px;">
-
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;display:flex;gap:24px;align-items:flex-start;">
-        <div style="font-size:36px;flex-shrink:0;">🗺️</div>
-        <div>
-          <div style="font-family:var(--cond);font-size:19px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">No Clear Map</div>
-          <p style="font-size:14px;line-height:1.7;color:var(--text2);">Mechatronics spans three disciplines. Most resources teach one in isolation. Nobody explains how they connect. This site does.</p>
-        </div>
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow">The honest answer</span>
+        <h1>Why I built this</h1>
+        <p>Because I was once in your shoes: confused and overwhelmed. Aching to build something but not knowing where to start, or what to learn first. I want to hold your hands and help you climb easier, and avoid the limitations that held me back.</p>
       </div>
+    </section>
 
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;display:flex;gap:24px;align-items:flex-start;">
-        <div style="font-size:36px;flex-shrink:0;">💰</div>
-        <div>
-          <div style="font-family:var(--cond);font-size:19px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">The Cost Barrier</div>
-          <p style="font-size:14px;line-height:1.7;color:var(--text2);">Good online courses cost $200+. Everything here links to free or naira-priced alternatives with local hardware suggestions.</p>
-        </div>
+    <section class="wrap main-pad">
+      <div class="why-grid">
+        <div class="why-card"><svg class="ico" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></svg><h3>No clear map</h3><p>Mechatronics spans three disciplines. Most resources teach one in isolation. Nobody explains how they connect. This site does.</p></div>
+        <div class="why-card"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8c-1-3-5-4-5-1.5S11 8 12 8zM12 8c1-3 5-4 5-1.5S13 8 12 8z"/></svg><h3>The cost barrier</h3><p>Good online courses cost $200+. Everything here links to free or naira-priced alternatives with local hardware suggestions.</p></div>
+        <div class="why-card"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><h3>Context problem</h3><p>Most tutorials assume next-day Amazon delivery. We recommend what is actually available in Nigerian markets.</p></div>
+        <div class="why-card"><svg class="ico" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><h3>Theory kills curiosity</h3><p>Four years of lectures before touching hardware destroys motivation. This site leads with projects, theory follows when you need it.</p></div>
+        <div class="why-card"><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.4c2 .8 3.5 2.6 3.5 5.6"/></svg><h3>No local community</h3><p>Building alone is hard. Seeing what other Nigerian students build with the same constraints is powerful fuel to keep going.</p></div>
+        <div class="why-card"><svg class="ico" viewBox="0 0 24 24"><path d="M5 15c-1.5 1.5-2 4-2 6 2 0 4.5-.5 6-2M14 4c3-1.5 6-1.5 6-1.5s0 3-1.5 6l-7 7-4.5-4.5z"/><circle cx="15" cy="9" r="1.5"/></svg><h3>The opportunity</h3><p>Dangote, NNPC, and every manufacturer in Nigeria needs mechatronics talent. The gap between demand and supply is your advantage.</p></div>
       </div>
+    </section>
 
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;display:flex;gap:24px;align-items:flex-start;">
-        <div style="font-size:36px;flex-shrink:0;">🌍</div>
-        <div>
-          <div style="font-family:var(--cond);font-size:19px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">Context Problem</div>
-          <p style="font-size:14px;line-height:1.7;color:var(--text2);">Most tutorials assume next-day Amazon delivery. We recommend what is actually available in Nigerian markets.</p>
-        </div>
+    <section class="wrap section">
+      <div class="sec-head"><div><h2>The team</h2><p>The people behind MechHub NG.</p></div></div>
+      <div class="team-track" id="team-carousel"><div class="state" style="width:100%">Loading team…</div></div>
+      <div class="team-nav">
+        <button class="car-btn" type="button" onclick="scrollTeam(-1)" aria-label="Previous"><svg class="ico" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="car-btn" type="button" onclick="scrollTeam(1)" aria-label="Next"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
+    </section>
+  </main>
 
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;display:flex;gap:24px;align-items:flex-start;">
-        <div style="font-size:36px;flex-shrink:0;">💀</div>
-        <div>
-          <div style="font-family:var(--cond);font-size:19px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">Theory Kills Curiosity</div>
-          <p style="font-size:14px;line-height:1.7;color:var(--text2);">Four years of lectures before touching hardware destroys motivation. This site leads with projects, theory follows when you need it.</p>
-        </div>
-      </div>
+  <div id="site-footer"></div>
 
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;display:flex;gap:24px;align-items:flex-start;">
-        <div style="font-size:36px;flex-shrink:0;">📡</div>
-        <div>
-          <div style="font-family:var(--cond);font-size:19px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">No Local Community</div>
-          <p style="font-size:14px;line-height:1.7;color:var(--text2);">Building alone is hard. Seeing what other Nigerian students build with the same constraints is powerful fuel to keep going.</p>
-        </div>
-      </div>
-
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;display:flex;gap:24px;align-items:flex-start;">
-        <div style="font-size:36px;flex-shrink:0;">🔮</div>
-        <div>
-          <div style="font-family:var(--cond);font-size:19px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px;">The Opportunity</div>
-          <p style="font-size:14px;line-height:1.7;color:var(--text2);">Dangote, NNPC, and every manufacturer in Nigeria needs mechatronics talent. The gap between demand and supply is your advantage.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- TEAM CAROUSEL -->
-  <div class="section" style="border-top:1px solid var(--border);">
-    <div class="section-eyebrow">The People Behind This</div>
-    <h2 class="section-title" style="margin-bottom:28px;">The Team</h2>
-    <div id="team-carousel-wrap" style="position:relative;max-width:760px;">
-      <div id="team-carousel" style="
-        display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
-        -webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;
-      ">
-        <div class="loading-state">Loading team...</div>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
-        <button onclick="scrollTeam(-1)" style="
-          width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);
-          background:var(--bg2);color:var(--text2);cursor:pointer;font-size:14px;
-        ">←</button>
-        <button onclick="scrollTeam(1)" style="
-          width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);
-          background:var(--bg2);color:var(--text2);cursor:pointer;font-size:14px;
-        ">→</button>
-      </div>
-    </div>
-  </div>
-  <!-- FOOTER -->
-  <footer id="main-footer"></footer>
-
-  <!-- SCRIPTS -->
   <script src="js/sanity.js"></script>
-  <script src="js/nav.js"></script>
-
-  <script>
-    function scrollTeam(direction) {
-      const track = document.getElementById('team-carousel')
-      track.scrollBy({ left: direction * 280, behavior: 'smooth' })
-    }
-
-    function renderTeamCard(member) {
-      const photoUrl = imageUrl(member.photo)
-      const avatar = photoUrl
-        ? `<img src="${photoUrl}" alt="${member.name}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--green-dim);flex-shrink:0;">`
-        : `<div style="
-            width:72px;height:72px;border-radius:50%;
-            background:var(--bg4);border:2px solid var(--green-dim);
-            display:flex;align-items:center;justify-content:center;
-            font-family:var(--mono);font-size:20px;font-weight:700;
-            color:var(--green);flex-shrink:0;
-          ">${member.initials || '??'}</div>`
-
-      const links = member.links ? `
-        <div style="display:flex;gap:10px;margin-top:12px;">
-          ${member.links.linkedin ? `<a href="${member.links.linkedin}" target="_blank" style="color:var(--text3);font-size:12px;">LinkedIn</a>` : ''}
-          ${member.links.twitter ? `<a href="${member.links.twitter}" target="_blank" style="color:var(--text3);font-size:12px;">X</a>` : ''}
-          ${member.links.github ? `<a href="${member.links.github}" target="_blank" style="color:var(--text3);font-size:12px;">GitHub</a>` : ''}
-        </div>
-      ` : ''
-
-      return `
-        <div style="
-          flex:0 0 260px;scroll-snap-align:start;
-          background:var(--bg2);border:1px solid var(--border2);
-          border-radius:var(--radius);padding:24px;
-        ">
-          ${avatar}
-          <div style="font-family:var(--cond);font-size:18px;font-weight:900;text-transform:uppercase;color:#fff;margin-top:14px;">
-            ${member.name}
-          </div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:0.08em;margin-top:2px;">
-            ${member.role || ''}
-          </div>
-          ${member.school ? `<div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:2px;">${member.school}</div>` : ''}
-          ${member.bio ? `<p style="font-size:13px;line-height:1.6;color:var(--text2);margin-top:12px;">${member.bio}</p>` : ''}
-          ${links}
-        </div>
-      `
-    }
-
-    async function loadTeam() {
-      const settings = await getSiteSettings()
-      const track = document.getElementById('team-carousel')
-
-      if (!settings || !settings.teamMembers || settings.teamMembers.length === 0) {
-        track.innerHTML = '<div class="error-state">Team info coming soon.</div>'
-        return
-      }
-
-      track.innerHTML = settings.teamMembers.map(renderTeamCard).join('')
-    }
-
-    loadTeam()
-  </script>
-
+  <script src="js/shell.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/why.js"></script>
 </body>
 </html>
