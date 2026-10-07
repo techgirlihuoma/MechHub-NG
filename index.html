@@ -1,399 +1,132 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script>(function(){var t=localStorage.getItem('mechhub-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <!-- flash prevention: light is the default theme on redesigned pages -->
+  <script>(function(){var t='light';try{t=localStorage.getItem('mechhub-theme')||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MechHub NG — Mechatronics for Nigerian Engineers</title>
+  <meta name="description" content="Free mechatronics courses, projects and career guides for Nigerian engineering students.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/nav.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/redesign.css">
 </head>
-<body>
+<body data-page="home">
 
-  <!-- NAV -->
-  <nav id="main-nav">
-    <div class="nav-brand">
-      <span class="nav-brand-dot"></span>
-      MechHub<span class="nav-brand-accent">.NG</span>
-    </div>
-    <div class="nav-links">
-      <a href="index.html" class="nav-link active">Home</a>
-      <a href="courses.html" class="nav-link">Courses</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="community.html" class="nav-link">Community</a>
-      <a href="resources.html" class="nav-link">Resources</a>
-      <a href="faq.html" class="nav-link">FAQ</a>
-      <a href="why.html" class="nav-link">Why This?</a>
-      
-    </div>
-    
-    <a href="courses.html" class="nav-cta">Start →</a>
-    <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid var(--border2);width:34px;height:34px;border-radius:var(--radius);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;margin-right:6px;transition:border-color 0.2s;flex-shrink:0;">🌙</button><button class="nav-mobile-toggle" id="mobile-toggle">☰</button>
-    
-  
-  </nav>
+  <div class="announce" id="announce" hidden></div>
+  <div id="site-nav"></div>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="index.html" class="mobile-link">Home</a>
-    <a href="courses.html" class="mobile-link">Courses</a>
-    <a href="projects.html" class="mobile-link">Projects</a>
-    <a href="community.html" class="mobile-link">Community</a>
-    <a href="resources.html" class="mobile-link">Resources</a>
-    <a href="faq.html" class="mobile-link">FAQ</a>
-    <a href="why.html" class="mobile-link">Why This?</a>
-    <a href="quiz.html" class="mobile-link">Take Quiz</a>
-  </div>
-
-  <!-- ANNOUNCEMENT BAR -->
-  <div class="announcement-bar" id="announcement-bar" style="display:none;">
-    <span id="announcement-text"></span>
-  </div>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-left">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        For Nigerian Mechatronics Students
-      </div>
-      <h1 id="hero-headline">
-        Build<br>
-        <em class="accent">Machines</em><br>
-        <span class="dim">That Work.</span>
-      </h1>
-      <p class="hero-sub" id="hero-subtext">
-        School gives you the theory and the heavy math, we simplify and practicalise things so that you can start building cool things asap!
-      </p>
-      <div class="hero-btns">
-        <a href="courses.html" class="btn-primary">
-          Start Learning →
-        </a>
-        <a href="projects.html" class="btn-ghost">Browse Projects</a>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="n">3</span>
-          <span class="l">Pillars</span>
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <span class="pill pill-accent">For Nigerian mechatronics undergrads</span>
+            <h1 id="hero-headline">Build<br>Machines<br><span class="hl">That Work.</span></h1>
+            <p class="hero-sub" id="hero-subtext">Mechanical design, electronics, and code, stitched together so you can go from confused fresher to engineer who builds real things.</p>
+            <div class="hero-btns">
+              <a class="btn btn-primary" href="courses.html">Start learning</a>
+              <a class="btn btn-outline" href="projects.html">Browse projects</a>
+            </div>
+          </div>
+          <div class="orbit" aria-hidden="true">
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring inner"></div>
+            <div id="orbit-nodes"></div>
+            <div class="orbit-core"><span>MechHub</span><b>NG</b></div>
+          </div>
         </div>
-        <div class="hero-stat">
-          <span class="n">40+</span>
-          <span class="l">Resources</span>
+
+        <div class="stats" id="stats">
+          <div class="stat"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><div><div class="stat-n">3</div><div class="stat-l">Pillars</div></div></div>
+          <div class="stat"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2zM12 6v14"/></svg><div><div class="stat-n">40+</div><div class="stat-l">Resources</div></div></div>
+          <div class="stat"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><div><div class="stat-n">100+</div><div class="stat-l">Projects</div></div></div>
+          <div class="stat"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8c-1-3-5-4-5-1.5S11 8 12 8zM12 8c1-3 5-4 5-1.5S13 8 12 8z"/></svg><div><div class="stat-n">₦0</div><div class="stat-l">To start</div></div></div>
         </div>
-        <div class="hero-stat">
-          <span class="n">100+</span>
-          <span class="l">Projects</span>
-        </div>
-        <div class="hero-stat">
-          <span class="n">₦0</span>
-          <span class="l">To Start</span>
+
+        <!-- MISSION -->
+        <div class="mission">
+          <svg class="mission-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
+          <span class="mission-q" aria-hidden="true">“</span>
+          <p id="goal-statement">Give every Nigerian mechatronics student a clear path, from confused first-year to engineer who can design, wire, and code things that actually work in the real world.</p>
         </div>
       </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-illustration">
-        <div class="hero-orbit">
-          <div class="orbit-node n1">💾</div>
-          <div class="orbit-node n2">⚡</div>
-          <div class="orbit-node n3">🔩</div>
-          <div class="orbit-node n4">📐</div>
+    </section>
+
+    <!-- COURSES -->
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <h2>Courses</h2>
+            <p>Across mechanical design, electronics and programming.</p>
+          </div>
+          <a class="link-more" href="courses.html">View all courses <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
-        <div class="hero-circle">
-          <div class="hero-gear">⚙️</div>
+        <div class="carousel">
+          <button class="car-btn prev" onclick="scrollCourses(-1)" aria-label="Previous courses"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+          <div class="track" id="course-track">
+            <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+          </div>
+          <button class="car-btn next" onclick="scrollCourses(1)" aria-label="Next courses"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- GOAL STATEMENT -->
-  <div class="goal-block">
-    <div class="goal-label">// Our Aim</div>
-    <p id="goal-statement">
-      "To give every Nigerian mechatronics student a clear roadmap to learning the practical stuff they may not get in class."
-    </p>
-  </div>
+    <!-- CAREERS -->
+    <section class="section" id="careers">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <h2>Where does this take you?</h2>
+            <p>Open any role to see its learning path, day-to-day work, salary range and where you'd work in Nigeria.</p>
+          </div>
+        </div>
+        <div class="career-grid" id="career-grid">
+          <div class="state">Loading careers…</div>
+        </div>
+      </div>
+    </section>
 
-  <!-- CAREER CHOICES -->
-  <section class="section">
-    <div class="section-eyebrow">Career Choices</div>
-    <h2 class="section-title">After Graduation, What Next?</h2>
-    <p class="section-sub">Click any role to see the learning path, day-to-day tasks, where you'd work in Nigeria, and a YouTube deep-dive.</p>
-    <div class="career-grid" id="career-grid">
-      <div class="loading-state">Loading careers...</div>
-    </div>
-  </section>
+    <!-- FEATURED PROJECT + BUILD OF THE WEEK -->
+    <section class="section" id="featured-section">
+      <div class="wrap">
+        <div class="feature-grid" id="featured-grid"></div>
+      </div>
+    </section>
 
-  <!-- BUILD OF THE WEEK -->
-  <div class="section" id="build-of-week-section" style="display:none;">
-    <div class="section-eyebrow">Community</div>
-    <h2 class="section-title">Build of the Week</h2>
-    <div id="build-of-week-card"></div>
-  </div>
+    <!-- GROWTH LOOP -->
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <h2>The growth loop</h2>
+            <p>How you'll learn: theory, hands-on work, problems, then round again.</p>
+          </div>
+        </div>
+        <div class="loop" id="loop"></div>
+      </div>
+    </section>
 
-  <!-- FEATURED PROJECT -->
-  <div class="section" id="featured-project-section" style="display:none;">
-    <div class="section-eyebrow">Project Highlight</div>
-    <h2 class="section-title">Featured Project</h2>
-    <div id="featured-project-card"></div>
-  </div>
-
-  <!-- GROWTH LOOP -->
-  <section class="section">
-    <div class="section-eyebrow">How Learning Works</div>
-    <h2 class="section-title">The Growth Loop</h2>
-    <div class="loop-container">
-      <div class="loop-step">
-        <div class="loop-num">01 /</div>
-        <div class="loop-title">Learn Theory</div>
-        <div class="loop-desc">Understand the why — Don't be deceived, the theory is very important</div>
-      </div>
-      <div class="loop-step">
-        <div class="loop-num">02 /</div>
-        <div class="loop-title">Try Hands-On</div>
-        <div class="loop-desc">Practice what the textbook says to prove it to yourself</div>
-      </div>
-      <div class="loop-step">
-        <div class="loop-num">03 /</div>
-        <div class="loop-title">Get Excited</div>
-        <div class="loop-desc">Get that amazing feeling of seeing what you wire up or build actually work</div>
-      </div>
-      <div class="loop-step">
-        <div class="loop-num">04 /</div>
-        <div class="loop-title">Discover Why</div>
-        <div class="loop-desc">Now the textbook makes more sense. Go back and understand what just happened</div>
-      </div>
-      <div class="loop-step">
-        <div class="loop-num">05 /</div>
-        <div class="loop-title">Build It Big</div>
-        <div class="loop-desc">Take on a real project — something cool you can use or that solves a problem</div>
-      </div>
-      <div class="loop-step">
-        <div class="loop-num">06 /</div>
-        <div class="loop-title">Hit Problems</div>
-        <div class="loop-desc">When they come, don't get discouraged - it's part of the learning process</div>
-      </div>
-      <div class="loop-step loop-repeat">
-        <div class="loop-num">↻ /</div>
-        <div class="loop-title">Repeat</div>
-        <div class="loop-desc">Learnt something new? Cool! now try something else, Same loop, harder problems, sharper instincts - that's the way to evel up.</div>
+    <!-- QUIZ CTA -->
+    <div class="wrap">
+      <div class="quiz">
+        <svg class="ico quiz-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/></svg>
+        <div class="quiz-text">
+          <h3 id="quiz-cta-title">Discover what you like</h3>
+          <p id="quiz-cta-sub">A 5-minute quiz maps your interests to the right track in mechatronics.</p>
+        </div>
+        <a class="btn btn-accent" href="quiz.html">Take the quiz</a>
       </div>
     </div>
-  </section>
+  </main>
 
-  <!-- QUIZ CTA -->
-  <section class="section">
-    <div class="quiz-banner">
-      <div>
-        <h3 id="quiz-cta-title">Don't know what you want to do?</h3>
-        <p id="quiz-cta-sub">5-minute quiz — we map your brain to the right track in mechatronics</p>
-      </div>
-      <a href="quiz.html" class="btn-primary">Take the Quiz →</a>
-    </div>
-  </section>
+  <div id="site-footer"></div>
 
-  <!-- FOOTER -->
-  <footer id="main-footer"></footer>
-
-  <!-- CAREER MODAL -->
-  <div class="modal-wrap" id="career-modal" onclick="closeCareerModal(event)">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-eye" id="modal-eye"></div>
-        <div class="modal-title" id="modal-title"></div>
-        <div class="modal-sector" id="modal-sector"></div>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-section">
-          <div class="modal-section-label">What You Do</div>
-          <ul class="modal-list" id="m-what"></ul>
-        </div>
-        <div class="modal-section">
-          <div class="modal-section-label">Day to Day</div>
-          <ul class="modal-list" id="m-day"></ul>
-        </div>
-        <div class="modal-section">
-          <div class="modal-section-label">Where You'd Work in Nigeria</div>
-          <ul class="modal-list" id="m-where"></ul>
-        </div>
-        <div class="modal-section">
-          <div class="modal-section-label">Salary Range</div>
-          <div id="m-salary"></div>
-        </div>
-        <div class="modal-section">
-          <div class="modal-section-label">Learning Path</div>
-          <ul class="modal-list" id="m-path"></ul>
-        </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
-          <a class="btn-primary" id="m-yt" href="#" target="_blank">
-            ▶ Watch: Day in the Life
-          </a>
-          <a class="btn-ghost" id="m-full-link" href="#">
-            Full Career Page →
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCRIPTS -->
   <script src="js/sanity.js"></script>
-  <script src="js/nav.js"></script>
-  <script src="js/careers.js"></script>
-  <script>
-    // Load dynamic content from Sanity
-    async function loadHomePage() {
-      // Load site settings
-      const settings = await getSiteSettings()
-      if (settings) {
-        if (settings.heroHeadline) {
-          document.getElementById('hero-headline').innerHTML =
-            settings.heroHeadline.replace(/\n/g, '<br>')
-        }
-        if (settings.heroSubtext) {
-          document.getElementById('hero-subtext').textContent = settings.heroSubtext
-        }
-        if (settings.goalStatement) {
-          document.getElementById('goal-statement').textContent =
-            `"${settings.goalStatement}"`
-        }
-        if (settings.quizCtaTitle) {
-          document.getElementById('quiz-cta-title').textContent = settings.quizCtaTitle
-        }
-        if (settings.quizCtaSubtext) {
-          document.getElementById('quiz-cta-sub').textContent = settings.quizCtaSubtext
-        }
-        if (settings.announcementBar) {
-          document.getElementById('announcement-text').textContent =
-            settings.announcementBar
-          document.getElementById('announcement-bar').style.display = 'block'
-        }
-      }
-
-      // Load careers
-      const careers = await getAllCareers()
-      if (careers) {
-        renderCareers(careers)
-      }
-    
-      // Load featured project
-      const featuredProject = await getFeaturedProject()
-      if (featuredProject) {
-        document.getElementById('featured-project-section').style.display = 'block'
-        document.getElementById('featured-project-card').innerHTML = `
-          <a href="project.html?slug=${featuredProject.slug.current}" style="
-            display:flex;align-items:center;gap:28px;
-            background:var(--bg2);border:1px solid var(--border);
-            border-radius:var(--radius);padding:28px;
-            text-decoration:none;transition:border-color 0.2s;
-            flex-wrap:wrap;
-          "
-          onmouseover="this.style.borderColor='var(--green)'"
-          onmouseout="this.style.borderColor='var(--border)'">
-            ${featuredProject.thumbnail ? `
-              <img src="${imageUrl(featuredProject.thumbnail)}" alt="${featuredProject.title}" style="width:100px;height:100px;border-radius:var(--radius);object-fit:cover;flex-shrink:0;">
-            ` : ''}
-            <div style="flex:1;min-width:200px;">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
-                <span class="badge badge-${featuredProject.tier}">${featuredProject.tier}</span>
-                ${featuredProject.estimatedCost ? `
-                  <span style="font-family:var(--mono);font-size:10px;color:var(--green-dim);">
-                    ${featuredProject.estimatedCost}
-                  </span>
-                ` : ''}
-              </div>
-              <div style="font-family:var(--cond);font-size:26px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:8px;">
-                ${featuredProject.title}
-              </div>
-              <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:14px;">
-                ${featuredProject.description}
-              </div>
-              ${featuredProject.skills && featuredProject.skills.length > 0 ? `
-                <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                  ${featuredProject.skills.map(skill => `
-                    <span style="
-                      font-family:var(--mono);font-size:9px;
-                      letter-spacing:0.1em;text-transform:uppercase;
-                      padding:3px 10px;border-radius:20px;
-                      background:rgba(0,180,216,0.1);
-                      color:var(--blue);
-                      border:1px solid rgba(0,180,216,0.2);
-                    ">${skill}</span>
-                  `).join('')}
-                </div>
-              ` : ''}
-            </div>
-            <div style="
-              font-family:var(--mono);font-size:11px;
-              color:var(--green);letter-spacing:0.08em;
-              text-transform:uppercase;flex-shrink:0;
-            ">View Project →</div>
-          </a>
-        `
-      }
-
-      // Load build of the week
-      const featuredBuild = await getFeaturedBuild()
-      if (featuredBuild) {
-        document.getElementById('build-of-week-section').style.display = 'block'
-        document.getElementById('build-of-week-card').innerHTML = `
-          <a href="build.html?slug=${featuredBuild.slug.current}" style="
-            display:flex;align-items:flex-start;gap:24px;
-            background:var(--bg2);border:1px solid var(--border);
-            border-radius:var(--radius);padding:28px;
-            text-decoration:none;transition:border-color 0.2s;
-            flex-wrap:wrap;
-          "
-          onmouseover="this.style.borderColor='var(--blue)'"
-          onmouseout="this.style.borderColor='var(--border)'">
-
-            ${featuredBuild.photos && featuredBuild.photos.length > 0 ? `
-              <img src="${imageUrl(featuredBuild.photos[0])}" alt="${featuredBuild.title}" style="
-                width:80px;height:80px;border-radius:var(--radius);
-                object-fit:cover;flex-shrink:0;border:1px solid var(--border2);
-              ">
-            ` : `
-              <div style="
-                width:80px;height:80px;border-radius:var(--radius);
-                background:var(--bg4);border:1px solid var(--border2);
-                display:flex;align-items:center;justify-content:center;
-                font-family:var(--mono);font-size:22px;font-weight:700;
-                color:var(--green);flex-shrink:0;
-              ">${featuredBuild.authorInitials || '??'}</div>
-          `}
-
-            <div style="flex:1;min-width:200px;">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
-                <span class="badge badge-${featuredBuild.tier}">${featuredBuild.tier}</span>
-                <span style="font-size:12px;color:var(--text3);">
-                  ${featuredBuild.authorName}
-                  ${featuredBuild.authorSchool ? `· ${featuredBuild.authorSchool}` : ''}
-                  ${featuredBuild.authorLevel ? `· ${featuredBuild.authorLevel}` : ''}
-                </span>
-              </div>
-              <div style="font-family:var(--cond);font-size:24px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:8px;">
-                ${featuredBuild.title}
-              </div>
-              <div style="font-size:14px;color:var(--text2);line-height:1.6;">
-                ${featuredBuild.description}
-              </div>
-            </div>
-            <div style="
-              font-family:var(--mono);font-size:11px;
-              color:var(--blue);letter-spacing:0.08em;
-              text-transform:uppercase;flex-shrink:0;
-            ">See Build →</div>
-          </a>
-        `
-      }
-
-    }
-    
-    loadHomePage()
-  </script>
-
+  <script src="js/shell.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>
