@@ -141,11 +141,7 @@ function renderCareers(careers) {
 
 // ─── FEATURED PROJECT + BUILD OF THE WEEK ────────────────────
 function featuredProjectCard(p) {
-  let thumb = img(p.thumbnail, 480)
-  if (!thumb) {
-    const m = String(p.videoUrl || '').match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
-    if (m) thumb = `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`
-  }
+  const thumb = img(p.thumbnail, 480)
   const media = thumb
     ? `<img src="${thumb}" alt="${esc(p.title)}" loading="lazy">`
     : `<div class="feature-ph">${icon('layers')}</div>`

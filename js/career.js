@@ -46,7 +46,7 @@ async function loadCareerPage() {
     </li>`).join('')}</ol>` : ''
 
   const projHtml = projects.length ? `<div class="row-list">${projects.map(p => {
-    const th = projectThumb(p, 160)
+    const th = img(p.thumbnail, 160)
     return `<a class="row-link" href="project.html?slug=${encodeURIComponent(p.slug.current)}">
       <div class="lead">
         <span class="row-thumb">${th ? `<img src="${esc(th)}" alt="" loading="lazy">` : icon('wrench')}</span>

@@ -515,6 +515,10 @@ p { color: var(--ink-2); }
 .stack { display: grid; gap: 36px; min-width: 0; }
 .side { position: sticky; top: 88px; display: grid; gap: 16px; min-width: 0; }
 .detail > *, .head-split > * { min-width: 0; }
+.side { grid-template-columns: minmax(0, 1fr); }
+.side > * { min-width: 0; max-width: 100%; }
+.panel { min-width: 0; overflow-wrap: anywhere; }
+.panel .btn { white-space: normal; text-align: center; }
 .stack section { min-width: 0; max-width: 100%; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; }
 .panel h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em; }

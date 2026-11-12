@@ -11,7 +11,7 @@ async function loadProjectPage() {
 
   document.title = `${p.title} — MechHub NG`
 
-  const thumb = projectThumb(p, 800)
+  const thumb = img(p.thumbnail, 800)
   const tags = p.skills || []
   const comps = p.components || []
   const steps = (p.steps || []).filter(s => typeof s === 'string' ? s.trim() : s)

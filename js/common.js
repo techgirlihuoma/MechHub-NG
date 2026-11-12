@@ -41,14 +41,6 @@ function getYouTubeId(url) {
   return m ? m[1] : null
 }
 
-// Project thumbnail: uploaded image first, else the YouTube video's thumbnail
-function projectThumb(p, w) {
-  const t = img(p.thumbnail, w)
-  if (t) return t
-  const id = getYouTubeId(p.videoUrl)
-  return id ? `https://img.youtube.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : ''
-}
-
 function videoEmbed(url, title) {
   const id = getYouTubeId(url)
   if (!id) return ''
