@@ -17,7 +17,7 @@ function switchTier(tier, focus) {
 }
 
 function projectCard(p) {
-  const thumb = img(p.thumbnail, 640)
+  const thumb = projectThumb(p, 640)
   const tags = (p.skills || []).slice(0, 3)
   return `
     <a class="pcard" href="project.html?slug=${encodeURIComponent(p.slug.current)}">

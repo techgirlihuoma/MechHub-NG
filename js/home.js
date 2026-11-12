@@ -66,8 +66,11 @@ function courseCard(c) {
     ? `<img src="${thumb}" alt="" loading="lazy">`
     : `<div class="cc-ph ${esc(c.pillar)}">${icon(PILLAR_ICON[c.pillar] || 'gear')}</div>`
 
+  const open = c.comingSoon
+    ? '<div class="course-card soon" aria-disabled="true" tabindex="-1">'
+    : `<a class="course-card" href="course.html?slug=${encodeURIComponent(c.slug.current)}">`
   return `
-    <a class="course-card" href="course.html?slug=${encodeURIComponent(c.slug.current)}">
+    ${open}
       <div class="cc-media">
         ${media}
         <span class="badge badge-${esc(c.level)} cc-level">${esc(c.level)}</span>
@@ -82,7 +85,7 @@ function courseCard(c) {
             : (c.duration ? `<span class="cc-dur">${icon('clock')} ${esc(c.duration)}</span>` : '')}
         </div>
       </div>
-    </a>`
+    ${c.comingSoon ? '</div>' : '</a>'}`
 }
 
 function renderCourses(courses) {
@@ -138,7 +141,11 @@ function renderCareers(careers) {
 
 // ─── FEATURED PROJECT + BUILD OF THE WEEK ────────────────────
 function featuredProjectCard(p) {
-  const thumb = img(p.thumbnail, 480)
+  let thumb = img(p.thumbnail, 480)
+  if (!thumb) {
+    const m = String(p.videoUrl || '').match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
+    if (m) thumb = `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`
+  }
   const media = thumb
     ? `<img src="${thumb}" alt="${esc(p.title)}" loading="lazy">`
     : `<div class="feature-ph">${icon('layers')}</div>`

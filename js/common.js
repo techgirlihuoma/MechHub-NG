@@ -41,6 +41,14 @@ function getYouTubeId(url) {
   return m ? m[1] : null
 }
 
+// Project thumbnail: uploaded image first, else the YouTube video's thumbnail
+function projectThumb(p, w) {
+  const t = img(p.thumbnail, w)
+  if (t) return t
+  const id = getYouTubeId(p.videoUrl)
+  return id ? `https://img.youtube.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : ''
+}
+
 function videoEmbed(url, title) {
   const id = getYouTubeId(url)
   if (!id) return ''
@@ -225,8 +233,11 @@ function courseCard(c) {
   const media = thumb
     ? `<img src="${esc(thumb)}" alt="" loading="lazy">`
     : `<div class="cc-ph ${esc(pillar)}">${icon(PILLARS[pillar].icon)}</div>`
+  const open = c.comingSoon
+    ? '<div class="course-card soon" aria-disabled="true" tabindex="-1">'
+    : `<a class="course-card" href="course.html?slug=${encodeURIComponent(c.slug.current)}">`
   return `
-    <a class="course-card" href="course.html?slug=${encodeURIComponent(c.slug.current)}">
+    ${open}
       <div class="cc-media">
         ${media}
         ${c.level ? `<span class="badge badge-${esc(c.level)} cc-level">${esc(c.level)}</span>` : ''}
@@ -241,7 +252,7 @@ function courseCard(c) {
             : (c.duration ? `<span class="cc-dur">${icon('clock')} ${esc(c.duration)}</span>` : '')}
         </div>
       </div>
-    </a>`
+    ${c.comingSoon ? '</div>' : '</a>'}`
 }
 
 function sortCourses(list) {

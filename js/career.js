@@ -36,17 +36,17 @@ async function loadCareerPage() {
   const pathHtml = path.length ? `<ol class="path">${path.map((co, i) => `
     <li>
       <span class="path-n">${i + 1}</span>
-      <a class="row-link${co.comingSoon ? ' soon' : ''}" href="course.html?slug=${encodeURIComponent(co.slug.current)}">
+      <${co.comingSoon ? 'div' : 'a'} class="row-link${co.comingSoon ? ' soon' : ''}"${co.comingSoon ? ' aria-disabled="true"' : ` href="course.html?slug=${encodeURIComponent(co.slug.current)}"`}>
         <div><b>${esc(co.title)}</b><span class="badge-row">
           ${co.level ? `<span class="badge badge-${esc(co.level)}">${esc(co.level)}</span>` : ''}
           ${co.pillar ? `<span class="badge badge-${esc(co.pillar)}">${esc(co.pillar)}</span>` : ''}
           ${co.comingSoon ? '<span class="badge badge-soon">Coming soon</span>' : ''}</span></div>
-        <span class="go">${icon('arrow-right')}</span>
-      </a>
+        ${co.comingSoon ? '' : `<span class="go">${icon('arrow-right')}</span>`}
+      </${co.comingSoon ? 'div' : 'a'}>
     </li>`).join('')}</ol>` : ''
 
   const projHtml = projects.length ? `<div class="row-list">${projects.map(p => {
-    const th = img(p.thumbnail, 160)
+    const th = projectThumb(p, 160)
     return `<a class="row-link" href="project.html?slug=${encodeURIComponent(p.slug.current)}">
       <div class="lead">
         <span class="row-thumb">${th ? `<img src="${esc(th)}" alt="" loading="lazy">` : icon('wrench')}</span>

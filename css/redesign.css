@@ -323,6 +323,12 @@ p { color: var(--ink-2); }
   overflow: hidden; transition: border-color .15s;
 }
 .course-card:hover { border-color: var(--brand-text); }
+/* coming soon: inactive, faded, not clickable */
+.course-card.soon { cursor: not-allowed; pointer-events: none; user-select: none; }
+.course-card.soon:hover { border-color: var(--line); }
+.course-card.soon .cc-media { opacity: .45; filter: grayscale(1); }
+.course-card.soon .cc-body, .course-card.soon .cc-level { opacity: .6; }
+.course-card.soon .cc-title { color: var(--ink-3); }
 .cc-media { position: relative; aspect-ratio: 16 / 10; background: var(--bg-soft); overflow: hidden; }
 .cc-media img { width: 100%; height: 100%; object-fit: cover; }
 .cc-ph { width: 100%; height: 100%; display: grid; place-items: center; font-size: 40px; }
@@ -507,7 +513,9 @@ p { color: var(--ink-2); }
 /* ─── TWO-COLUMN DETAIL LAYOUT ───────────────────────────── */
 .detail { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 40px; align-items: start; }
 .stack { display: grid; gap: 36px; min-width: 0; }
-.side { position: sticky; top: 88px; display: grid; gap: 16px; }
+.side { position: sticky; top: 88px; display: grid; gap: 16px; min-width: 0; }
+.detail > *, .head-split > * { min-width: 0; }
+.stack section { min-width: 0; max-width: 100%; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; }
 .panel h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em; }
 .panel p { font-size: 14px; }
@@ -545,7 +553,7 @@ p { color: var(--ink-2); }
 .row-link > div { min-width: 0; }
 .row-link b { display: block; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
 .row-link .go { color: var(--brand-text); font-size: 18px; }
-.row-link.soon { opacity: .7; pointer-events: none; }
+.row-link.soon { opacity: .55; pointer-events: none; cursor: not-allowed; filter: grayscale(.6); }
 .row-list { display: grid; gap: 10px; }
 .row-thumb { width: 54px; height: 54px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: var(--brand-soft); display: grid; place-items: center; color: var(--brand-text); font-size: 24px; }
 .row-thumb img { width: 100%; height: 100%; object-fit: cover; }
@@ -575,6 +583,7 @@ p { color: var(--ink-2); }
 
 /* video */
 .video-wrap { position: relative; aspect-ratio: 16 / 9; border-radius: var(--r); overflow: hidden; background: #000; border: 1px solid var(--line); }
+.video-wrap { width: 100%; max-width: 100%; }
 .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
 /* gallery */
@@ -803,9 +812,9 @@ p { color: var(--ink-2); }
   .lesson-layout .lesson-right .side { position: static; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 }
 @media (max-width: 900px) {
-  .detail { grid-template-columns: 1fr; }
+  .detail { grid-template-columns: minmax(0, 1fr); }
   .side { position: static; }
-  .head-split { grid-template-columns: 1fr; }
+  .head-split { grid-template-columns: minmax(0, 1fr); }
   .head-thumb { max-width: 420px; }
   .tab-cards { grid-template-columns: 1fr; }
   .how { grid-template-columns: 1fr; }
