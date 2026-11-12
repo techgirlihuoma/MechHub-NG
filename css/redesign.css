@@ -517,7 +517,9 @@ p { color: var(--ink-2); }
 .detail > *, .head-split > * { min-width: 0; }
 .side { grid-template-columns: minmax(0, 1fr); }
 .side > * { min-width: 0; max-width: 100%; }
-.panel { min-width: 0; overflow-wrap: anywhere; }
+.panel { min-width: 0; overflow-wrap: break-word; }
+.side .tbl th:first-child, .side .tbl td:first-child { min-width: 150px; overflow-wrap: normal; word-break: normal; }
+.side .tbl th, .side .tbl td { padding: 10px 12px; }
 .panel .btn { white-space: normal; text-align: center; }
 .stack section { min-width: 0; max-width: 100%; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; }
