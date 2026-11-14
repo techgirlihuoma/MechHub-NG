@@ -1,7 +1,7 @@
 // resources.js — resources page, tabs by type (books / software / websites / videos)
 // Uses: sanity.js (getAllResources), common.js helpers
 
-const RES_TYPES = ['books', 'software', 'websites', 'videos']
+const RES_TYPES = ['books', 'software', 'websites', 'videos', 'mobile']
 
 function switchResourceTab(type, focus) {
   if (!RES_TYPES.includes(type)) type = 'books'
@@ -19,6 +19,7 @@ function switchResourceTab(type, focus) {
 // (book, Books, video, youtube, website, tool...). Normalise them to our 4 tabs.
 function resourceKind(r) {
   const t = String(r.type || '').toLowerCase().trim()
+  if (/mobile/.test(t)) return 'mobile'
   if (/book|ebook|pdf|read/.test(t)) return 'books'
   if (/video|youtube|channel|watch/.test(t)) return 'videos'
   if (/soft|tool|app|program/.test(t)) return 'software'

@@ -25,7 +25,8 @@ export default {
           { title: 'Book', value: 'book' },
           { title: 'Software', value: 'software' },
           { title: 'Website', value: 'website' },
-          { title: 'Video', value: 'video' }
+          { title: 'Video', value: 'video' },
+          { title: 'Mobile friendly', value: 'mobile' }
         ],
         layout: 'radio'
       },
